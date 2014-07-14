@@ -1,183 +1,74 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>The MemeMaster</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    
-    <style>
-        #top_menu
-        {
-            width: 1200px;
-            border: 2px solid black;
-            border-width: 2px 0px;
-            list-style: none;
-            margin-left: 40px;
-            padding: 0px;
-            text-align: left;
-        }
-        
-        #top_menu li
-        {
-            display: inline-block;
-            padding-left: 30px;
-        }
-        
-        #top_menu a
-        {
-            display: inline-block;
-            padding: 10px;
-        }
-        
-        .nav_top_right
-        {
-            margin-left: 0px;
-        }
-        
-        #image_quantities
-        {
-            padding-right: 490px;    
-        }
-        
-        #sort_images
-        {
-            text-align: left;
-            padding-left: 120px;
-        }
-        
-        table
-        {
-            padding-left: 120px;
-        }
-        
-        td
-        {
-            padding-bottom: 20px;
-        }
-        
-        #image_properties
-        {
-            padding-left: 50px;
-        }
-        
-        #loading_message
-        {
-            text-align: right;
-        }
-        
-        #bottom_menu
-        {
-            list-style: none;
-        }
-        
-        #bottom_menu li
-        {
-            display: inline-block;
-            padding-left: 30px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="favicon.ico">
+
+  <title>Computer Science Innovators</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="cover.css" rel="stylesheet">
 </head>
+
 <body>
-    <nav id="nav_top">
-        <ul id="top_menu">
-            <li>LOGO IMAGE</li>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#">Save Memes</a></li>
-            <li><a href="#">Create Memes</a></li>
-            <li><a href="#">Categories [DROP MENU]</a></li>
-            <li class="nav_top_right">
-                <form id="search_box">
-                    <input id="search" type="text" placeholder=" Search for Mimes">
-                    <input id="submit" type="submit" value="Search">
-                </form>
-            </li>
-            <li class="nav_right"><a href="#">Login [DROP MENU]</a></li>
-        </ul>
-    </nav>
-    
-    <section id="sort_images">
-        <span id="image_quantities">9 IMAGES</span>
-        Sort by:
-        <select>
-            <option value="relevance">Relevance</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="avg_rating">Avg Rating</option>
-        </select>
-        [GRID VIEW] [IMAGE VIEW]
-    </section>
-    
-    <section>
-        <table>
-            <tr>
-                <td>
-                    <img src="memes.jpg" alt="Powell" width="300">
-                    <footer>TITLE, RATING, OTHER POSSIBLE TAGS</footer>
-                </td>
-                <td>
-                    <img src="memes.jpg" alt="Powell" width="300">
-                    <footer>TITLE, RATING, OTHER POSSIBLE TAGS</footer>
-                </td>
-                <td>
-                    <img src="memes.jpg" alt="Powell" width="300">
-                    <footer>TITLE, RATING, OTHER POSSIBLE TAGS</footer>
-                </td>
-                <td>
-                    <aside id="image_properties">
-                        [DROP MENU]
-                        <ul>
-                            <li>Get links</li>
-                            <li>Add Tags</li>
-                            <li>Privacy</li>
-                            <li>Trash</li>
-                        </ul>
-                        Select All
-                    </aside>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <img src="memes.jpg" alt="Powell" width="300">
-                    <footer>TITLE, RATING, OTHER POSSIBLE TAGS</footer>
-                </td>
-                <td>
-                    <img src="memes.jpg" alt="Powell" width="300">
-                    <footer>TITLE, RATING, OTHER POSSIBLE TAGS</footer>
-                </td>
-                <td>
-                    <img src="memes.jpg" alt="Powell" width="300">
-                    <footer>TITLE, RATING, OTHER POSSIBLE TAGS</footer>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <img src="memes.jpg" alt="Powell" width="300">
-                    <footer>TITLE, RATING, OTHER POSSIBLE TAGS</footer>
-                </td>
-                <td>
-                    <img src="memes.jpg" alt="Powell" width="300">
-                    <footer>TITLE, RATING, OTHER POSSIBLE TAGS</footer>
-                </td>
-                <td>
-                    <img src="memes.jpg" alt="Powell" width="300">
-                    <footer>TITLE, RATING, OTHER POSSIBLE TAGS</footer>
-                </td>
-            </tr>
-        </table>
-        <aside id="loading_message">[LOADING MORE IMAGES, IF POSSIBLE]</aside>
-    </section>
-    
-    <footer id="footer_notes">
-        <hr>
-        <nav id="nav_bottom">
-            <ul id="bottom_menu">
-                <li><a href="#">CONTACT</a></li>
-                <li><a href="#">PRIVACY POLICY</a></li>
-                <li><a href="#">TERMS & CONDITIONS</a></li>
-                <li><a href="teampage/index.html">ABOUT</a></li>
-                <li><a href="#">SITE MAP</a></li>
-                <li>&copy; 2014</li>
+
+  <div class="site-wrapper">
+
+    <div class="site-wrapper-inner">
+
+      <div class="cover-container">
+
+        <div class="masthead clearfix">
+          <div class="inner">
+            <h3 class="masthead-brand">CSI</h3>
+            <ul class="nav masthead-nav">
+              <li class="active"><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="members.html">Members</a></li>
+              <li><a href="contact.html">Contact</a></li>
             </ul>
-        </nav>
-    </footer>
-</body>
-</html>
+          </div>
+        </div>
+
+        <div class="inner cover">
+
+        </div>
+
+
+      </div>
+      
+      <img alt="" src="memes/2.jpg">
+      <h1 class="cover-heading">Computer Science Innovators</h1>
+      <p class="lead">Innovating the Future of Memes</p>
+      <p class="lead">
+        <a href="about.html" class="btn btn-lg btn-default">Learn more</a>
+      </p>
+
+      <div class="mastfoot">
+        <div class="inner">
+          <p>Computer Science Innovators &copy; 2014</p>
+        </div>
+      </div>
+      
+    </div>
+
+
+
+  </div>
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+  </html>
