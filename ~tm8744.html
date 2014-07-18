@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
+    <title>MemeMaster</title>
+</head>
+<body ccID="248">
+
+<!-- Fixed navbar -->
+<div ccID="281" class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div ccID="357" class="container">
+        <div ccID="390" class="navbar-header">
+            <button ccID="431" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnav">
+                <span ccID="539" class="sr-only">Toggle navigation</span>
+                <span ccID="603" class="icon-bar"></span>
+                <span ccID="651" class="icon-bar"></span>
+                <span ccID="699" class="icon-bar"></span>
+            </button>
+            <a ccID="766" class="navbar-brand" href="#">MemeMaster</a>
+        </div>
+        <div ccID="839" class="navbar-collapse collapse" id = "mainnav">
+            <ul ccID="906" class="nav navbar-nav">
+                <li ccID="951"><a ccID="955" href="#">Home</a></li>
+                <li ccID="998"><a ccID="1002" href="#about" data-toggle="modal" data-target="#myModal">Save Memes</a></li>
+                <li ccID="1099"><a ccID="1103" href="#contact" data-toggle="modal" data-target="#createModal">Create Memes</a></li>
+                <li ccID="1208" class="dropdown">
+                    <a ccID="1251" href="#" class="dropdown-toggle" data-toggle="dropdown">Categories <span ccID="1321" class="caret"></span></a>
+                    <ul ccID="1374" class="dropdown-menu" role="menu">
+                        <li ccID="1438"><a ccID="1442" href="#">Games</a></li>
+                        <li ccID="1494"><a ccID="1498" href="#">Politics</a></li>
+                        <li ccID="1553"><a ccID="1557" href="#">Sports</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form ccID="1667" class="navbar-form navbar-right">
+                <input ccID="1724" type="text" class="form-control" placeholder="Search..." size="50">
+            </form>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+
+
+<div ccID="1883" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div ccID="2004" class="modal-dialog">
+        <div ccID="2040" class="modal-content">
+            <div ccID="2081" class="modal-header">
+                <button ccID="2125" type="button" class="close" data-dismiss="modal"><span ccID="2182" aria-hidden="true">&times;</span><span ccID="2221" class="sr-only">Close</span></button>
+                <h4 ccID="2282" class="modal-title" id="myModalLabel">Upload a Meme</h4>
+            </div>
+            <div ccID="2376" class="modal-body">
+                <div ccID="2418" class="input-group">
+                    <input ccID="2465" type="text" class="form-control" placeholder="Url: http://">
+                    <input ccID="2554" type="text" class="form-control" placeholder="Title">
+                    <input ccID="2636" id="comments" type="text" class="form-control" placeholder="Comments">
+                    <input ccID="2735" type="text" class="form-control" placeholder="Tags">
+                </div>
+                <b ccID="2836">Ratings:</b>
+            </div>
+            <div ccID="2885" class="modal-footer">
+                <button ccID="2929" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button ccID="3029" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ccID="3150" class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div ccID="3275" class="modal-dialog">
+        <div ccID="3311" class="modal-content">
+            <div ccID="3352" class="modal-header">
+                <button ccID="3396" type="button" class="close" data-dismiss="modal"><span ccID="3453" aria-hidden="true">&times;</span><span ccID="3492" class="sr-only">Close</span></button>
+                <h4 ccID="3553" class="modal-title">Create a Meme</h4>
+            </div>
+            <div ccID="3629" class="modal-body">
+                <b ccID="3671">Upload Image:</b>
+                <div ccID="3709" class="input-group">
+                    <input ccID="3756" type="file" class="form-control">
+                    <img ccID="3818" id="preview" src="http://placehold.it/320x150" alt="">
+                    <input ccID="3899" type="text" class="form-control" placeholder="Title">
+                    <input ccID="3981" type="text" class="form-control" placeholder="Tags">
+                    <input ccID="4062" type="text" class="form-control" placeholder="Top Text">
+                    <input ccID="4147" type="text" class="form-control" placeholder="Bottom Text">
+                </div>
+                <b ccID="4255">Ratings:</b>
+            </div>
+            <div ccID="4304" class="modal-footer">
+                <button ccID="4348" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button ccID="4448" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div ccID="4571" class ="container" id ="content">
+
+    <p ccID="4617" class ="text-right">Sort By:
+        <select ccID="4658">
+        <option ccID="4676" value="relevance">Relevance</option>
+        <option ccID="4730" value="newest">Newest</option>
+        <option ccID="4778" value="oldest">Oldest</option>
+        <option ccID="4826" value="avg_rating">Avg Rating</option>
+        </select>
+        &nbsp;
+        &nbsp;
+        View By:
+        <a ccID="4951" href="#">Grid</a> | <a ccID="4974" href="#">Thumbnail</a>
+    </p>
+
+    <div ccID="5017" class="row">
+
+        <div ccID="5046" class="col-sm-6 col-lg-3 col-md-4">
+            <div ccID="5100" class="thumbnail">
+                <img ccID="5141" src="http://placehold.it/320x150" alt="">
+                <div ccID="5205" class="caption">
+                    <h4 ccID="5248"><a ccID="5252" href="#">First Meme</a> </h4>
+                    <p ccID="5306" class ="text-right ratings">
+                        <span ccID="5363" class="glyphicon glyphicon-star"></span>
+                        <span ccID="5435" class="glyphicon glyphicon-star"></span>
+                        <span ccID="5507" class="glyphicon glyphicon-star"></span>
+                        <span ccID="5579" class="glyphicon glyphicon-star"></span>
+                        <span ccID="5651" class="glyphicon glyphicon-star"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div ccID="5795" class="col-sm-6 col-lg-3 col-md-4">
+            <div ccID="5849" class="thumbnail">
+                <img ccID="5890" src="http://placehold.it/320x150" alt="">
+                <div ccID="5954" class="caption">
+                    <h4 ccID="5997"><a ccID="6001" href="#">Second Meme</a> </h4>
+                    <p ccID="6056" class ="text-right ratings">
+                            <span ccID="6117" class="glyphicon glyphicon-star"></span>
+                            <span ccID="6193" class="glyphicon glyphicon-star"></span>
+                            <span ccID="6269" class="glyphicon glyphicon-star"></span>
+                            <span ccID="6345" class="glyphicon glyphicon-star"></span>
+                            <span ccID="6421" class="glyphicon glyphicon-star"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div ccID="6567" class="col-sm-6 col-lg-3 col-md-4">
+            <div ccID="6621" class="thumbnail">
+                <img ccID="6662" src="http://placehold.it/320x150" alt="">
+                <div ccID="6726" class="caption">
+                    <h4 ccID="6769"><a ccID="6773" href="#">Third Meme</a></h4>
+                    <p ccID="6826" class ="text-right ratings">
+                            <span ccID="6887" class="glyphicon glyphicon-star"></span>
+                            <span ccID="6963" class="glyphicon glyphicon-star"></span>
+                            <span ccID="7039" class="glyphicon glyphicon-star"></span>
+                            <span ccID="7115" class="glyphicon glyphicon-star"></span>
+                            <span ccID="7191" class="glyphicon glyphicon-star"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<footer ccID="7351">
+    <div ccID="7365" class="navbar navbar-default navbar-fixed-bottom">
+        <div ccID="7430" class="container" id="footer">
+            <div ccID="7479" class="navbar-collapse collapse" id = "footnav">
+                <ul ccID="7550" class="nav navbar-nav">
+                    <li ccID="7599"><a ccID="7603" href="#">About Us</a></li>
+                    <li ccID="7654"><a ccID="7658" href="#">Contact Us</a></li>
+                    <li ccID="7711"><a ccID="7715" href="#">Terms &amp; Conditions</a></li>
+                    <li ccID="7780"><a ccID="7784" href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div ccID="7876" class="navbar-header">
+                <button ccID="7921" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#footnav">
+                    <span ccID="8033" class="icon-bar"></span>
+                    <span ccID="8085" class="icon-bar"></span>
+                    <span ccID="8137" class="icon-bar"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script ccID="8418" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script ccID="8509" src="js/bootstrap.min.js"></script>
+</body>
+</html>
