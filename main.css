@@ -38,7 +38,7 @@ ul.nav.navbar-nav > li:hover {
 }
 
 #category-drop{
-    background-color:  #B2F6F7;
+    background-color:  #21BEDE;
 }
 
 #category-drop  > li > a:hover{
@@ -46,7 +46,7 @@ ul.nav.navbar-nav > li:hover {
 }
 
 #category-drop  > li > a{
-    color: lightseagreen;
+    color: white;
     font-weight: bold;
 }
 
