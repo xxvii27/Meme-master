@@ -3,6 +3,13 @@
     src:url(fonts/SourceCodePro-Regular.otf);
 }
 
+@font-face{
+    font-family: SourceCodePro;
+    src:url(fonts/SourceCodePro-Bold.otf);
+    font-weight: bold;
+}
+
+
 
 html {
     position: relative;
