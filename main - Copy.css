@@ -1,13 +1,15 @@
 @font-face{
-    font-family: SourceSansPro;
-    src:url(fonts/SourceSansPro-Regular.otf);
+    font-family: SourceCodePro;
+    src:url(fonts/SourceCodePro-Regular.otf);
 }
 
 @font-face{
-    font-family: SourceSansPro;
-    src:url(fonts/SourceSansPro-Bold.otf);
+    font-family: SourceCodePro;
+    src:url(fonts/SourceCodePro-Bold.otf);
     font-weight: bold;
 }
+
+
 
 html {
     position: relative;
@@ -18,7 +20,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     background-color: #B2F6F7;
-    font-family: "SourceSansPro";
+    font-family: "SourceCodePro";
 }
 
 #content{
@@ -43,41 +45,24 @@ ul.nav.navbar-nav#mainnav
 {
     margin-left: 200px;
 }
-
 /* Spacing for bottom foot bar */
 ul.nav.navbar-nav#footnav
 {
     margin-left: 320px;
 }
 
+
 ul.nav.navbar-nav > li:hover {
     background-color:  #21BEDE;
 }
-
 
 #main-heading{
     font-weight: bold;
     background-color:  #8CC739;
     margin-right: 20px;
     border: 1px #8CC739;
-    padding-left: 25px;
-    padding-right: 25px;
 
 }
-
-
-/*images*/
-
-.image{
-
-    display: inline;
-    height: 19px;
-
-}
-
-
-
-/*Dropdown*/
 
 #category-drop{
     background-color:  #21BEDE;
