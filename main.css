@@ -38,11 +38,16 @@ ul.nav.navbar-nav > li:hover {
 }
 
 #category-drop{
-    background-color:  #8CC739;
+    background-color:  #B2F6F7;
 }
 
 #category-drop  > li > a:hover{
-    background-color: #21BEDE;
+    background-color: #085DAD;
+}
+
+#category-drop  > li > a{
+    color: lightseagreen;
+    font-weight: bold;
 }
 
 
