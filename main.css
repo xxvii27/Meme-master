@@ -48,8 +48,24 @@ ul.nav.navbar-nav > li:hover {
     background-color:  #8CC739;
     margin-right: 20px;
     border: 1px #8CC739;
+    padding-left: 25px;
+    padding-right: 25px;
 
 }
+
+
+/*images*/
+
+.image{
+
+    display: inline;
+    height: 19px;
+
+}
+
+
+
+/*Dropdown*/
 
 #category-drop{
     background-color:  #21BEDE;
