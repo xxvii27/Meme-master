@@ -1,11 +1,19 @@
+@font-face{
+    font-family: SourceCodePro;
+    src:url(fonts/SourceCodePro-Regular.otf);
+}
+
+
 html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     background-color: #B2F6F7;
+    font-family: "SourceCodePro";
 }
 
 #content{
