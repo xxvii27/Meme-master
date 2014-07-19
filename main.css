@@ -108,38 +108,38 @@ footer .navbar {
 }
 
 @media (max-width: 1000px) {
-    #headernav .navbar-header {
+    .navbar-header {
         float: none;
     }
-    #headernav .navbar-left,.navbar-right {
+    .navbar-left,.navbar-right {
         float: none !important;
     }
-    #headernav .navbar-toggle {
+    .navbar-toggle {
         display: block;
     }
-    #headernav .navbar-collapse {
+    .navbar-collapse {
         border-top: 1px solid transparent;
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     }
-    #headernav .navbar-fixed-top {
+    .navbar-fixed-top {
         top: 0;
         border-width: 0 0 1px;
     }
-    #headernav .navbar-collapse.collapse {
+     .navbar-collapse.collapse {
         display: none!important;
     }
-    #headernav .navbar-nav {
+     .navbar-nav {
         float: none!important;
         margin-top: 7.5px;
     }
-    #headernav .navbar-nav>li {
+     .navbar-nav>li {
         float: none;
     }
-    #headernav .navbar-nav>li>a {
+     .navbar-nav>li>a {
         padding-top: 10px;
         padding-bottom: 10px;
     }
-    #headernav .collapse.in{
+     .collapse.in{
         display:block !important;
     }
 }
