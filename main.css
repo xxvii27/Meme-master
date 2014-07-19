@@ -1,15 +1,13 @@
 @font-face{
-    font-family: SourceCodePro;
-    src:url(fonts/SourceCodePro-Regular.otf);
+    font-family: SourceSansPro;
+    src:url(fonts/SourceSansPro-Regular.otf);
 }
 
 @font-face{
-    font-family: SourceCodePro;
-    src:url(fonts/SourceCodePro-Bold.otf);
+    font-family: SourceSansPro;
+    src:url(fonts/SourceSansPro-Bold.otf);
     font-weight: bold;
 }
-
-
 
 html {
     position: relative;
@@ -20,7 +18,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     background-color: #B2F6F7;
-    font-family: "SourceCodePro";
+    font-family: "SourceSansPro";
 }
 
 #content{
