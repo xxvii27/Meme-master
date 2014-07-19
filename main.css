@@ -135,12 +135,6 @@ footer .navbar {
         text-align: center;
     }
 
-    /* Spacing for top nav bar */
-    #mainnav > ul{
-        margin-left: 100px;
-    }
-
-
 }
 
 @media (max-width: 1000px) {
@@ -232,7 +226,7 @@ footer .navbar {
     color: #ffffff;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1000px) {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color:#ffffff;
     }
