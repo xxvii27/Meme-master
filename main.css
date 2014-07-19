@@ -38,24 +38,6 @@ body {
     margin-bottom: 0;
 }
 
-/* Spacing for top nav bar */
-ul.nav.navbar-nav#topnav{
-    padding-left: 130px;
-}
-
-/* Spacing for bottom foot bar */
-ul.nav.navbar-nav#botnav{
-    margin-left: 0;
-}
-
-ul.nav.navbar-nav li{
-    border-left: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-ul.nav.navbar-nav li:last-child{
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
-}
-
 ul.nav.navbar-nav li{
     border-left: 1px solid rgba(255, 255, 255, 0.15);
 }
