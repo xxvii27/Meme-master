@@ -38,7 +38,9 @@ body {
     margin-bottom: 0;
 }
 
-
+#search:hover{
+    background-color: #085DAD;
+}
 
 
 ul.nav.navbar-nav > li:hover {
