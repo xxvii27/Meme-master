@@ -2,6 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
     <title>MemeMaster</title>
@@ -96,7 +97,6 @@
 <div class ="container" id ="content">
 
     <p class ="text-right"><b>Sort By:</b>
-        &nbsp;
         <select>
         <option value="relevance">Relevance</option>
         <option value="newest">Newest</option>
@@ -106,21 +106,29 @@
         &nbsp;
         &nbsp;
         <b>View By:</b>
-        &nbsp;
         <a href="#">
-            <img class ="image" src="icons/gridview.png" title="Grid" alt="Grid"/>
-        </a>
-        &nbsp;| &nbsp;
-        <a href="#">
-            <img class ="image" src="icons/imageview.png" title="Thumbnail" alt="Thumbnail"/>
-        </a>
+			<span class="display_tooltip">Grid View</span>
+			<img class ="image" src="icons/gridview.png" alt=""/>
+		</a> 
+		| 
+		<a href="#">
+			<span class="display_tooltip">Thumbnail View</span>
+			<img class ="image" src="icons/imageview.png" alt=""/>
+		</a>
     </p>
 
     <div class="row">
 
         <div class="col-sm-6 col-lg-3 col-md-4">
             <div class="thumbnail">
-                <img src="thumb.jpg" alt="">
+				<div class="t_c mb">
+					<div class="mask">
+						<a href="#"><img src="icons/download32.png" alt=""/></a>
+						<a href="#"><img src="icons/pencil32.png" alt=""/></a>
+						<a href="#"><img src="icons/block32.png" alt=""/></a>
+					</div>
+					<img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+				</div>
                 <div class="caption">
                     <h4><a href="#">First Meme</a> </h4>
                     <p class ="text-right ratings">
