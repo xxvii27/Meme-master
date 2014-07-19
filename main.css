@@ -217,3 +217,22 @@ footer .navbar {
     }
 }
 
+/* Customize Dialogs */
+.modal.custom .modal-dialog {
+    width:50%;
+    margin:0 auto;
+    /*add what you want here*/
+}
+
+div.modal-header{
+    background-color: #085DAD;
+    color: #ffffff;
+}
+
+div.modal-footer {
+    background-color: #085DAD;
+}
+
+div.modal-body{
+}
+
