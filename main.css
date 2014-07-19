@@ -40,21 +40,6 @@ body {
 
 
 
-ul.nav.navbar-nav li{
-    border-left: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-ul.nav.navbar-nav li:last-child{
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-ul.nav.navbar-nav li{
-    border-left: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-ul.nav.navbar-nav li:last-child{
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
-}
 
 ul.nav.navbar-nav > li:hover {
     background-color:  #21BEDE;
@@ -80,6 +65,13 @@ ul.nav.navbar-nav > li:hover {
     height: 19px;
 }
 
+ul.nav.navbar-nav li{
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+ul.nav.navbar-nav li:last-child{
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
 
 /*Dropdown*/
 
