@@ -68,9 +68,7 @@ ul.nav.navbar-nav > li:hover {
 
     display: inline;
     height: 19px;
-
 }
-
 
 
 /*Dropdown*/
@@ -86,11 +84,6 @@ ul.nav.navbar-nav > li:hover {
 #category-drop  > li > a{
     color: white;
     font-weight: bold;
-}
-
-
-/*Header Navbar*/
-#mainnav > ul > li > a {
 }
 
 
