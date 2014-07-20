@@ -141,7 +141,7 @@ footer .navbar {
     min-height:35px !important
 }
 
-@media (min-width: 1200px){
+@media (min-width: 1000px){
     footer .navbar .navbar-nav {
         display: inline-block;
         float: none;
@@ -153,7 +153,7 @@ footer .navbar {
 
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
     .navbar-header {
         float: none;
     }
@@ -188,6 +188,7 @@ footer .navbar {
     .collapse.in{
         display:block !important;
     }
+
 }
 
 
@@ -209,7 +210,6 @@ footer .navbar {
 }
 .navbar-default .navbar-nav > li > a {
     color: #ffffff;
-
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
     color: #ffffff;
@@ -242,7 +242,7 @@ footer .navbar {
     color: #ffffff;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color:#ffffff;
     }
