@@ -73,18 +73,40 @@ ul.nav.navbar-nav li:last-child{
   border-right: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.caption{
-    height: 100px;
+.caption.big{
+    height: 80px;
 }
 
-h4{
+.caption.small{
+    height: 80px;
+}
+
+h5{
     margin: 0;
+    float: left;
+    font-weight: bold;
 }
 
-.comments
-{
+.comments{
     margin-top: 10px;
     height: 40px;
+}
+
+text-right.ratings{
+    float: right;
+}
+
+.login{
+    padding-left: 10px;
+}
+
+.remember-login{
+    padding-left: 10px
+}
+
+.login-bar{
+    padding-bottom: 10px;
+    text-align: center;  
 }
 
 

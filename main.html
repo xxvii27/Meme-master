@@ -78,13 +78,43 @@
                         <li><a href="#">GIF</a></li>
                         <li><a href="#">Cute</a></li>
                         <li><a href="#">Geeky</a></li>
-
                     </ul>
                 </li>
                 <li id="search">
-                    <form class="navbar-form navbar-right pull-right">
+                    <form class="navbar-form">
                          <input type="text" class="form-control" placeholder="Search..." size="50">
                      </form>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class ="image" src="icons/user.png" alt=""/>&nbsp;Login <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" id ="category-drop">
+                        <li>
+                            <form action="">
+                                <input type="hidden"><br>
+                                <div class="login">
+                                    Username<br>
+                                </div>
+                                <div class="login-bar">
+                                    <input type="text" name="username"><br>
+                                </div>
+                            </form>
+                        </li>
+                        <li>
+                            <form action="">
+                                <div class="login">
+                                    Password<br>
+                                </div>
+                                <div class="login-bar">
+                                    <input type="password" name="password">
+                                </div>
+                            </form>
+                        </li>
+                        <li>
+                            <form class="remember-login">
+                                <input type="checkbox" name="saved_login">Remember?
+                            </form>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -191,42 +221,107 @@
 					<div class="mask">
 						<a href="#"><img src="icons/download32w.png" alt=""/></a>
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a href="#"><img src="icons/block32w.png" alt=""/></a>
+						<a href="#"><img src="icons/trash.png" alt=""/></a>
 					</div>
 					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
 				</div>
-                <div class="caption">
-                    <h4><a href="#">First Meme</a></h4>
-                    <div class="comments">
-                        Some comments...
-                    </div>
+                <div class="caption big">
+                    <h5><a href="#">First Meme</a></h5>
                     <p class ="text-right ratings">
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
                     </p>
+                    <div class="comments">
+                        Some comments...
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask" >
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption">
-                    <h4><a href="#">First Meme</a></h4>
+				<div class="t_c mb">
+					<div class="mask">
+						<a href="#"><img src="icons/download32w.png" alt=""/></a>
+						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+						<a href="#"><img src="icons/trash.png" alt=""/></a>
+					</div>
+					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+				</div>
+                <div class="caption big">
+                    <h5><a href="#">Second Meme</a></h5>
+                    <p class ="text-right ratings">
+                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
+                    </p>
                     <div class="comments">
                         Some comments...
                     </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="thumbnail">
+				<div class="t_c mb">
+					<div class="mask">
+						<a href="#"><img src="icons/download32w.png" alt=""/></a>
+						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+						<a href="#"><img src="icons/trash.png" alt=""/></a>
+					</div>
+					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+				</div>
+                <div class="caption big">
+                    <h5><a href="#">Third Meme</a></h5>
+                    <p class ="text-right ratings">
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                    </p>
+                    <div class="comments">
+                        Some comments...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-6 col-lg-3 col-md-4">
+            <div class="thumbnail">
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/trash.png" alt=""/></a>
+                    </div>
+                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                </div>
+
+                <div class="caption small">
+                    <h5><a href="#">Fourth Meme</a></h5>
+                    <p class ="text-right ratings">
+                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
+                    </p>
+                    <div class="comments">
+                        Some comments...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-6 col-lg-3 col-md-4">
+            <div class="thumbnail">
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/trash.png" alt=""/></a>
+                    </div>
+                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                </div>
+
+                <div class="caption small">
+                    <h5><a href="#">Fifth Meme</a></h5>
                     <p class ="text-right ratings">
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
@@ -234,163 +329,135 @@
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
                     </p>
+                    <div class="comments">
+                        Some comments...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-6 col-lg-3 col-md-4">
+            <div class="thumbnail">
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/trash.png" alt=""/></a>
+                    </div>
+                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                </div>
+
+                <div class="caption small">
+                    <h5><a href="#">Sixth Meme</a></h5>
+                    <p class ="text-right ratings">
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                    </p>
+                    <div class="comments">
+                        Some comments...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-6 col-lg-3 col-md-4">
+            <div class="thumbnail">
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/trash.png" alt=""/></a>
+                    </div>
+                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                </div>
+
+                <div class="caption small">
+                    <h5><a href="#">Seventh Meme</a></h5>
+                    <p class ="text-right ratings">
+                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
+                    </p>
+                    <div class="comments">
+                        Some comments...
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="thumbnail">
+				<div class="t_c mb">
+					<div class="mask">
+						<a href="#"><img src="icons/download32w.png" alt=""/></a>
+						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+						<a href="#"><img src="icons/trash.png" alt=""/></a>
+					</div>
+					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+				</div>
+                <div class="caption big">
+                    <h5><a href="#">Eighth Meme</a></h5>
+                    <p class ="text-right ratings">
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                    </p>
+                    <div class="comments">
+                        Some comments...
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption">
-                    <h4><a href="#">First Meme</a></h4>
+				<div class="t_c mb">
+					<div class="mask">
+						<a href="#"><img src="icons/download32w.png" alt=""/></a>
+						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+						<a href="#"><img src="icons/trash.png" alt=""/></a>
+					</div>
+					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+				</div>
+                <div class="caption big">
+                    <h5><a href="#">Ninth Meme</a></h5>
+                    <p class ="text-right ratings">
+                        <span class="glyphicon glyphicon-star"></span>
+                    </p>
                     <div class="comments">
                         Some comments...
                     </div>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
                 </div>
             </div>
         </div>
         
-        <div class="col-sm-6 col-lg-3 col-md-4">
+        <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption">
-                    <h4><a href="#">First Meme</a></h4>
+				<div class="t_c mb">
+					<div class="mask">
+						<a href="#"><img src="icons/download32w.png" alt=""/></a>
+						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+						<a href="#"><img src="icons/trash.png" alt=""/></a>
+					</div>
+					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+				</div>
+                <div class="caption big">
+                    <h5><a href="#">Tenth Meme</a></h5>
+                    <p class ="text-right ratings">
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                        <span class="glyphicon glyphicon-star"></span>
+                    </p>
                     <div class="comments">
                         Some comments...
                     </div>
-                    <p class ="text-right ratings">
-                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
-                    </p>
                 </div>
             </div>
         </div>
         
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption">
-                    <h4><a href="#">First Meme</a></h4>
-                    <div class="comments">
-                        Some comments...
-                    </div>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption">
-                    <h4><a href="#">First Meme</a></h4>
-                    <div class="comments">
-                        Some comments...
-                    </div>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption">
-                    <h4><a href="#">First Meme</a></h4>
-                    <div class="comments">
-                        Some comments...
-                    </div>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption">
-                    <h4><a href="#">First Meme</a></h4>
-                    <div class="comments">
-                        Some comments...
-                    </div>
-                    <p class ="text-right ratings">
-                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
-                    </p>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
