@@ -21,14 +21,19 @@
 		}
 		,750);
 	}
-	
 		
 	function hide() {
 		var ele = document.getElementById(hovS);
 		ele.style.display = "none"
 		clearTimeout(hovID)
 	}
-
+	
+	function confirm_delete() {
+		if(confirm("Are you sure you want to delete?")){
+			alert("Deleted")
+		}
+	}
+		
     function rate(){
         document.getElementsByClassName('rate').innerHTML = "Clicked";
     }
@@ -192,7 +197,7 @@
 					<div class="mask">
 						<a href="#"><img src="icons/download32w.png" alt=""/></a>
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a href="#"><img src="icons/block32w.png" alt=""/></a>
+						<a href="#" onclick="confirm_delete()"><img src="icons/block32w.png" alt=""/></a>
 					</div>
 					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
 				</div>
@@ -218,7 +223,7 @@
                     <div class="mask" >
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                        <a href="#" onclick="confirm_delete()"><img src="icons/block32w.png" alt=""/></a>
                     </div>
                     <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -245,7 +250,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                        <a href="#" onclick="confirm_delete()"><img src="icons/block32w.png" alt=""/></a>
                     </div>
                     <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -272,7 +277,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                        <a href="#" onclick="confirm_delete()"><img src="icons/block32w.png" alt=""/></a>
                     </div>
                     <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -295,7 +300,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                        <a href="#" onclick="confirm_delete()"><img src="icons/block32w.png" alt=""/></a>
                     </div>
                     <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -322,7 +327,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                        <a href="#" onclick="confirm_delete()"><img src="icons/block32w.png" alt=""/></a>
                     </div>
                     <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -349,7 +354,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                        <a href="#" onclick="confirm_delete()"><img src="icons/block32w.png" alt=""/></a>
                     </div>
                     <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -376,7 +381,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                        <a href="#" onclick="confirm_delete()"><img src="icons/block32w.png" alt=""/></a>
                     </div>
                     <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
