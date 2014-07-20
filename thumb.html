@@ -2,46 +2,38 @@
 <html>
 
 <head lang="en">
-<script type="text/javascript">
-	
-	var hovID;
-	var hovS;
-	var x;
-	var y;
-	
-	function m_d_tooltip(evt,id) {
-		hovS = id;
-		x = evt.pageX;
-		y = evt.pageY;
-		hovID = setTimeout(function () {
-			var ele = document.getElementById(hovS);
-			ele.style.top = (y+25) + "px";
-			ele.style.left = (x-65)+ "px";
-			ele.style.display = "block"
-		}
-		,750);
-	}
-		
-	function hide() {
-		var ele = document.getElementById(hovS);
-		ele.style.display = "none"
-		clearTimeout(hovID)
-	}
-	
- 	function confirm_delete() {
- 		if(confirm("Are you sure you want to delete?")){
- 				alert("Deleted");
-		}		
-		return false;
-	}
-	
+    <script>
 
-    function rate(){
-        document.getElementsByClassName('rate').innerHTML = "Clicked";
-    }
+        var hovID;
+        var hovS;
+        var x;
+        var y;
+
+        function m_d_tooltip(id) {
+            hovS = id;
+            x = event.pageX;
+            y = event.pageY;
+            hovID = setTimeout(function () {
+                        var ele = document.getElementById(hovS);
+                        ele.style.top = (y+25) + "px";
+                        ele.style.left = (x-65)+ "px";
+                        ele.style.display = "block"
+                    }
+                    ,750);
+        }
+
+        function hide() {
+            var ele = document.getElementById(hovS);
+            ele.style.display = "none"
+            clearTimeout(hovID)
+        }
+
+        function rate(){
+            document.getElementsByClassName('rate').innerHTML = "Clicked";
+        }
 
 
-</script>
+    </script>
 
 
     <meta charset="UTF-8">
@@ -90,8 +82,8 @@
                 </li>
                 <li id="search">
                     <form class="navbar-form">
-                         <input type="text" class="form-control" placeholder="Search..." size="50">
-                     </form>
+                        <input type="text" class="form-control" placeholder="Search..." size="50">
+                    </form>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class ="image" src="icons/user.png" alt=""/>&nbsp;Login <span class="caret"></span></a>
@@ -209,98 +201,118 @@
 
     <p class ="text-right"><b>Sort By:</b>
         <select>
-        <option value="relevance">Relevance</option>
-        <option value="newest">Newest</option>
-        <option value="oldest">Oldest</option>
-        <option value="avg_rating">Avg Rating</option>
+            <option value="relevance">Relevance</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="avg_rating">Avg Rating</option>
         </select>
         &nbsp;
         &nbsp;
         <b>View By:</b>
-        <a class="disp_icon" href="main.html" onmouseover="m_d_tooltip(event,'GVT')" onmouseout="hide()">
-			<span id="GVT">Grid View</span>
-			<img class ="image" src="icons/gridview.png" alt=""/>
-		</a> | 
-		<a class="disp_icon" href="thumb.html" onmouseover="m_d_tooltip(event,'TVT')" onmouseout="hide()">
-			<span id="TVT">Thumb View</span>
-			<img class ="image" src="icons/imageview.png" alt=""/>
-		</a>
+        <a class="disp_icon" href="main.html" onmouseover="m_d_tooltip('GVT')" onmouseout="hide()">
+            <span id="GVT">Grid View</span>
+            <img class ="image" src="icons/gridview.png" alt=""/>
+        </a> |
+        <a class="disp_icon" href="thumb.html" onmouseover="m_d_tooltip('TVT')" onmouseout="hide()">
+            <span id="TVT">Thumb View</span>
+            <img class ="image" src="icons/imageview.png" alt=""/>
+        </a>
     </p>
 
     <div class="row">
 
         <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">First Meme</a></h5>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                    <div class="comments">
-                        Some comments...
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
                     </div>
+                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
             </div>
         </div>
 
         <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Second Meme</a></h5>
-                    <p class ="text-right ratings">
-                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
-                    </p>
-                    <div class="comments">
-                        Some comments...
+                <div class="t_c mb">
+                    <div class="mask" >
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
                     </div>
+                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
             </div>
         </div>
-        
+
         <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Third Meme</a></h5>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                    <div class="comments">
-                        Some comments...
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
                     </div>
+                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
             </div>
         </div>
-        
+
         <div class="col-sm-6 col-lg-3 col-md-4">
+            <div class="thumbnail">
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                    </div>
+                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3 col-md-4">
+            <div class="thumbnail">
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                    </div>
+                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3 col-md-4">
+            <div class="thumbnail">
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                    </div>
+                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3 col-md-4">
+            <div class="thumbnail">
+                <div class="t_c mb">
+                    <div class="mask">
+                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
+                    </div>
+                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
                 <div class="t_c mb">
                     <div class="mask">
@@ -308,22 +320,12 @@
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
                         <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption small">
-                    <h5><a href="#">Fourth Meme</a></h5>
-                    <p class ="text-right ratings">
-                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
-                    </p>
-                    <div class="comments">
-                        Some comments...
-                    </div>
+                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
             </div>
         </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
+
+        <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
                 <div class="t_c mb">
                     <div class="mask">
@@ -331,26 +333,12 @@
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
                         <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption small">
-                    <h5><a href="#">Fifth Meme</a></h5>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                    <div class="comments">
-                        Some comments...
-                    </div>
+                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
             </div>
         </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
+
+        <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
                 <div class="t_c mb">
                     <div class="mask">
@@ -358,120 +346,13 @@
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
                         <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption small">
-                    <h5><a href="#">Sixth Meme</a></h5>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                    <div class="comments">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-
-                <div class="caption small">
-                    <h5><a href="#">Seventh Meme</a></h5>
-                    <p class ="text-right ratings">
-                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
-                    </p>
-                    <div class="comments">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Eighth Meme</a></h5>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                    <div class="comments">
-                        Some comments...
-                    </div>
+                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Ninth Meme</a></h5>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                    <div class="comments">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Tenth Meme</a></h5>
-                    <p class ="text-right ratings">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                    </p>
-                    <div class="comments">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+
+
     </div>
 </div>
 
@@ -480,7 +361,7 @@
         <div class="container" id="footer">
             <div class="navbar-collapse collapse" id = "footnav">
                 <ul class="nav navbar-nav">
-					<li><a href="about.html">About Us</a></li>
+                    <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                     <li><a href="index.html">Terms &amp; Conditions</a></li>
                     <li><a href="index.html">Privacy Policy</a></li>
