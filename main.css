@@ -272,11 +272,13 @@ input.form-control{
 .submit{
     background-color:  #8CC739;
     color: white;
+    border :none;
 }
 
 .cancel{
     background-color: red;
     color: white;
+    border: none;
 }
 
 /*Thumbnail Images */
