@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
 <script>
 	
@@ -40,6 +41,15 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
     <title>MemeMaster</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".rate").click(function(){
+                $(this).parent().append("<div class='modal-rating'><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div>");
+                $(this).remove();
+            });
+        });
+    </script>
 </head>
 <body>
 
@@ -272,7 +282,7 @@
                         Some comments...
                     </div>
                     <p class ="text-right ratings">
-                       <button onclick="rate()" class="btn btn-default btn-xs rate">Rate It !!</button>
+                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
                     </p>
                 </div>
             </div>
@@ -376,7 +386,7 @@
                         Some comments...
                     </div>
                     <p class ="text-right ratings">
-                       <button onclick="rate()" class="btn btn-default btn-xs rate">Rate It !!</button>
+                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
                     </p>
                 </div>
             </div>
@@ -411,7 +421,6 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
