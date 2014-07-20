@@ -257,7 +257,7 @@ div.modal-rating {
 div.modal-rating > span {
     display: inline-block;
     position: relative;
-    width: 1.1em;
+    width: 1.2em;
 }
 div.modal-rating > span:hover:before,
 div.modal-rating > span:hover ~ span:before {
