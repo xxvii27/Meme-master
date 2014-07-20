@@ -75,13 +75,6 @@ ul.nav.navbar-nav li:last-child{
   border-right: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-textarea{
-    resize: none;
-    border: none;
-    font-size: small;
-    margin-top: 5px;
-}
-
 .caption{
     height: 100px;
 }
@@ -89,6 +82,13 @@ textarea{
 h4{
     margin: 0;
 }
+
+.comments
+{
+    margin-top: 10px;
+    height: 40px;
+}
+
 
 /*Dropdown*/
 
@@ -249,9 +249,6 @@ div.modal-footer {
     background-color: #085DAD;
 }
 
-div.modal-body{
-}
-
 div.modal-rating {
     margin-left: 20px;
     unicode-bidi: bidi-override;
@@ -268,3 +265,19 @@ div.modal-rating > span:hover ~ span:before {
     position: absolute;
 }
 
+/*Input */
+input.form-control{
+    border-radius: 0;
+}
+
+/*Buttons */
+
+.submit{
+    background-color:  #8CC739;
+    color: white;
+}
+
+.cancel{
+    background-color: red;
+    color: white;
+}
