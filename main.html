@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head lang="en">
 <script type="text/javascript">
 	
@@ -50,15 +49,6 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
     <title>MemeMaster</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(".rate").click(function(){
-                $(this).parent().append("<div class='modal-rating'><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div>");
-                $(this).remove();
-            });
-        });
-    </script>
 </head>
 <body>
 
@@ -224,7 +214,7 @@
         <div class="col-sm-6 col-md-4 col-lg-4">
             <div class="thumbnail">
                 <div class="t_c mb">
-                    <div class="mask" >
+                    <div class="mask" style="width:auto;">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
                         <a onclick="confirm_delete()"><img src="icons/block32w.png" alt=""/></a>
@@ -292,7 +282,7 @@
                         Some comments...
                     </div>
                     <p class ="text-right ratings">
-                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
+                       <button onclick="rate()" class="btn btn-default btn-xs rate">Rate It !!</button>
                     </p>
                 </div>
             </div>
@@ -396,7 +386,7 @@
                         Some comments...
                     </div>
                     <p class ="text-right ratings">
-                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
+                       <button onclick="rate()" class="btn btn-default btn-xs rate">Rate It !!</button>
                     </p>
                 </div>
             </div>
@@ -431,6 +421,7 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
