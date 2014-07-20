@@ -75,13 +75,6 @@ ul.nav.navbar-nav li:last-child{
   border-right: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-textarea{
-    resize: none;
-    border: none;
-    font-size: small;
-    margin-top: 5px;
-}
-
 .caption{
     height: 100px;
 }
@@ -89,6 +82,13 @@ textarea{
 h4{
     margin: 0;
 }
+
+.comments
+{
+    margin-top: 10px;
+    height: 40px;
+}
+
 
 /*Dropdown*/
 
