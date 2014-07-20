@@ -58,10 +58,11 @@ ul.nav.navbar-nav > li:hover {
 }
 
 
+
+
 /*images*/
 
 .image{
-
     display: inline;
     height: 19px;
 }
@@ -72,6 +73,21 @@ ul.nav.navbar-nav li{
 
 ul.nav.navbar-nav li:last-child{
   border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+textarea{
+    resize: none;
+    border: none;
+    font-size: small;
+    margin-top: 5px;
+}
+
+.caption{
+    height: 100px;
+}
+
+h4{
+    margin: 0;
 }
 
 /*Dropdown*/
