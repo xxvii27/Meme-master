@@ -252,3 +252,19 @@ div.modal-rating > span:hover ~ span:before {
     position: absolute;
 }
 
+/*Input */
+input.form-control{
+    border-radius: 0;
+}
+
+/*Buttons */
+
+.submit{
+    background-color:  #8CC739;
+    color: white;
+}
+
+.cancel{
+    background-color: red;
+    color: white;
+}
