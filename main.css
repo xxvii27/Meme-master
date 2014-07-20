@@ -330,7 +330,7 @@ div.thumbnail > div.t_c.mb > div.mask {
 
 .mb .mask {
    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
-   -filter: alpha(opacity=0);
+
    opacity: 0;
    background-color: rgba(5,101,186, 0.3);
    -webkit-transition: all 0.2s ease-in-out;
@@ -342,7 +342,7 @@ div.thumbnail > div.t_c.mb > div.mask {
 
 .mb:hover .mask {
    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
-   -filter: alpha(opacity=100);
+
    opacity: 1;
    -webkit-transform: translateX(0px);
    -moz-transform: translateX(0px);
