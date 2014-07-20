@@ -233,3 +233,38 @@ footer .navbar {
     }
 }
 
+/* Customize Dialogs */
+.modal.custom .modal-dialog {
+    width:50%;
+    margin:0 auto;
+    /*add what you want here*/
+}
+
+div.modal-header{
+    background-color: #085DAD;
+    color: #ffffff;
+}
+
+div.modal-footer {
+    background-color: #085DAD;
+}
+
+div.modal-body{
+}
+
+div.modal-rating {
+    margin-left: 20px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+div.modal-rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+}
+div.modal-rating > span:hover:before,
+div.modal-rating > span:hover ~ span:before {
+    content: "\2605";
+    position: absolute;
+}
+

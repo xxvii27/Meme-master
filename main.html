@@ -2,6 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
     <title>MemeMaster</title>
@@ -30,6 +31,10 @@
                         <li><a href="#">Games</a></li>
                         <li><a href="#">Politics</a></li>
                         <li><a href="#">Sports</a></li>
+                        <li><a href="#">GIF</a></li>
+                        <li><a href="#">Cute</a></li>
+                        <li><a href="#">Geeky</a></li>
+
                     </ul>
                 </li>
                 <li id="search">
@@ -43,7 +48,7 @@
 </div>
 
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal custom fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -57,17 +62,24 @@
                     <input id="comments" type="text" class="form-control" placeholder="Comments">
                     <input type="text" class="form-control" placeholder="Tags">
                 </div>
-                <b>Ratings:</b>
+                <h4>&nbsp;Rate It:</h4>
+                <div class="modal-rating pull-left">
+                    <span>☆</span>
+                    <span>☆</span>
+                    <span>☆</span>
+                    <span>☆</span>
+                    <span>☆</span>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-default"><b>Submit</b></button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal custom fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -75,7 +87,7 @@
                 <h4 class="modal-title">Create a Meme</h4>
             </div>
             <div class="modal-body">
-                <b>Upload Image:</b>
+                <h4>Upload Image:</h4>
                 <div class="input-group">
                     <input type="file" class="form-control">
                     <img id="preview" src="http://placehold.it/320x150" alt="">
@@ -84,11 +96,18 @@
                     <input type="text" class="form-control" placeholder="Top Text">
                     <input type="text" class="form-control" placeholder="Bottom Text">
                 </div>
-                <b>Ratings:</b>
+                <h4>&nbsp;Rate It:</h4>
+                <div class="modal-rating pull-left">
+                    <span>☆</span>
+                    <span>☆</span>
+                    <span>☆</span>
+                    <span>☆</span>
+                    <span>☆</span>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-default"><b>Submit</b></button>
             </div>
         </div>
     </div>
@@ -98,7 +117,6 @@
 <div class ="container" id ="content">
 
     <p class ="text-right"><b>Sort By:</b>
-        &nbsp;
         <select>
         <option value="relevance">Relevance</option>
         <option value="newest">Newest</option>
@@ -108,21 +126,31 @@
         &nbsp;
         &nbsp;
         <b>View By:</b>
-        &nbsp;
         <a href="#">
-            <img class ="image" src="icons/gridview.png" title="Grid" alt="Grid"/>
-        </a>
-        &nbsp;| &nbsp;
-        <a href="#">
-            <img class ="image" src="icons/imageview.png" title="Thumbnail" alt="Thumbnail"/>
-        </a>
+			<span class="display_tooltip">Grid View</span>
+			<img class ="image" src="icons/gridview.png" alt=""/>
+		</a> 
+		| 
+		<a href="#">
+			<span class="display_tooltip">Thumbnail View</span>
+			<img class ="image" src="icons/imageview.png" alt=""/>
+		</a>
     </p>
 
     <div class="row">
 
         <div class="col-sm-6 col-lg-3 col-md-4">
             <div class="thumbnail">
-                <img src="thumb.jpg" alt=""> 
+
+				<div class="t_c mb">
+					<div class="mask">
+						<a href="#"><img src="icons/download32.png" alt=""/></a>
+						<a href="#"><img src="icons/pencil32.png" alt=""/></a>
+						<a href="#"><img src="icons/block32.png" alt=""/></a>
+					</div>
+					<img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+				</div>
+
                 <div class="caption">
                     <h4><a href="#">First Meme</a> </h4>
                     <textarea rows="2" cols="35">TAGS</textarea>
