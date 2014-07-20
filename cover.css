@@ -198,3 +198,63 @@ body {
     width: 700px;
   }
 }
+/* My Stuff*/
+.img-con-de {
+	position: relative;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.img-con-de  img{
+	width: 180px;
+	height: 180px;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.img-con-de .pic_altA {
+	position: absolute;
+	width: auto;
+	height: 250px;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	margin-left: auto;
+    margin-right: auto;
+	overflow: hidden;
+	z-index: 20;
+}
+
+.img-con-t img{	
+	-webkit-transition: all 0.2s linear;
+	-mos-transition: all 0.2s linear;
+	transition: all 0.2s linear;
+}
+
+.img-con-t .pic_altA {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+   filter: alpha(opacity=0);
+   opacity: 0;
+   webkit-transform: translateX(10px);
+   -moz-transform: translateX(10px);
+   -o-transform: translateX(10px);
+   -ms-transform: translateX(10px);
+   transform: translateX(10px);
+   -webkit-transition: all 0.2s ease-in-out;
+   -moz-transition: all 0.2s ease-in-out;
+   -o-transition: all 0.2s ease-in-out;
+   -ms-transition: all 0.2s ease-in-out;
+   transition: all 0.2s ease-in-out;
+}
+.img-con-t:hover .pic_altA {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+   filter: alpha(opacity=100);
+   opacity: 1;
+   -webkit-transform: translateX(0px);
+   -moz-transform: translateX(0px);
+   -o-transform: translateX(0px);
+   -ms-transform: translateX(0px);
+   transform: translateX(0px);
+}
+
+
