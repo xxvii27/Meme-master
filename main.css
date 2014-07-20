@@ -112,15 +112,16 @@ text-right.ratings{
 
 /*Dropdown*/
 
-#category-drop{
+
+.dropdown-menu{
     background-color:  #21BEDE;
 }
 
-#category-drop  > li > a:hover{
+.dropdown-menu  > li > a:hover{
     background-color: #085DAD;
 }
 
-#category-drop  > li > a{
+.dropdown-menu  > li > a{
     color: white;
     font-weight: bold;
 }
