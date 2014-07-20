@@ -141,7 +141,7 @@ footer .navbar {
     min-height:35px !important
 }
 
-@media (min-width: 1000px){
+@media (min-width: 1200px){
     footer .navbar .navbar-nav {
         display: inline-block;
         float: none;
@@ -242,7 +242,7 @@ footer .navbar {
     color: #ffffff;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color:#ffffff;
     }
