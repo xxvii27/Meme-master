@@ -52,8 +52,6 @@ ul.nav.navbar-nav > li:hover {
     border-width: 1px;
     border-style: solid;
     border-color: #7eba7c #578e57 #447d43;
-    height: 35px;
-    width: 45px;
 }
 
 .submit:hover{
@@ -207,6 +205,12 @@ footer .navbar {
         display:block !important;
     }
 
+}
+
+@media (max-width: 1200px){
+    #login-drop > a.dropdown-toggle > span {
+        display: none;
+    }
 }
 
 
