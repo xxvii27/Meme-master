@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<script>
-
-    function rate(){
-        document.getElementsByClassName('rate').innerHTML = "Clicked";
-    }
-
-
-</script>
 
 <head lang="en">
     <meta charset="UTF-8">
@@ -16,6 +8,15 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
     <title>MemeMaster</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".rate").click(function(){
+                $(this).parent().append("<div class='modal-rating'><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div>");
+                $(this).remove();
+            });
+        });
+    </script>
 </head>
 <body>
 
@@ -219,7 +220,7 @@
                     <h4><a href="#">First Meme</a> </h4>
                     <textarea rows="2" cols="35">TAGS</textarea>
                     <p class ="text-right ratings">
-                       <button onclick="rate()" class="btn btn-default btn-xs rate">Rate It !!</button>
+                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
                     </p>
                 </div>
             </div>
@@ -283,7 +284,7 @@
                     <h4><a href="#">First Meme</a> </h4>
                     <textarea rows="2" cols="35">TAGS</textarea>
                     <p class ="text-right ratings">
-                       <button onclick="rate()" class="btn btn-default btn-xs rate">Rate It !!</button>
+                       <button class="btn btn-default btn-xs rate">Rate It !!</button>
                     </p>
                 </div>
             </div>
@@ -320,7 +321,6 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
