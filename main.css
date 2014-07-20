@@ -101,7 +101,11 @@ text-right.ratings{
 }
 
 .remember-login{
-    padding-left: 10px
+    padding-left: 10px;
+}
+
+.submit-login{
+    padding-left: 10px;
 }
 
 .login-bar{
@@ -112,15 +116,16 @@ text-right.ratings{
 
 /*Dropdown*/
 
-.category-drop{
+
+.dropdown-menu{
     background-color:  #21BEDE;
 }
 
-.category-drop  > li > a:hover{
+.dropdown-menu  > li > a:hover{
     background-color: #085DAD;
 }
 
-.category-drop  > li > a{
+.dropdown-menu  > li > a{
     color: white;
     font-weight: bold;
 }
@@ -131,8 +136,6 @@ text-right.ratings{
 footer .navbar-nav > li > a {
     padding-top:5px !important;
     padding-bottom:5px !important;
-
-
 }
 footer .navbar {
     min-height:35px !important
@@ -150,7 +153,7 @@ footer .navbar {
 
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
     .navbar-header {
         float: none;
     }
