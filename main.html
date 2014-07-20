@@ -2,17 +2,17 @@
 <html>
 
 <head lang="en">
-<script>
+<script type="text/javascript">
 	
 	var hovID;
 	var hovS;
 	var x;
 	var y;
 	
-	function m_d_tooltip(id) {
+	function m_d_tooltip(evt,id) {
 		hovS = id;
-		x = event.pageX;
-		y = event.pageY;
+		x = evt.pageX;
+		y = evt.pageY;
 		hovID = setTimeout(function () {
 			var ele = document.getElementById(hovS);
 			ele.style.top = (y+25) + "px";
@@ -21,6 +21,7 @@
 		}
 		,750);
 	}
+	
 		
 	function hide() {
 		var ele = document.getElementById(hovS);
@@ -173,11 +174,11 @@
         &nbsp;
         &nbsp;
         <b>View By:</b>
-        <a class="disp_icon" href="#" onmouseover="m_d_tooltip('GVT')" onmouseout="hide()">
+        <a class="disp_icon" href="#" onmouseover="m_d_tooltip(event,'GVT')" onmouseout="hide()">
 			<span id="GVT">Grid View</span>
 			<img class ="image" src="icons/gridview.png" alt=""/>
 		</a> | 
-		<a class="disp_icon" href="#" onmouseover="m_d_tooltip('TVT')" onmouseout="hide()">
+		<a class="disp_icon" href="#" onmouseover="m_d_tooltip(event,'TVT')" onmouseout="hide()">
 			<span id="TVT">Thumb View</span>
 			<img class ="image" src="icons/imageview.png" alt=""/>
 		</a>
