@@ -2,6 +2,30 @@
 <html>
 <head lang="en">
 <script>
+	
+	var hovID;
+	var hovS;
+	var x;
+	var y;
+	
+	function m_d_tooltip(id) {
+		hovS = id;
+		x = event.pageX;
+		y = event.pageY;
+		hovID = setTimeout(function () {
+			var ele = document.getElementById(hovS);
+			ele.style.top = (y+25) + "px";
+			ele.style.left = (x-65)+ "px";
+			ele.style.display = "block"
+		}
+		,750);
+	}
+		
+	function hide() {
+		var ele = document.getElementById(hovS);
+		ele.style.display = "none"
+		clearTimeout(hovID)
+	}
 
     function rate(){
         document.getElementsByClassName('rate').innerHTML = "Clicked";
@@ -139,13 +163,12 @@
         &nbsp;
         &nbsp;
         <b>View By:</b>
-        <a href="#">
-			<span class="display_tooltip">Grid View</span>
+        <a class="disp_icon" href="#" onmouseover="m_d_tooltip('GVT')" onmouseout="hide()">
+			<span id="GVT">Grid View</span>
 			<img class ="image" src="icons/gridview.png" alt=""/>
-		</a> 
-		| 
-		<a href="#">
-			<span class="display_tooltip">Thumbnail View</span>
+		</a> | 
+		<a class="disp_icon" href="#" onmouseover="m_d_tooltip('TVT')" onmouseout="hide()">
+			<span id="TVT">Thumb View</span>
 			<img class ="image" src="icons/imageview.png" alt=""/>
 		</a>
     </p>
