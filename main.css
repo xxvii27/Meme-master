@@ -47,6 +47,24 @@ ul.nav.navbar-nav > li:hover {
     background-color:  #21BEDE;
 }
 
+.submit{       
+    background-image: linear-gradient(#95d788, #6cbb6b);
+    border-width: 1px;
+    border-style: solid;
+    border-color: #7eba7c #578e57 #447d43;
+    height: 35px;
+    width: 45px;
+}
+
+.submit:hover{
+    background-color: #95d788;
+    background-image: linear-gradient(#6cbb6b, #95d788);
+}
+
+.submit:active{       
+    background: #95d788;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;        
+}
 
 #main-heading{
     font-weight: bold;
