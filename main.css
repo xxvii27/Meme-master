@@ -101,7 +101,11 @@ text-right.ratings{
 }
 
 .remember-login{
-    padding-left: 10px
+    padding-left: 10px;
+}
+
+.submit-login{
+    padding-left: 10px;
 }
 
 .login-bar{
@@ -309,4 +313,105 @@ input.form-control{
 
 div.thumbnail > div.t_c.mb > div.mask {
     width: 100%;
+}
+
+
+
+/* Image Hover-in */
+.thumbnail .t_c{
+	position: relative;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.thumbnail .t_c img {
+	width: 250px;
+	height: 250px;
+	margin-left: auto;
+    margin-right: auto;
+	display: block;
+}
+
+.thumbnail .t_c .mask{
+
+	position: absolute;
+	width: 250px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	margin-left: auto;
+    margin-right: auto;
+	background-color: rgba(5,101,186, 0.7);
+	overflow: hidden;
+	display: inline;
+	z-index: 20;
+	
+}
+
+.mb img {	
+	-webkit-transition: all 0.2s linear;
+	-mos-transition: all 0.2s linear;
+	transition: all 0.2s linear;
+}
+
+.mb .mask {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+
+   opacity: 0;
+   background-color: rgba(5,101,186, 0.3);
+   -webkit-transition: all 0.2s ease-in-out;
+   -moz-transition: all 0.2s ease-in-out;
+   -o-transition: all 0.2s ease-in-out;
+   -ms-transition: all 0.2s ease-in-out;
+   transition: all 0.2s ease-in-out;
+}
+
+.mb:hover .mask {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+
+   opacity: 1;
+   -webkit-transform: translateX(0px);
+   -moz-transform: translateX(0px);
+   -o-transform: translateX(0px);
+   -ms-transform: translateX(0px);
+   transform: translateX(0px);
+}
+
+.t_c .mask a:link{
+	text-decoration: none;
+	border-style: none;
+}
+
+.t_c .mask a img{
+	width: 30px;
+	height: 30px;
+	margin: 3px 3px 0px 0px;
+	padding: 2px;
+	border-style: none;
+	display: inline-block;
+}
+
+/* Grid Tooltips */
+a #GVT,a #TVT {
+	display: none;
+}
+
+a:hover #GVT,
+a:hover #TVT {
+	position: absolute;
+	color: white;
+	background-color: rgb(5,101,186);
+    border: 1px solid white;
+	padding: 5px;
+	z-index: 100;
+}
+
+.disp_icon {
+	text-decoration: none;
+	border: none;
+}
+
+.disp_icon:hover{
+	text-decoration: none;
+	border: none;
 }

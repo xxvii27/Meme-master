@@ -2,17 +2,17 @@
 <html>
 
 <head lang="en">
-<script>
+<script type="text/javascript">
 	
 	var hovID;
 	var hovS;
 	var x;
 	var y;
 	
-	function m_d_tooltip(id) {
+	function m_d_tooltip(evt,id) {
 		hovS = id;
-		x = event.pageX;
-		y = event.pageY;
+		x = evt.pageX;
+		y = evt.pageY;
 		hovID = setTimeout(function () {
 			var ele = document.getElementById(hovS);
 			ele.style.top = (y+25) + "px";
@@ -27,6 +27,14 @@
 		ele.style.display = "none"
 		clearTimeout(hovID)
 	}
+	
+ 	function confirm_delete() {
+ 		if(confirm("Are you sure you want to delete?")){
+ 				alert("Deleted");
+		}		
+		return false;
+	}
+	
 
     function rate(){
         document.getElementsByClassName('rate').innerHTML = "Clicked";
@@ -113,6 +121,11 @@
                             <form class="remember-login">
                                 <input type="checkbox" name="saved_login">Remember?
                             </form>
+                        </li>
+                        <li>
+                            <div class="submit-login">
+                                <button type="button">Login</button>
+                            </div>
                         </li>
                     </ul>
                 </li>
@@ -203,11 +216,11 @@
         &nbsp;
         &nbsp;
         <b>View By:</b>
-        <a class="disp_icon" href="#" onmouseover="m_d_tooltip('GVT')" onmouseout="hide()">
+        <a class="disp_icon" href="#" onmouseover="m_d_tooltip(event,'GVT')" onmouseout="hide()">
 			<span id="GVT">Grid View</span>
 			<img class ="image" src="icons/gridview.png" alt=""/>
 		</a> | 
-		<a class="disp_icon" href="#" onmouseover="m_d_tooltip('TVT')" onmouseout="hide()">
+		<a class="disp_icon" href="#" onmouseover="m_d_tooltip(event,'TVT')" onmouseout="hide()">
 			<span id="TVT">Thumb View</span>
 			<img class ="image" src="icons/imageview.png" alt=""/>
 		</a>
@@ -221,7 +234,7 @@
 					<div class="mask">
 						<a href="#"><img src="icons/download32w.png" alt=""/></a>
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a href="#"><img src="icons/trash.png" alt=""/></a>
+						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
 					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
 				</div>
@@ -245,7 +258,7 @@
 					<div class="mask">
 						<a href="#"><img src="icons/download32w.png" alt=""/></a>
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a href="#"><img src="icons/trash.png" alt=""/></a>
+						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
 					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
 				</div>
@@ -267,7 +280,7 @@
 					<div class="mask">
 						<a href="#"><img src="icons/download32w.png" alt=""/></a>
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a href="#"><img src="icons/trash.png" alt=""/></a>
+						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
 					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
 				</div>
@@ -292,7 +305,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/trash.png" alt=""/></a>
+                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
                     <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -315,7 +328,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/trash.png" alt=""/></a>
+                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
                     <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -342,7 +355,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/trash.png" alt=""/></a>
+                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
                     <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -369,7 +382,7 @@
                     <div class="mask">
                         <a href="#"><img src="icons/download32w.png" alt=""/></a>
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/trash.png" alt=""/></a>
+                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
                     <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
                 </div>
@@ -392,7 +405,7 @@
 					<div class="mask">
 						<a href="#"><img src="icons/download32w.png" alt=""/></a>
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a href="#"><img src="icons/trash.png" alt=""/></a>
+						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
 					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
 				</div>
@@ -416,7 +429,7 @@
 					<div class="mask">
 						<a href="#"><img src="icons/download32w.png" alt=""/></a>
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a href="#"><img src="icons/trash.png" alt=""/></a>
+						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
 					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
 				</div>
@@ -438,7 +451,7 @@
 					<div class="mask">
 						<a href="#"><img src="icons/download32w.png" alt=""/></a>
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a href="#"><img src="icons/trash.png" alt=""/></a>
+						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
 					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
 				</div>
@@ -466,10 +479,10 @@
         <div class="container" id="footer">
             <div class="navbar-collapse collapse" id = "footnav">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Terms &amp; Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+					<li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="index.html">Terms &amp; Conditions</a></li>
+                    <li><a href="index.html">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="navbar-header">
