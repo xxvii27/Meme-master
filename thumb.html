@@ -71,20 +71,56 @@
                 <li><a href="#contact" data-toggle="modal" data-target="#createModal"><img class ="image" src="icons/wand32.png" alt=""/>&nbsp;Create&nbsp;</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class ="image" src="icons/folder32.png" alt=""/>&nbsp;Categories <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu" id ="category-drop">
+                    <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Games</a></li>
                         <li><a href="#">Politics</a></li>
                         <li><a href="#">Sports</a></li>
                         <li><a href="#">GIF</a></li>
                         <li><a href="#">Cute</a></li>
                         <li><a href="#">Geeky</a></li>
-
                     </ul>
                 </li>
                 <li id="search">
-                    <form class="navbar-form navbar-right pull-right">
+                    <form class="navbar-form">
                         <input type="text" class="form-control" placeholder="Search..." size="50">
                     </form>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class ="image" src="icons/user.png" alt=""/>&nbsp;Login <span class="caret"></span></a>
+
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <form>
+                                <input type="hidden"><br>
+                                <div class="login">
+                                    Username<br>
+                                </div>
+                                <div class="login-bar">
+                                    <input type="text" name="username"><br>
+                                </div>
+                            </form>
+                        </li>
+                        <li>
+                            <form>
+                                <div class="login">
+                                    Password<br>
+                                </div>
+                                <div class="login-bar">
+                                    <input type="password" name="password" >
+                                </div>
+                            </form>
+                        </li>
+                        <li>
+                            <form class="remember-login">
+                                <input type="checkbox" name="saved_login">Stay logged in
+                            </form>
+                        </li>
+                        <li>
+                            <div class="submit-login">
+                                <button type="button">Login</button>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -325,10 +361,10 @@
         <div class="container" id="footer">
             <div class="navbar-collapse collapse" id = "footnav">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Terms &amp; Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="index.html">Terms &amp; Conditions</a></li>
+                    <li><a href="index.html">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="navbar-header">
