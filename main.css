@@ -58,8 +58,6 @@ ul.nav.navbar-nav > li:hover {
 }
 
 
-
-
 /*images*/
 
 .image{
@@ -104,7 +102,6 @@ h4{
     color: white;
     font-weight: bold;
 }
-
 
 
 /*Footer*/
@@ -275,15 +272,21 @@ input.form-control{
 .submit{
     background-color:  #8CC739;
     color: white;
+    border :none;
 }
 
 .cancel{
     background-color: red;
     color: white;
+    border: none;
 }
 
 /*Thumbnail Images */
-div.thumbnail > div.t_c mb > img{
-    height:auto;
-    width:100% !important;
+.img-thumb-nail{
+    height: auto !important;
+    width: 100% !important;
+}
+
+div.thumbnail > div.t_c.mb > div.mask {
+    width: 100%;
 }
