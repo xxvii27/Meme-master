@@ -281,3 +281,9 @@ input.form-control{
     background-color: red;
     color: white;
 }
+
+/*Thumbnail Images */
+div.thumbnail > div.t_c mb > img{
+    height:auto;
+    width:100% !important;
+}
