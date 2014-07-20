@@ -6283,17 +6283,27 @@ button.close {
 }
 
 /* Grid Tooltips */
-.display_tooltip {
+a #GVT,a #TVT {
 	display: none;
 }
 
-a:hover .display_tooltip {
+a:hover #GVT,
+a:hover #TVT {
 	position: absolute;
-	top: 40px;
-	right: 0px;
-	display: block;
 	color: white;
 	background-color: rgb(5,101,186);
 	border: 1px solid white;
 	padding: 5px;
+	z-index: 100;
 }
+
+.disp_icon {
+	text-decoration: none;
+	border: none;
+}
+
+.disp_icon:hover{
+	text-decoration: none;
+	border: none;
+}
+
