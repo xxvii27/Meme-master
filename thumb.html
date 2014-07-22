@@ -2,17 +2,17 @@
 <html>
 
 <head lang="en">
-    <script>
+    <script type="text/javascript">
 
         var hovID;
         var hovS;
         var x;
         var y;
 
-        function m_d_tooltip(id) {
+        function m_d_tooltip(evt,id) {
             hovS = id;
-            x = event.pageX;
-            y = event.pageY;
+            x = evt.pageX;
+            y = evt.pageY;
             hovID = setTimeout(function () {
                         var ele = document.getElementById(hovS);
                         ele.style.top = (y+25) + "px";
@@ -27,6 +27,14 @@
             ele.style.display = "none"
             clearTimeout(hovID)
         }
+
+        function confirm_delete() {
+            if(confirm("Are you sure you want to delete?")){
+                alert("Deleted");
+            }
+            return false;
+        }
+
 
         function rate(){
             document.getElementsByClassName('rate').innerHTML = "Clicked";
@@ -120,6 +128,12 @@
                                 <button type="button">Login</button>
                             </div>
                         </li>
+                        <li>
+                            <div class="login">
+                                <img src="icons/register.png" alt="">&nbsp;<a href="#">Register</a><br>
+                                <img src="icons/warning.png" alt="">&nbsp;<a href="#">Forgot username or <span class="password-spacing"></span>password?</a>
+                            </div>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -199,162 +213,173 @@
 
 <div class ="container" id ="content">
 
-    <p class ="text-right"><b>Sort By:</b>
-        <select>
-            <option value="relevance">Relevance</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="avg_rating">Avg Rating</option>
-        </select>
-        &nbsp;
-        &nbsp;
-        <b>View By:</b>
-        <a class="disp_icon" href="main.html" onmouseover="m_d_tooltip('GVT')" onmouseout="hide()">
-            <span id="GVT">Grid View</span>
-            <img class ="image" src="icons/gridview.png" alt=""/>
-        </a> |
-        <a class="disp_icon" href="thumb.html" onmouseover="m_d_tooltip('TVT')" onmouseout="hide()">
-            <span id="TVT">Thumb View</span>
-            <img class ="image" src="icons/imageview.png" alt=""/>
-        </a>
-    </p>
+<p class ="text-right"><b>Sort By:</b>
+    <select>
+        <option value="relevance">Relevance</option>
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+        <option value="avg_rating">Avg Rating</option>
+    </select>
+    &nbsp;
+    &nbsp;
+    <b>View By:</b>
+    <a class="disp_icon" href="main.html" onmouseover="m_d_tooltip(event,'GVT')" onmouseout="hide()">
+        <span id="GVT">Grid View</span>
+        <img class ="image" src="icons/gridview.png" alt=""/>
+    </a> |
+    <a class="disp_icon" href="thumb.html" onmouseover="m_d_tooltip(event,'TVT')" onmouseout="hide()">
+        <span id="TVT">Thumb View</span>
+        <img class ="image" src="icons/imageview.png" alt=""/>
+    </a>
+</p>
 
-    <div class="row">
+<div class="row">
 
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
+<div class="col-sm-6 col-md-4 col-lg-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
             </div>
+            <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
         </div>
-
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask" >
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/block32w.png" alt=""/></a>
-                    </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
-                </div>
-            </div>
-        </div>
-
-
-
     </div>
 </div>
+
+<div class="col-sm-6 col-md-4 col-lg-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
+            </div>
+            <img class ="img-thumb-nail" src="memes/9.gif" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-md-4 col-lg-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
+            </div>
+            <img class ="img-thumb-nail" src="memes/8.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-lg-3 col-md-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
+            </div>
+            <img class ="img-thumb-nail" src="memes/10.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-lg-3 col-md-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
+            </div>
+            <img class ="img-thumb-nail" src="memes/11.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-lg-3 col-md-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
+            </div>
+            <img class ="img-thumb-nail" src="memes/12.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-lg-3 col-md-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
+            </div>
+            <img class ="img-thumb-nail" src="memes/13.gif" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-md-4 col-lg-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
+            </div>
+            <img class ="img-thumb-nail" src="memes/14.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-md-4 col-lg-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
+            </div>
+            <img class ="img-thumb-nail" src="memes/15.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-6 col-md-4 col-lg-4">
+    <div class="thumbnail">
+        <div class="t_c mb">
+            <div class="mask">
+                <a href="#"><img src="icons/download32w.png" alt=""/></a>
+                <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
+                <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
+            </div>
+            <img class ="img-thumb-nail" src="memes/16.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="paging">
+    <ul class="pagination pagination-lg">
+        <li><a href="#">&laquo;</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">&raquo;</a></li>
+    </ul>
+</div>
+</div>
+
 
 <footer>
     <div class="navbar navbar-default navbar-fixed-bottom">
