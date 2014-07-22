@@ -217,6 +217,10 @@ footer .navbar {
         display:block !important;
     }
 
+    #login-drop > a.dropdown-toggle > span {
+        display: inline-flex !important;
+    }
+
 }
 
 @media (max-width: 1200px){
