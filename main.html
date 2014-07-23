@@ -2,64 +2,70 @@
 <html>
 
 <head lang="en">
-<script type="text/javascript">
+    <!-- Importing external javascript -->
+    <script src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+    <script type="text/javascript">
+    	
+    	var hovID;
+    	var hovS;
+    	var x;
+    	var y;
+    	
+    	function m_d_tooltip(evt,id) {
+    		hovS = id;
+    		x = evt.pageX;
+    		y = evt.pageY;
+    		hovID = setTimeout(function () {
+    			var ele = document.getElementById(hovS);
+    			ele.style.top = (y+25) + "px";
+    			ele.style.left = (x-65)+ "px";
+    			ele.style.display = "block"
+    		}
+    		,750);
+    	}
+    		
+    	function hide() {
+    		var ele = document.getElementById(hovS);
+    		ele.style.display = "none"
+    		clearTimeout(hovID)
+    	}
+    	
+     	function confirm_delete() {
+     		if(confirm("Are you sure you want to delete?")){
+     				alert("Deleted");
+    		}		
+    		return false;
+    	}
+    	
+    
+        function rate(){
+            document.getElementsByClassName('rate').innerHTML = "Clicked";
+        }
+    
+    
+    </script>
+    <script>  
+         $(document).ready(function(){
+             $(".rate").click(function(){
+                 $(this).parent().append("<div class='modal-rating'><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div>");
+                 $(this).remove();
+             });
+         });
+    </script>
+	<!-- end javascript -->
 	
-	var hovID;
-	var hovS;
-	var x;
-	var y;
-	
-	function m_d_tooltip(evt,id) {
-		hovS = id;
-		x = evt.pageX;
-		y = evt.pageY;
-		hovID = setTimeout(function () {
-			var ele = document.getElementById(hovS);
-			ele.style.top = (y+25) + "px";
-			ele.style.left = (x-65)+ "px";
-			ele.style.display = "block"
-		}
-		,750);
-	}
-		
-	function hide() {
-		var ele = document.getElementById(hovS);
-		ele.style.display = "none"
-		clearTimeout(hovID)
-	}
-	
- 	function confirm_delete() {
- 		if(confirm("Are you sure you want to delete?")){
- 				alert("Deleted");
-		}		
-		return false;
-	}
-	
-
-    function rate(){
-        document.getElementsByClassName('rate').innerHTML = "Clicked";
-    }
-
-
-</script>
-
-
     <meta charset="UTF-8">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
     <title>MemeMaster</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(".rate").click(function(){
-                $(this).parent().append("<div class='modal-rating'><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div>");
-                $(this).remove();
-            });
-        });
-    </script>
+ 
 </head>
 <body>
+<!-- DB init -->
+<script>var dbref = new Firebase('https://xb4mxub2oj3.firebaseio-demo.com/');</script>
 
 <!-- Fixed navbar -->
 <div class="navbar navbar-default navbar-fixed-top " role="navigation" id = "headernav">
