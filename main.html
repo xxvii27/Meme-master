@@ -54,6 +54,8 @@
              });
          });
     </script>
+	
+
 	<!-- end javascript -->
 	
     <meta charset="UTF-8">
@@ -65,7 +67,7 @@
 </head>
 <body>
 <!-- DB init -->
-<script>var dbref = new Firebase('https://xb4mxub2oj3.firebaseio-demo.com/');</script>
+
 
 <!-- Fixed navbar -->
 <div class="navbar navbar-default navbar-fixed-top " role="navigation" id = "headernav">
@@ -157,10 +159,10 @@
             </div>
             <div class="modal-body">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Url: http://">
-                    <input type="text" class="form-control" placeholder="Title">
-                    <input id="comments" type="text" class="form-control" placeholder="Comments">
-                    <input type="text" class="form-control" placeholder="Tags">
+                    <input type="text" class="form-control" placeholder="Url: http://" id="urlInput">
+                    <input type="text" class="form-control" placeholder="Title" id="titleInput">
+                    <input id="comments" type="text" class="form-control" placeholder="Comments" id="commentInput">
+                    <input type="text" class="form-control" placeholder="Tags" id="tagInput">
                 </div>
                 <br>
                 <h4>&nbsp;Rate It:</h4>
@@ -172,10 +174,22 @@
                     <span>☆</span>
                 </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-default submit"><b>Submit</b></button>
+                <button type="button" class="btn btn-default submit" id="saveSubmit"><b>Submit</b></button>
             </div>
+			<script>
+				var dbref = new Firebase('https://intense-fire-8114.firebaseio-demo.com/');
+          		$('#saveSubmit').onclick = function (e) {        
+                    var url = $('#urlInput').val();
+                    var title = $('#titleInput').val();
+                    var comment = $('#commentInput').val();
+                    var tag = $('#tagInput').val();		  
+                    myDataRef.set({url: url, title: title, comment: comment, tag: tag});
+          		  alert(url);
+          		  }
+            </script>
         </div>
     </div>
 </div>
