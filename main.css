@@ -159,8 +159,11 @@ text-right.ratings{
 }
 
 /* footer */
+
 footer .navbar.navbar-default{
     border-radius: 0 !important;
+    width: 100%;
+    margin: 0;
 }
 
 footer .navbar-nav > li > a {
