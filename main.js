@@ -52,4 +52,28 @@ $(document).ready(function(){
         alert( $(this).val() );
     });
 
+
+
+    var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
+
+    $('#saveSubmit').click(function(){
+        //alert('Submit Clicked');
+
+        var nurl = $('#urlInput').val();
+
+
+        var ntitle = $('#titleInput').val();
+
+        var newMeme = DBmeme.child(ntitle);
+        var ncomment = $('#commentInput').val();
+        var ntag = $('#tagInput').val();
+        //newMeme.set({url: nurl, title: ntitle, comment: ncomment, tag: ntag});
+        newMeme.child('url').set(nurl);
+        newMeme.child('title').set(ntitle);
+        newMeme.child('usercomment').set(ncomment);
+        newMeme.child('tag').set(ntag);
+
+        //alert(url + title + comment + tag);
+    });
+
 });
