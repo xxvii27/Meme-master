@@ -14,9 +14,9 @@ html {
     min-height: 100%;
 }
 
+/* margin bottom by footer height */
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
+/*    margin-bottom: 60px; */
     background-color: #B2F6F7;
     font-family: "SourceSansPro";
 }
@@ -33,15 +33,9 @@ body {
     padding: 20px;
 }
 
-.ratings{
-    bottom: 0;
-    margin-bottom: 0;
-}
-
 #search:hover{
     background-color: #085DAD;
 }
-
 
 ul.nav.navbar-nav > li:hover {
     background-color:  #21BEDE;
@@ -74,30 +68,34 @@ ul.nav.navbar-nav > li:hover {
 }
 
 
-/*images*/
-
+/* images for nav bar & view by */
 .image{
     display: inline;
     height: 19px;
 }
 
+/* border on nav bar (header & footer) */
 ul.nav.navbar-nav li{
     border-left: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* border on last nav bar option */
 ul.nav.navbar-nav li:last-child{
   border-right: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-ul.dropdown-menu li:nth-last-child(2){
+/* border in login option */
+ul.dropdown-menu#registration li:nth-last-child(2){
     padding-bottom: 10px;
     border-bottom: 2px solid rgba(255, 255, 255, 0.15);
 }
 
+/* indented 'password?' for neatness */
 .password-spacing{
     margin-left: 19px;    
 }
 
+/* caption area under big & small memes */
 .caption.big{
     height: 80px;
 }
@@ -117,10 +115,12 @@ h5{
     height: 40px;
 }
 
+/* ratings button */
 text-right.ratings{
     float: right;
 }
 
+/* login margin fix */
 .login{
     padding-left: 10px;
 }
@@ -138,13 +138,13 @@ text-right.ratings{
     text-align: center;  
 }
 
+/* center paging navigation */
 .paging{
-    text-align: center;    
+    text-align: center;
+    padding-bottom: 50px;
 }
 
 /*Dropdown*/
-
-
 .dropdown-menu{
     background-color:  #21BEDE;
 }
@@ -158,13 +158,19 @@ text-right.ratings{
     font-weight: bold;
 }
 
+/* footer */
 
-/*Footer*/
+footer .navbar.navbar-default{
+    border-radius: 0 !important;
+    width: 100%;
+    margin: 0;
+}
 
 footer .navbar-nav > li > a {
     padding-top:5px !important;
     padding-bottom:5px !important;
 }
+
 footer .navbar {
     min-height:35px !important
 }
@@ -178,7 +184,6 @@ footer .navbar {
     footer .navbar .navbar-collapse {
         text-align: center;
     }
-
 }
 
 @media (max-width: 1000px) {
@@ -220,7 +225,6 @@ footer .navbar {
     #login-drop > a.dropdown-toggle > span {
         display: inline-flex !important;
     }
-
 }
 
 @media (max-width: 1200px){
@@ -229,10 +233,7 @@ footer .navbar {
     }
 }
 
-
-
-/* Customize Navbar */
-
+/* customize nav bar */
 .navbar-default {
     background-color: #085DAD;
     border-color: #21BEDE;
@@ -293,7 +294,7 @@ footer .navbar {
     }
 }
 
-/* Customize Dialogs */
+/* customize dialogs */
 .modal.custom .modal-dialog {
     width:50%;
     margin:0 auto;
@@ -314,24 +315,25 @@ div.modal-rating {
     unicode-bidi: bidi-override;
     direction: rtl;
 }
+
 div.modal-rating > span {
     display: inline-block;
     position: relative;
     width: 1.2em;
 }
+
 div.modal-rating > span:hover:before,
 div.modal-rating > span:hover ~ span:before {
     content: "\2605";
     position: absolute;
 }
 
-/*Input */
+/* input */
 input.form-control{
     border-radius: 0;
 }
 
-/*Buttons */
-
+/* buttons */
 .submit{
     background-color:  #8CC739;
     color: white;
@@ -342,7 +344,7 @@ input.form-control{
     color: white;
 }
 
-/*Thumbnail Images */
+/* thumbnail images */
 .img-thumb-nail{
     height: auto !important;
     width: 100% !important;
@@ -352,9 +354,7 @@ div.thumbnail > div.t_c.mb > div.mask {
     width: 100%;
 }
 
-
-
-/* Image Hover-in */
+/* image hover-in */
 .thumbnail .t_c{
 	position: relative;
 	margin-left: auto;
@@ -381,8 +381,7 @@ div.thumbnail > div.t_c.mb > div.mask {
 	background-color: rgba(5,101,186, 0.7);
 	overflow: hidden;
 	display: inline;
-	z-index: 20;
-	
+	z-index: 20;	
 }
 
 .mb img {	
@@ -428,7 +427,7 @@ div.thumbnail > div.t_c.mb > div.mask {
 	display: inline-block;
 }
 
-/* Grid Tooltips */
+/* grid tooltips */
 a #GVT,a #TVT {
 	display: none;
 }
