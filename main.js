@@ -46,12 +46,17 @@ $(document).ready(function(){
     $(".rate").click(function(){
         $(this).parent().append(star_rating);
         $(this).remove();
+        $('.rating').on('click', 'input', function(){
+            alert( $(this).val() );
+            // For rateit button
+        });
     });
 
-    $('.rating').on('click', 'input', function(){
+    $('.rating input').click(function(){
         alert( $(this).val() );
+        //For rate in modals
+        //use above onclick if rate it button already clicked at least once by the user
     });
-
 
 
     var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
