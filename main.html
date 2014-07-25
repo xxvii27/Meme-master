@@ -67,13 +67,16 @@
                 var newMeme = DBmeme.child(ntitle);
                 var ncomment = $('#commentInput').val();
                 var ntag = $('#tagInput').val();         
-                //newMeme.set({url: nurl, title: ntitle, comment: ncomment, tag: ntag});
-                newMeme.child('url').set(nurl);
-                newMeme.child('title').set(ntitle);                
-                newMeme.child('usercomment').set(ncomment);
-                newMeme.child('tag').set(ntag);
+                newMeme.set({url: nurl, title: ntitle, note: ncomment, tag: ntag},
+                    function(error) {
+                    if(error){
+                        alert('There was an error with DB.\n' + error);
+                    } else {
+                        alert('Save successful');
+                    }
+                });
 
-                //alert(url + title + comment + tag);     
+ 
             });
 
          });
