@@ -85,109 +85,31 @@ $(document).ready(function(){
 
 function draw_memes(){
 
-    var memeArray = new Array(9);
-    var title = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Nineth"];
+    var memeArray = new Array(10);
+    var title = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Nineth", "Tenth"];
+    var gifs = [1, 6];
+    var dimens = [3, 4, 5, 6];
     var str = "memes/";
     var toStr;
-  
+    var memeSRCStr;
+    var memeTitleStr;
+    var memeDimens;
+    
     for (var i = 0; i < memeArray.length; i++)
     {
         toStr = i.toString();
+        memeSRCStr = str + toStr + (gifs.indexOf(i) != -1 ? ".gif" : ".jpg");
+        memeTitleStr = title[i] + " Meme";
+        memeDimens = dimens.indexOf(i) != -1 ? '643' : '644';
         memeArray[i] = {
-            mimeTitle : title[i].concat("&nbsp;Meme"),
+            memeTitle : memeTitleStr,
             memeComments : "Random Comment",
-            memSRC : str.concat(toStr, ".jpg"),
+            memeSRC : memeSRCStr,
             memeHREF : "#",
             memeRating : '3',
-            memeDimensions : '644'
-            
+            memeDimensions : memeDimens
         }
     }
-    
-    
-    
-    
-  // TEST data: Will change the vars depending on how we retrieve meme info
-    memeArray[0] = {
-    memeTitle : "First Meme",
-    memeComments : "Random Comment",
-    memeSRC : "http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg",
-    memeHREF : "#",
-    memeRating : '3',
-    memeDimensions: '644'
-  }
-  memeArray[1] = {
-    memeTitle : "Second Meme",
-    memeComments : "Random Comment",
-    memeSRC : "memes/9.gif",
-    memeHREF : "#",
-    memeRating : '0',
-    memeDimensions: '644'
-  }
-  memeArray[2] = {
-    memeTitle : "Third Meme",
-    memeComments : "Random Comment",
-    memeSRC : "memes/8.jpg",
-    memeHREF : "#",
-    memeRating : '0',
-    memeDimensions: '644'
-  }
-  memeArray[3] = {
-    memeTitle : "Fourth Meme",
-    memeComments : "Random Comment",
-    memeSRC : "memes/10.jpg",
-    memeHREF : "#",
-    memeRating : '3',
-    memeDimensions: '643'
-  }
-  memeArray[4] = {
-    memeTitle : "Fifth Meme",
-    memeComments : "Random Comment",
-    memeSRC : "memes/11.jpg",
-    memeHREF : "#",
-    memeRating : '3',
-    memeDimensions: '643'
-  }
-  memeArray[5] = {
-    memeTitle : "Sixth Meme",
-    memeComments : "Random Comment",
-    memeSRC : "memes/12.jpg",
-    memeHREF : "#",
-    memeRating : '3',
-    memeDimensions: '643'
-  }
-  memeArray[6] = {
-    memeTitle : "Seventh Meme",
-    memeComments : "Random Comment",
-    memeSRC : "memes/13.gif",
-    memeHREF : "#",
-    memeRating : '3',
-    memeDimensions: '643'
-  }
-  memeArray[7] = {
-    memeTitle : "Eighth Meme",
-    memeComments : "Random Comment",
-    memeSRC : "memes/14.jpg",
-    memeHREF : "#",
-    memeRating : '3',
-    memeDimensions: '644'
-  }
-  memeArray[8] = {
-    memeTitle : "Ninth Meme",
-    memeComments : "Random Comment",
-    memeSRC : "memes/17_resize.jpg",
-    memeHREF : "#",
-    memeRating : '3',
-    memeDimensions: '644'
-  }        
-  memeArray[9] = {
-    memeTitle : "Tenth Meme",
-    memeComments : "Random Comment",
-    memeSRC : "memes/15.jpg",
-    memeHREF : "#",
-    memeRating : '3',
-    memeDimensions: '644'
-  }
           
   var memeBlock =""; // Holds what would be written in div.row
   
