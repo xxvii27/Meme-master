@@ -86,10 +86,10 @@ $(document).ready(function(){
 
 function draw_memes(){
 
-  var memeArray = [{},{},{},{},{},{},{},{},{}];
+    var memeArray = new Array(9);
   
   // TEST data: Will change the vars depending on how we retrieve meme info
-  memeArray[0] = {
+    memeArray[0] = {
     memeTitle : "First Meme",
     memeComments : "Random Comment",
     memeSRC : "http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg",

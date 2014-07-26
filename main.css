@@ -68,16 +68,12 @@ ul.nav.navbar-nav > li:hover {
 
 }
 
-
+/* center image in modal upon clicking */
 #viewModalImage{
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
-
-
-
-
 
 /* images for nav bar & view by */
 .image{
