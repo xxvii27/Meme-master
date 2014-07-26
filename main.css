@@ -21,11 +21,12 @@ body {
     font-family: "SourceSansPro";
 }
 
+
 #content{
     margin-top: 100px;
 }
 
-.comments{
+#saveComments{
     height: 100px;
 }
 
@@ -110,7 +111,7 @@ h5{
     font-weight: bold;
 }
 
-.comments{
+.comments.pull-left{
     margin-top: 10px;
     height: 40px;
 }
@@ -159,11 +160,14 @@ text-right.ratings{
 }
 
 /* for use in terms&conditions.html */
+
+
 .table-responsive{
     margin: 100px auto;
     max-width: 768px;
     padding: 10px;
     border: 1px solid;
+    overflow-x: hidden;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
 }
