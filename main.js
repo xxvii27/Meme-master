@@ -83,3 +83,153 @@ $(document).ready(function(){
     });
     
 });
+
+function draw_memes(){
+
+  var memeArray = [{},{},{},{},{},{},{},{},{}];
+  
+  // TEST data: Will change the vars depending on how we retrieve meme info
+  memeArray[0] = {
+    memeTitle : "First Meme",
+    memeComments : "Random Comment",
+    memeSRC : "http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg",
+    memeHREF : "#",
+    memeRating : '3',
+    memeDimensions: '644'
+  }
+  memeArray[1] = {
+    memeTitle : "Second Meme",
+    memeComments : "Random Comment",
+    memeSRC : "memes/9.gif",
+    memeHREF : "#",
+    memeRating : '0',
+    memeDimensions: '644'
+  }
+  memeArray[2] = {
+    memeTitle : "Third Meme",
+    memeComments : "Random Comment",
+    memeSRC : "memes/8.jpg",
+    memeHREF : "#",
+    memeRating : '0',
+    memeDimensions: '644'
+  }
+  memeArray[3] = {
+    memeTitle : "Fourth Meme",
+    memeComments : "Random Comment",
+    memeSRC : "memes/10.jpg",
+    memeHREF : "#",
+    memeRating : '3',
+    memeDimensions: '643'
+  }
+  memeArray[4] = {
+    memeTitle : "Fifth Meme",
+    memeComments : "Random Comment",
+    memeSRC : "memes/11.jpg",
+    memeHREF : "#",
+    memeRating : '3',
+    memeDimensions: '643'
+  }
+  memeArray[5] = {
+    memeTitle : "Sixth Meme",
+    memeComments : "Random Comment",
+    memeSRC : "memes/12.jpg",
+    memeHREF : "#",
+    memeRating : '3',
+    memeDimensions: '643'
+  }
+  memeArray[6] = {
+    memeTitle : "Seventh Meme",
+    memeComments : "Random Comment",
+    memeSRC : "memes/13.gif",
+    memeHREF : "#",
+    memeRating : '3',
+    memeDimensions: '643'
+  }
+  memeArray[7] = {
+    memeTitle : "Eighth Meme",
+    memeComments : "Random Comment",
+    memeSRC : "memes/14.jpg",
+    memeHREF : "#",
+    memeRating : '3',
+    memeDimensions: '644'
+  }
+  memeArray[8] = {
+    memeTitle : "Ninth Meme",
+    memeComments : "Random Comment",
+    memeSRC : "memes/17.jpg",
+    memeHREF : "#",
+    memeRating : '3',
+    memeDimensions: '644'
+  }        
+  memeArray[9] = {
+    memeTitle : "Tenth Meme",
+    memeComments : "Random Comment",
+    memeSRC : "memes/15.jpg",
+    memeHREF : "#",
+    memeRating : '3',
+    memeDimensions: '644'
+  }
+          
+  var memeBlock =""; // Holds what would be written in div.row
+  
+  for (var i= 0; i < 10; i++) {
+    memeBlock +="<div class='col-sm-"+memeArray[i].memeDimensions.charAt(0)+" col-md-"+memeArray[i].memeDimensions.charAt(1)+
+    " col-lg-"+memeArray[i].memeDimensions.charAt(2)+"' data-toggle='modal' data-target='#viewModal'>"+
+    "  <div class='thumbnail'>"+
+    "    <div class='t_c mb'>"+
+    "      <div class='mask'>"+
+    "        <a href='#'><img src='icons/download32w.png' alt=''/></a>"+
+    "        <a href='#'><img src='icons/pencil32w.png' alt=''/></a>"+
+    "        <a onclick='confirm_delete('><img src='icons/trash.png' alt=''></a>"+
+    "      </div>"+
+    "      <img class ='img-thumb-nail' src='"+memeArray[i].memeSRC+"' alt=''>"+
+    "    </div>"+
+    "    <div class='caption big'>"+
+    "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>";
+    // If no rating, show rate button (needs some flag)
+    if( +memeArray[i].memeRating == 0) {
+      memeBlock +="<p class ='text-right ratings'>"+
+      "<button class='btn btn-default btn-xs rate'>Rate It !!</button>"+
+      "</p>";      
+    }
+    else {
+      // Print stars (for now, just doing while loops)
+      memeBlock +="      <p class ='text-right ratings'>";
+      for( var j = 0; j < +memeArray[i].memeRating; j++ ) {        
+        memeBlock +="        <span class='glyphicon glyphicon-star'></span>";
+      }
+      memeBlock +="      </p>";
+    }
+    memeBlock +="      <div class='comments'>"+memeArray[i].memeComments+"</div>"+
+    "    </div>"+
+    "  </div>"+
+    "</div>";
+  }
+
+  document.getElementById('memeContent').innerHTML = memeBlock;
+}
+
+// Assign onclick listener for each meme
+window.onload = function () {   
+  draw_memes();
+  var clickableMemes = document.getElementsByClassName('thumbnail');
+  
+  for( var i = 0; i < clickableMemes.length; i++ ) {    
+    clickableMemes[i].onclick = modMemeModal;
+  }               
+}
+ 
+// Retrieve meme info and insert into memeModal
+function modMemeModal(e){
+  var currNode = e.currentTarget;
+  var currMeme = {title: currNode.querySelector("h5>a").innerHTML,
+  picture: currNode.querySelector(".t_c>img").src,
+  comments: currNode.querySelector(".comments").innerHTML};
+  
+  document.getElementById('viewModalTitle').innerHTML = currMeme.title;
+  document.getElementById('viewModalBody').innerHTML = 
+  "<div overflow='hidden' id='viewModalPicture'>"+
+  "<img src='"+currMeme.picture+"' alt=''>"+
+  "</div>"+
+  "<h2>Comments:</h2><br>"+currMeme.comments;        
+}
