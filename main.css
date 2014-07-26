@@ -69,6 +69,16 @@ ul.nav.navbar-nav > li:hover {
 }
 
 
+#viewModalImage{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+
 /* images for nav bar & view by */
 .image{
     display: inline;

@@ -156,7 +156,7 @@ function draw_memes(){
   memeArray[8] = {
     memeTitle : "Ninth Meme",
     memeComments : "Random Comment",
-    memeSRC : "memes/17.jpg",
+    memeSRC : "memes/17_resize.jpg",
     memeHREF : "#",
     memeRating : '3',
     memeDimensions: '644'
