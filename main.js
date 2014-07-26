@@ -86,23 +86,22 @@ $(document).ready(function(){
 function draw_memes(){
 
     var memeArray = new Array(10);
-    var title = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Nineth", "Tenth"];
+    var title = ["First Meme", "Second Meme", "Third Meme", "Fourth Meme", "Fifth Meme", "Sixth Meme", "Seventh Meme",
+                 "Eighth Meme", "Nineth Meme", "Tenth Meme"];
     var gifs = [1, 6];
     var dimens = [3, 4, 5, 6];
     var str = "memes/";
     var toStr;
     var memeSRCStr;
-    var memeTitleStr;
     var memeDimens;
     
     for (var i = 0; i < memeArray.length; i++)
     {
         toStr = i.toString();
         memeSRCStr = str + toStr + (gifs.indexOf(i) != -1 ? ".gif" : ".jpg");
-        memeTitleStr = title[i] + " Meme";
         memeDimens = dimens.indexOf(i) != -1 ? '643' : '644';
         memeArray[i] = {
-            memeTitle : memeTitleStr,
+            memeTitle : title[i],
             memeComments : "Random Comment",
             memeSRC : memeSRCStr,
             memeHREF : "#",
