@@ -218,6 +218,23 @@ window.onload = function () {
   for( var i = 0; i < clickableMemes.length; i++ ) {    
     clickableMemes[i].onclick = modMemeModal;
   }
+  
+  // Handle thumbnail and normal viewing mode
+  var dispList = document.getElementsByClassName("disp_icon");
+  var captionList = document.getElementsByClassName("caption");
+  
+  dispList[0].onclick = function(e) {
+    for( var i = 0; i < captionList.length; i++ ) {
+      if( captionList[i].hasAttribute("style") ) {
+        captionList[i].removeAttribute("style");
+      }
+    }
+  };
+  dispList[1].onclick = function(e) {
+    for( var i = 0; i < captionList.length; i++ ) {
+      captionList[i].style.display = "none";
+    }
+  };
 }
  
 // Retrieve meme info and insert into memeModal
