@@ -174,7 +174,7 @@ function draw_memes(){
   
   for (var i= 0; i < 10; i++) {
     memeBlock +="<div class='col-sm-"+memeArray[i].memeDimensions.charAt(0)+" col-md-"+memeArray[i].memeDimensions.charAt(1)+
-    " col-lg-"+memeArray[i].memeDimensions.charAt(2)+"' data-toggle='modal' data-target='#viewModal'>"+
+    " col-lg-"+memeArray[i].memeDimensions.charAt(2)+"'>"+
     "  <div class='thumbnail'>"+
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
@@ -182,7 +182,8 @@ function draw_memes(){
     "        <a href='#'><img src='icons/pencil32w.png' alt=''/></a>"+
     "        <a onclick='confirm_delete('><img src='icons/trash.png' alt=''></a>"+
     "      </div>"+
-    "      <img class ='img-thumb-nail' src='"+memeArray[i].memeSRC+"' alt=''>"+
+    "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
+    "      <img class ='img-thumb-nail' src='"+memeArray[i].memeSRC+"' alt=''></a>"+
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>";
@@ -212,24 +213,23 @@ function draw_memes(){
 // Assign onclick listener for each meme
 window.onload = function () {   
   draw_memes();
-  var clickableMemes = document.getElementsByClassName('thumbnail');
+  var clickableMemes = document.getElementsByClassName('img-thumb-nail');
   
   for( var i = 0; i < clickableMemes.length; i++ ) {    
     clickableMemes[i].onclick = modMemeModal;
-  }               
+  }
 }
  
 // Retrieve meme info and insert into memeModal
 function modMemeModal(e){
   var currNode = e.currentTarget;
+  currNode=currNode.parentNode.parentNode.parentNode;
+  
   var currMeme = {title: currNode.querySelector("h5>a").innerHTML,
-  picture: currNode.querySelector(".t_c>img").src,
+  picture: currNode.querySelector(".img-thumb-nail").src,
   comments: currNode.querySelector(".comments").innerHTML};
   
-  document.getElementById('viewModalTitle').innerHTML = currMeme.title;
-  document.getElementById('viewModalBody').innerHTML = 
-  "<div overflow='hidden' id='viewModalPicture'>"+
-  "<img src='"+currMeme.picture+"' alt=''>"+
-  "</div>"+
-  "<h2>Comments:</h2><br>"+currMeme.comments;        
+  document.getElementById("viewModalTitle").innerHTML = currMeme.title;
+  document.getElementById("viewModalImage").src = currMeme.picture;
+  document.getElementById("viewModalComments").innerHTML = currMeme.comments;
 }
