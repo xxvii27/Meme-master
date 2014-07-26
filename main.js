@@ -87,7 +87,27 @@ $(document).ready(function(){
 function draw_memes(){
 
     var memeArray = new Array(9);
+    var title = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Nineth"];
+    var str = "memes/";
+    var toStr;
   
+    for (var i = 0; i < memeArray.length; i++)
+    {
+        toStr = i.toString();
+        memeArray[i] = {
+            mimeTitle : title[i].concat("&nbsp;Meme"),
+            memeComments : "Random Comment",
+            memSRC : str.concat(toStr, ".jpg"),
+            memeHREF : "#",
+            memeRating : '3',
+            memeDimensions : '644'
+            
+        }
+    }
+    
+    
+    
+    
   // TEST data: Will change the vars depending on how we retrieve meme info
     memeArray[0] = {
     memeTitle : "First Meme",
