@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <!-- Importing external javascript -->
+    <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src = "main.js" type="text/javascript"> </script>
+	<!-- end javascript -->
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
+    <title>Terms &amp; Conditions</title>
+ 
+</head>
+<body>
+<!-- DB init -->
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation" id = "headernav">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnav">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a id="main-heading" class="navbar-brand" href="main.html"><img class ="image" src="icons/home32.png" alt=""/>MemeMaster</a>
+        </div>
+        <div class="navbar-collapse collapse" id = "mainnav">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#about" data-toggle="modal" data-target="#myModal"><img class ="image" src="icons/upload32.png" alt=""/>&nbsp;Save &nbsp;</a></li>
+                <li><a href="#contact" data-toggle="modal" data-target="#createModal"><img class ="image" src="icons/wand32.png" alt=""/>&nbsp;Create&nbsp;</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class ="image" src="icons/folder32.png" alt=""/>&nbsp;Categories <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Games</a></li>
+                        <li><a href="#">Politics</a></li>
+                        <li><a href="#">Sports</a></li>
+                        <li><a href="#">GIF</a></li>
+                        <li><a href="#">Cute</a></li>
+                        <li><a href="#">Geeky</a></li>
+                    </ul>
+                </li>
+                <li id="search">
+                    <form class="navbar-form input-group">
+                         <input type="text" class="form-control" placeholder="Search..." size="50">
+                         <button type="submit" class ="btn btn-default submit">Go</button>
+                     </form>
+                </li>
+                <li class="dropdown" id="login-drop">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class ="image" src="icons/user.png" alt=""/><span>&nbsp;Login</span><span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" id="registration">
+                        <li>
+                            <form>
+                                <input type="hidden"><br>
+                                <div class="login">
+                                    Username<br>
+                                </div>
+                                <div class="login-bar">
+                                    <input type="text" name="username"><br>
+                                </div>
+                            </form>
+                        </li>
+                        <li>
+                            <form>
+                                <div class="login">
+                                    Password<br>
+                                </div>
+                                <div class="login-bar">
+                                    <input type="password" name="password" >
+                                </div>
+                            </form>
+                        </li>
+                        <li>
+                            <form class="remember-login">
+                                <input type="checkbox" name="saved_login">Stay logged in
+                            </form>
+                        </li>
+                        <li>
+                            <div class="submit-login">
+                                <button type="button">Login</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="login">
+                                <img src="icons/register.png" alt="">&nbsp;<a href="#">Register</a><br>
+                                <img src="icons/warning.png" alt="">&nbsp;<a href="#">Forgot username or <span class="password-spacing"></span>password?</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="modal custom fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Upload a Meme</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Url: http://" id="urlInput">
+                    <input type="text" class="form-control" placeholder="Title" id="titleInput">
+                    <input id="saveComments" type="text" class="form-control" placeholder="Comments">
+                    <input type="text" class="form-control" placeholder="Tags" id="tagInput">
+                </div>
+                <br>
+                <h4>&nbsp;Rate It:</h4>
+                <div class="rating pull-left">
+                    <input type="radio" id="stars5" name="rating" value="5" /><label for="stars5" title="Rocks!">5 stars</label>
+                    <input type="radio" id="stars4" name="rating" value="4" /><label for="stars4" title="Pretty good">4 stars</label>
+                    <input type="radio" id="stars3" name="rating" value="3" /><label for="stars3" title="Meh">3 stars</label>
+                    <input type="radio" id="stars2" name="rating" value="2" /><label for="stars2" title="Kinda bad">2 stars</label>
+                    <input type="radio" id="stars1" name="rating" value="1" /><label for="stars1" title="Sucks big time">1 star</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default submit" id="saveSubmit"><b>Submit</b></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal custom fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Create a Meme</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Upload Image:</h4>
+                <br>
+                <div class="input-group">
+                    <input type="file" class="form-control">
+                    <img id="preview" src="http://placehold.it/320x150" alt="">
+                    <input type="text" class="form-control" placeholder="Title">
+                    <input type="text" class="form-control" placeholder="Tags">
+                    <input type="text" class="form-control" placeholder="Top Text">
+                    <input type="text" class="form-control" placeholder="Bottom Text">
+                </div>
+                <br>
+                <h4>&nbsp;Rate It:</h4>
+                <div class="rating pull-left">
+                    <input type="radio" id="star5"  name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+                    <input type="radio" id="star4"  name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+                    <input type="radio" id="star3"  name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
+                    <input type="radio" id="star2"  name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+                    <input type="radio" id="star1"  name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default submit"><b>Submit</b></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+	
+	<table class="terms-table">
+		<tr>
+			<td>
+			<h1>Terms &amp; Conditions</h1>
+			
+			<p class="conditions">
+				Welcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the
+				following terms and conditions of use, which together with our privacy policy govern MemeMaster's relationship with you in
+				relation to this website. If you disagree with any part of these terms and conditions, please do not use our website.
+			</p>
+			
+			<p class="conditions">
+				The term 'MemeMaster' or 'us' or 'we' refers to the owner of the website. The term 'you' refers to the user or viewer of our
+				website.
+			</p>
+			
+			<p class="conditions">
+				The use of this website is subject to the following terms of use:
+				
+				<ul class="terms">
+					<li>
+						The content of the pages of this website is for your general information and use only. It is subject to change
+						without notice.
+					</li>
+					<li>
+						Neither we nor any third parties provide any warranty or guarantee as to the accuracy, timeliness, performance,
+						completeness or suitability of the information and materials found or offered on this website for any particular
+						purpose. You acknowledge that such information and materials may contain inaccuracies or errors and we expressly
+						exclude liability for any such inaccuracies or errors to the fullest extent permitted by law.
+					</li>
+					<li>
+						Your use of any information or materials on this website is entirely at your own risk, for which we shall not
+						be liable. It shall be your own responsibility to ensure that memes available through this website meet your
+						specific requirements.
+					</li>
+					<li>
+						This website contains material that includes, but is not limited to, the design, layout, look, appearance and
+						graphics. Reproduction is prohibited other than in accordance with the copyright notice, which forms part of
+						these terms and conditions.
+					</li>
+					<li>
+						All trademarks reproduced in this website, which are not the property of, or licensed to the operator, are
+						acknowledged on the website.
+					</li>
+					<li>
+						Unauthorized use of this website may give rise to a claim for damages and/or be a criminal offense.
+					</li>
+					<li>
+						From time to time, this website may also include links to other websites. These links are provided for your
+						convenience to provide further information. They do not signify that we endorse the website(s). We have no
+						responsibility for the content of the linked website(s).
+					</li>
+					<li>
+						Your use of this website and any dispute arising out of such use of the website is subject to the laws of the
+						Developers, for whom, they can fabricate at any random times.
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<footer>
+    <div class="navbar navbar-default">
+        <div class="container" id="footer">
+            <div class="navbar-collapse collapse" id = "footnav">
+                <ul class="nav navbar-nav">
+					<li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#">Terms &amp; Conditions</a></li>
+                </ul>
+            </div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#footnav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

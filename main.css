@@ -21,11 +21,12 @@ body {
     font-family: "SourceSansPro";
 }
 
+
 #content{
     margin-top: 100px;
 }
 
-#comments{
+#saveComments{
     height: 100px;
 }
 
@@ -110,7 +111,7 @@ h5{
     font-weight: bold;
 }
 
-.comments{
+.comments.pull-left{
     margin-top: 10px;
     height: 40px;
 }
@@ -144,7 +145,7 @@ text-right.ratings{
     padding-bottom: 50px;
 }
 
-/*Dropdown*/
+/* dropdown */
 .dropdown-menu{
     background-color:  #21BEDE;
 }
@@ -158,11 +159,35 @@ text-right.ratings{
     font-weight: bold;
 }
 
+/* for use in terms&conditions.html */
+
+
+.table-responsive{
+    margin: 100px auto;
+    max-width: 768px;
+    padding: 10px;
+    border: 1px solid;
+    overflow-x: hidden;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+
+h1{
+    margin-top: 0;
+    text-align: center;
+    padding: 0 30px 10px;
+    border-bottom: 1px solid;
+    font-weight: bold;
+}
+
+.conditions{
+    font-size: 16px;
+}
+
 /* footer */
 
 footer .navbar.navbar-default{
     border-radius: 0 !important;
-    width: 100%;
     margin: 0;
 }
 
