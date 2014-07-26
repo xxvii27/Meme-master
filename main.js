@@ -80,8 +80,7 @@ $(document).ready(function(){
                 alert('Save successful');
             }
         });
-    });
-    
+    });    
 });
 
 function draw_memes(){
@@ -180,28 +179,28 @@ function draw_memes(){
     "      <div class='mask'>"+
     "        <a href='#'><img src='icons/download32w.png' alt=''/></a>"+
     "        <a href='#'><img src='icons/pencil32w.png' alt=''/></a>"+
-    "        <a onclick='confirm_delete('><img src='icons/trash.png' alt=''></a>"+
+    "        <a onclick='confirm_delete()'><img src='icons/trash.png' alt=''></a>"+
     "      </div>"+
     "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
     "      <img class ='img-thumb-nail' src='"+memeArray[i].memeSRC+"' alt=''></a>"+
     "    </div>"+
     "    <div class='caption big'>"+
-    "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>";
+    "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>"+
+    "      <p class ='text-right ratings'>";
     // If no rating, show rate button (needs some flag)
     if( +memeArray[i].memeRating == 0) {
-      memeBlock +="<p class ='text-right ratings'>"+
-      "<button class='btn btn-default btn-xs rate'>Rate It !!</button>"+
+      memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>"+
       "</p>";      
     }
     else {
       // Print stars (for now, just doing while loops)
-      memeBlock +="      <p class ='text-right ratings'>";
+      
       for( var j = 0; j < +memeArray[i].memeRating; j++ ) {        
         memeBlock +="        <span class='glyphicon glyphicon-star'></span>";
       }
       memeBlock +="      </p>";
     }
-    memeBlock +="      <div class='comments'>"+memeArray[i].memeComments+"</div>"+
+    memeBlock +="      <div class='comments pull-left'>"+memeArray[i].memeComments+"</div>"+
     "    </div>"+
     "  </div>"+
     "</div>";
@@ -235,6 +234,21 @@ window.onload = function () {
       captionList[i].style.display = "none";
     }
   };
+  
+  // Handle new rating system
+  var ratingList = document.getElementsByClassName("rate");
+  for( var i = 0; i < ratingList.length; i++ ) {
+    ratingList[i].onclick = function (e) {
+      e.currentTarget.parentNode.innerHTML = star_rating;
+    };
+  }
+  
+  var rateEvent = document.getElementsByClassName("rating");
+  for( var i = 0; i < rateEvent.length; i++ ) {
+    rateEvent[i].onclick = function (e) {
+      alert(e.value);
+    };
+  }
 }
  
 // Retrieve meme info and insert into memeModal
@@ -249,4 +263,16 @@ function modMemeModal(e){
   document.getElementById("viewModalTitle").innerHTML = currMeme.title;
   document.getElementById("viewModalImage").src = currMeme.picture;
   document.getElementById("viewModalComments").innerHTML = currMeme.comments;
+  
+  var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
+
+  modalFooterList[0].removeAttribute("style");
+  modalFooterList[1].style.display = "none";
+  modalFooterList[2].style.display = "none";
+  
+  modalFooterList[0].onclick = function() {
+    modalFooterList[0].style.display = "none";
+    modalFooterList[1].removeAttribute("style");
+    modalFooterList[2].removeAttribute("style");
+  };  
 }
