@@ -14,18 +14,19 @@ html {
     min-height: 100%;
 }
 
+/* margin bottom by footer height */
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
+/*    margin-bottom: 60px; */
     background-color: #B2F6F7;
     font-family: "SourceSansPro";
 }
+
 
 #content{
     margin-top: 100px;
 }
 
-#comments{
+#saveComments{
     height: 100px;
 }
 
@@ -33,20 +34,30 @@ body {
     padding: 20px;
 }
 
-.ratings{
-    bottom: 0;
-    margin-bottom: 0;
-}
-
 #search:hover{
     background-color: #085DAD;
 }
-
 
 ul.nav.navbar-nav > li:hover {
     background-color:  #21BEDE;
 }
 
+.submit{       
+    background-image: linear-gradient(#95d788, #6cbb6b);
+    border-width: 1px;
+    border-style: solid;
+    border-color: #7eba7c #578e57 #447d43;
+}
+
+.submit:hover{
+    background-color: #95d788;
+    background-image: linear-gradient(#6cbb6b, #95d788);
+}
+
+.submit:active{       
+    background: #95d788;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;        
+}
 
 #main-heading{
     font-weight: bold;
@@ -57,22 +68,41 @@ ul.nav.navbar-nav > li:hover {
 
 }
 
+/* center image in modal upon clicking */
+#viewModalImage{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-/*images*/
-
+/* images for nav bar & view by */
 .image{
     display: inline;
     height: 19px;
 }
 
+/* border on nav bar (header & footer) */
 ul.nav.navbar-nav li{
     border-left: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* border on last nav bar option */
 ul.nav.navbar-nav li:last-child{
   border-right: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* border in login option */
+ul.dropdown-menu#registration li:nth-last-child(2){
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+/* indented 'password?' for neatness */
+.password-spacing{
+    margin-left: 19px;    
+}
+
+/* caption area under big & small memes */
 .caption.big{
     height: 80px;
 }
@@ -87,15 +117,17 @@ h5{
     font-weight: bold;
 }
 
-.comments{
+.comments.pull-left{
     margin-top: 10px;
     height: 40px;
 }
 
+/* ratings button */
 text-right.ratings{
     float: right;
 }
 
+/* login margin fix */
 .login{
     padding-left: 10px;
 }
@@ -113,10 +145,13 @@ text-right.ratings{
     text-align: center;  
 }
 
+/* center paging navigation */
+.paging{
+    text-align: center;
+    padding-bottom: 50px;
+}
 
-/*Dropdown*/
-
-
+/* dropdown */
 .dropdown-menu{
     background-color:  #21BEDE;
 }
@@ -130,18 +165,48 @@ text-right.ratings{
     font-weight: bold;
 }
 
+/* for use in terms&conditions.html */
 
-/*Footer*/
+
+.table-responsive{
+    margin: 100px auto;
+    max-width: 768px;
+    padding: 10px;
+    border: 1px solid;
+    overflow-x: hidden;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+}
+
+h1{
+    margin-top: 0;
+    text-align: center;
+    padding: 0 30px 10px;
+    border-bottom: 1px solid;
+    font-weight: bold;
+}
+
+.conditions{
+    font-size: 16px;
+}
+
+/* footer */
+
+footer .navbar.navbar-default{
+    border-radius: 0 !important;
+    margin: 0;
+}
 
 footer .navbar-nav > li > a {
     padding-top:5px !important;
     padding-bottom:5px !important;
 }
+
 footer .navbar {
     min-height:35px !important
 }
 
-@media (min-width: 1200px){
+@media (min-width: 1000px){
     footer .navbar .navbar-nav {
         display: inline-block;
         float: none;
@@ -150,10 +215,9 @@ footer .navbar {
     footer .navbar .navbar-collapse {
         text-align: center;
     }
-
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
     .navbar-header {
         float: none;
     }
@@ -188,12 +252,19 @@ footer .navbar {
     .collapse.in{
         display:block !important;
     }
+
+    #login-drop > a.dropdown-toggle > span {
+        display: inline-flex !important;
+    }
 }
 
+@media (max-width: 1200px){
+    #login-drop > a.dropdown-toggle > span {
+        display: none;
+    }
+}
 
-
-/* Customize Navbar */
-
+/* customize nav bar */
 .navbar-default {
     background-color: #085DAD;
     border-color: #21BEDE;
@@ -209,7 +280,6 @@ footer .navbar {
 }
 .navbar-default .navbar-nav > li > a {
     color: #ffffff;
-
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
     color: #ffffff;
@@ -242,7 +312,7 @@ footer .navbar {
     color: #ffffff;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color:#ffffff;
     }
@@ -255,7 +325,7 @@ footer .navbar {
     }
 }
 
-/* Customize Dialogs */
+/* customize dialogs */
 .modal.custom .modal-dialog {
     width:50%;
     margin:0 auto;
@@ -271,29 +341,69 @@ div.modal-footer {
     background-color: #085DAD;
 }
 
-div.modal-rating {
-    margin-left: 20px;
-    unicode-bidi: bidi-override;
-    direction: rtl;
-}
-div.modal-rating > span {
-    display: inline-block;
-    position: relative;
-    width: 1.2em;
-}
-div.modal-rating > span:hover:before,
-div.modal-rating > span:hover ~ span:before {
-    content: "\2605";
-    position: absolute;
+/* Rating */
+.rating {
+    float:left;
 }
 
-/*Input */
+/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
+   follow these rules. Every browser that supports :checked also supports :not(), so
+   it doesn’t make the test unnecessarily selective */
+.rating:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+    clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:200%;
+    line-height:1.2;
+    color:#ddd;
+    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:before {
+    content: '★';
+}
+
+.rating > input:checked ~ label {
+    color: #f70;
+    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: gold;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+    color: #ea0;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > label:active {
+    position:relative;
+    top:2px;
+    left:2px;
+}
+
+/* input */
 input.form-control{
     border-radius: 0;
 }
 
-/*Buttons */
-
+/* buttons */
 .submit{
     background-color:  #8CC739;
     color: white;
@@ -304,7 +414,7 @@ input.form-control{
     color: white;
 }
 
-/*Thumbnail Images */
+/* thumbnail images */
 .img-thumb-nail{
     height: auto !important;
     width: 100% !important;
@@ -314,9 +424,7 @@ div.thumbnail > div.t_c.mb > div.mask {
     width: 100%;
 }
 
-
-
-/* Image Hover-in */
+/* image hover-in */
 .thumbnail .t_c{
 	position: relative;
 	margin-left: auto;
@@ -343,8 +451,7 @@ div.thumbnail > div.t_c.mb > div.mask {
 	background-color: rgba(5,101,186, 0.7);
 	overflow: hidden;
 	display: inline;
-	z-index: 20;
-	
+	z-index: 20;	
 }
 
 .mb img {	
@@ -390,7 +497,7 @@ div.thumbnail > div.t_c.mb > div.mask {
 	display: inline-block;
 }
 
-/* Grid Tooltips */
+/* grid tooltips */
 a #GVT,a #TVT {
 	display: none;
 }

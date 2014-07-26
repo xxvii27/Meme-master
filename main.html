@@ -2,67 +2,26 @@
 <html>
 
 <head lang="en">
-<script type="text/javascript">
-	
-	var hovID;
-	var hovS;
-	var x;
-	var y;
-	
-	function m_d_tooltip(evt,id) {
-		hovS = id;
-		x = evt.pageX;
-		y = evt.pageY;
-		hovID = setTimeout(function () {
-			var ele = document.getElementById(hovS);
-			ele.style.top = (y+25) + "px";
-			ele.style.left = (x-65)+ "px";
-			ele.style.display = "block"
-		}
-		,750);
-	}
-		
-	function hide() {
-		var ele = document.getElementById(hovS);
-		ele.style.display = "none"
-		clearTimeout(hovID)
-	}
-	
- 	function confirm_delete() {
- 		if(confirm("Are you sure you want to delete?")){
- 				alert("Deleted");
-		}		
-		return false;
-	}
-	
+    <!-- Importing external javascript -->
+    <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-    function rate(){
-        document.getElementsByClassName('rate').innerHTML = "Clicked";
-    }
+    <script src = "main.js" type="text/javascript"> </script>
 
-
-</script>
-
-
+	<!-- end javascript -->
     <meta charset="UTF-8">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
     <title>MemeMaster</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(".rate").click(function(){
-                $(this).parent().append("<div class='modal-rating'><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div>");
-                $(this).remove();
-            });
-        });
-    </script>
+ 
 </head>
 <body>
+<!-- DB init -->
+
 
 <!-- Fixed navbar -->
-<div class="navbar navbar-default navbar-fixed-top" role="navigation" id = "headernav">
+<div class="navbar navbar-default navbar-fixed-top " role="navigation" id = "headernav">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainnav">
@@ -89,14 +48,14 @@
                     </ul>
                 </li>
                 <li id="search">
-                    <form class="navbar-form">
+                    <form class="navbar-form input-group">
                          <input type="text" class="form-control" placeholder="Search..." size="50">
+                         <button type="submit" class ="btn btn-default submit">Go</button>
                      </form>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class ="image" src="icons/user.png" alt=""/>&nbsp;Login <span class="caret"></span></a>
-
-                    <ul class="dropdown-menu" role="menu">
+                <li class="dropdown" id="login-drop">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class ="image" src="icons/user.png" alt=""/><span>&nbsp;Login</span><span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" id="registration">
                         <li>
                             <form>
                                 <input type="hidden"><br>
@@ -128,6 +87,12 @@
                                 <button type="button">Login</button>
                             </div>
                         </li>
+                        <li>
+                            <div class="login">
+                                <img src="icons/register.png" alt="">&nbsp;<a href="#">Register</a><br>
+                                <img src="icons/warning.png" alt="">&nbsp;<a href="#">Forgot username or <span class="password-spacing"></span>password?</a>
+                            </div>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -136,7 +101,7 @@
 </div>
 
 
-<div class="modal custom fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal custom fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -145,30 +110,31 @@
             </div>
             <div class="modal-body">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Url: http://">
-                    <input type="text" class="form-control" placeholder="Title">
-                    <input id="comments" type="text" class="form-control" placeholder="Comments">
-                    <input type="text" class="form-control" placeholder="Tags">
+                    <input type="text" class="form-control" placeholder="Url: http://" id="urlInput">
+                    <input type="text" class="form-control" placeholder="Title" id="titleInput">
+                    <input id="saveComments" type="text" class="form-control" placeholder="Comments">
+                    <input type="text" class="form-control" placeholder="Tags" id="tagInput">
                 </div>
                 <br>
                 <h4>&nbsp;Rate It:</h4>
-                <div class="modal-rating pull-left">
-                    <span>☆</span>
-                    <span>☆</span>
-                    <span>☆</span>
-                    <span>☆</span>
-                    <span>☆</span>
+                <div class="rating pull-left">
+                    <input type="radio" id="stars5" name="rating" value="5" /><label for="stars5" title="Rocks!">5 stars</label>
+                    <input type="radio" id="stars4" name="rating" value="4" /><label for="stars4" title="Pretty good">4 stars</label>
+                    <input type="radio" id="stars3" name="rating" value="3" /><label for="stars3" title="Meh">3 stars</label>
+                    <input type="radio" id="stars2" name="rating" value="2" /><label for="stars2" title="Kinda bad">2 stars</label>
+                    <input type="radio" id="stars1" name="rating" value="1" /><label for="stars1" title="Sucks big time">1 star</label>
                 </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-default submit"><b>Submit</b></button>
+                <button type="button" class="btn btn-default submit" id="saveSubmit"><b>Submit</b></button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal custom fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal custom fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -188,12 +154,12 @@
                 </div>
                 <br>
                 <h4>&nbsp;Rate It:</h4>
-                <div class="modal-rating pull-left">
-                    <span>☆</span>
-                    <span>☆</span>
-                    <span>☆</span>
-                    <span>☆</span>
-                    <span>☆</span>
+                <div class="rating pull-left">
+                    <input type="radio" id="star5"  name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+                    <input type="radio" id="star4"  name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+                    <input type="radio" id="star3"  name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
+                    <input type="radio" id="star2"  name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+                    <input type="radio" id="star1"  name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -237,7 +203,7 @@
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
 						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+					<img class ="img-thumb-nail" src="memes/0.jpg" alt="">
 				</div>
                 <div class="caption big">
                     <h5><a href="#">First Meme</a></h5>
@@ -246,7 +212,7 @@
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -261,14 +227,14 @@
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
 						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+					<img class ="img-thumb-nail" src="memes/1.gif" alt="">
 				</div>
                 <div class="caption big">
                     <h5><a href="#">Second Meme</a></h5>
                     <p class ="text-right ratings">
                        <button class="btn btn-default btn-xs rate">Rate It !!</button>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -283,7 +249,7 @@
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
 						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+					<img class ="img-thumb-nail" src="memes/2.jpg" alt="">
 				</div>
                 <div class="caption big">
                     <h5><a href="#">Third Meme</a></h5>
@@ -293,7 +259,7 @@
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -308,7 +274,7 @@
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
                         <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                    <img class ="img-thumb-nail" src="memes/3.jpg" alt="">
                 </div>
 
                 <div class="caption small">
@@ -316,7 +282,7 @@
                     <p class ="text-right ratings">
                        <button class="btn btn-default btn-xs rate">Rate It !!</button>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -331,7 +297,7 @@
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
                         <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                    <img class ="img-thumb-nail" src="memes/4.jpg" alt="">
                 </div>
 
                 <div class="caption small">
@@ -343,7 +309,7 @@
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -358,7 +324,7 @@
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
                         <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                    <img class ="img-thumb-nail" src="memes/5.jpg" alt="">
                 </div>
 
                 <div class="caption small">
@@ -370,7 +336,7 @@
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -385,7 +351,7 @@
                         <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
                         <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
                     </div>
-                    <img src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+                    <img class ="img-thumb-nail" src="memes/6.gif" alt="">
                 </div>
 
                 <div class="caption small">
@@ -393,7 +359,7 @@
                     <p class ="text-right ratings">
                        <button class="btn btn-default btn-xs rate">Rate It !!</button>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -408,7 +374,7 @@
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
 						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+					<img class ="img-thumb-nail" src="memes/7.jpg" alt="">
 				</div>
                 <div class="caption big">
                     <h5><a href="#">Eighth Meme</a></h5>
@@ -417,7 +383,7 @@
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -432,14 +398,14 @@
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
 						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+					<img class ="img-thumb-nail" src="memes/8.jpg" alt="">
 				</div>
                 <div class="caption big">
                     <h5><a href="#">Ninth Meme</a></h5>
                     <p class ="text-right ratings">
                         <span class="glyphicon glyphicon-star"></span>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -454,7 +420,7 @@
 						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
 						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
 					</div>
-					<img class ="img-thumb-nail" src="http://i2.kym-cdn.com/photos/images/original/000/795/461/c87.jpg" alt="">
+					<img class ="img-thumb-nail" src="memes/9.jpg" alt="">
 				</div>
                 <div class="caption big">
                     <h5><a href="#">Tenth Meme</a></h5>
@@ -465,7 +431,7 @@
                         <span class="glyphicon glyphicon-star"></span>
                         <span class="glyphicon glyphicon-star"></span>
                     </p>
-                    <div class="comments">
+                    <div class="comments pull-left">
                         Some comments...
                     </div>
                 </div>
@@ -473,17 +439,29 @@
         </div>
         
     </div>
+    
+    <div class="paging">
+        <ul class="pagination pagination-lg">
+            <li><a href="#">&laquo;</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul>
+    </div>
 </div>
 
+
 <footer>
-    <div class="navbar navbar-default navbar-fixed-bottom">
+    <div class="navbar navbar-default">
         <div class="container" id="footer">
             <div class="navbar-collapse collapse" id = "footnav">
                 <ul class="nav navbar-nav">
 					<li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="index.html">Terms &amp; Conditions</a></li>
-                    <li><a href="index.html">Privacy Policy</a></li>
+                    <li><a href="termsconditions.html">Terms &amp; Conditions</a></li>
                 </ul>
             </div>
             <div class="navbar-header">
