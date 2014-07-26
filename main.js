@@ -178,11 +178,12 @@ function draw_memes(){
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
     "        <a href='#'><img src='icons/download32w.png' alt=''/></a>"+
-    "        <a href='#'><img src='icons/pencil32w.png' alt=''/></a>"+
+    "        <a href='#' class='hoverEditBtn' data-toggle='modal' data-target='#viewModal'>"+
+    "          <img src='icons/pencil32w.png' alt=''/></a>"+
     "        <a onclick='confirm_delete()'><img src='icons/trash.png' alt=''></a>"+
     "      </div>"+
     "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
-    "      <img class ='img-thumb-nail' src='"+memeArray[i].memeSRC+"' alt=''></a>"+
+    "        <img class ='img-thumb-nail' src='"+memeArray[i].memeSRC+"' alt=''></a>"+
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>"+
@@ -193,8 +194,7 @@ function draw_memes(){
       "</p>";      
     }
     else {
-      // Print stars (for now, just doing while loops)
-      
+      // Print stars (for now, just doing while loops)      
       for( var j = 0; j < +memeArray[i].memeRating; j++ ) {        
         memeBlock +="        <span class='glyphicon glyphicon-star'></span>";
       }
@@ -212,16 +212,14 @@ function draw_memes(){
 // Assign onclick listener for each meme
 window.onload = function () {   
   draw_memes();
-  var clickableMemes = document.getElementsByClassName('img-thumb-nail');
-  
+  var clickableMemes = document.getElementsByClassName('img-thumb-nail');  
   for( var i = 0; i < clickableMemes.length; i++ ) {    
     clickableMemes[i].onclick = modMemeModal;
   }
   
   // Handle thumbnail and normal viewing mode
   var dispList = document.getElementsByClassName("disp_icon");
-  var captionList = document.getElementsByClassName("caption");
-  
+  var captionList = document.getElementsByClassName("caption");  
   dispList[0].onclick = function(e) {
     for( var i = 0; i < captionList.length; i++ ) {
       if( captionList[i].hasAttribute("style") ) {
@@ -249,11 +247,22 @@ window.onload = function () {
       alert(e.value);
     };
   }
+  
+  // Add event for hover edit button
+  var editList = document.querySelectorAll(".hoverEditBtn>img");
+  for( var i = 0; i < editList.length; i++ ) {
+    editList[i].onclick = modMemeModal;
+  }
 }
  
 // Retrieve meme info and insert into memeModal
 function modMemeModal(e){
-  var currNode = e.currentTarget;
+  var currNode = e.target; 
+  var pencilTriggered = false;
+  if("hoverEditBtn"==""+currNode.parentNode.className){
+    currNode=currNode.parentNode;
+    pencilTriggered = true;
+  }
   currNode=currNode.parentNode.parentNode.parentNode;
   
   var currMeme = {title: currNode.querySelector("h5>a").innerHTML,
@@ -274,5 +283,7 @@ function modMemeModal(e){
     modalFooterList[0].style.display = "none";
     modalFooterList[1].removeAttribute("style");
     modalFooterList[2].removeAttribute("style");
-  };  
+  };
+  // Force click, if event was triggered by pencil
+  if( pencilTriggered ) { modalFooterList[0].click(); }
 }
