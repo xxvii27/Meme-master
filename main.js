@@ -106,7 +106,7 @@ function draw_memes(){
             memeComments : "Random Comment",
             memeSRC : memeSRCStr,
             memeHREF : "#",
-            memeRating : '3',
+            memeRating : ""+Math.floor((Math.random() * 5)),
             memeDimensions : memeDimens
         }
     }
@@ -175,19 +175,33 @@ window.onload = function () {
     }
   };
   
-  // Handle new rating system
-  var ratingList = document.getElementsByClassName("rate");
-  for( var i = 0; i < ratingList.length; i++ ) {
-    ratingList[i].onclick = function (e) {
-      e.currentTarget.parentNode.innerHTML = star_rating;
+  // Add onclick listener for all 'Rate it' buttons
+  var rateItBtns = document.getElementsByClassName("rate");
+
+  for( var i = 0; i < rateItBtns.length; i++ ) {
+    rateItBtns[i].onclick = function (evt) {
+      // After click, show stars
+      evt.target.parentNode.innerHTML = star_rating;
+      clickStarRating();
     };
   }
   
-  var rateEvent = document.getElementsByClassName("rating");
-  for( var i = 0; i < rateEvent.length; i++ ) {
-    rateEvent[i].onclick = function (e) {
-      alert(e.value);
-    };
+  // Add onclick listener for stars
+  function clickStarRating() {
+    var rateEvent = document.getElementsByName("rating");
+    for( var i = 0; i < rateEvent.length; i++ ) {
+      rateEvent[i].onclick = function (e) {                
+        var strStars = e.target.value;  // Number of stars clicked
+        
+        alert("NOTE: Need to send value of: "+strStars+" to the dB");
+        var currNode = e.target.parentNode.parentNode; // p node for ratings
+        var strStarsHTML = "";
+        for( j = 0; j < +strStars; j++ ) {
+          strStarsHTML += "<span class='glyphicon glyphicon-star'></span>";
+        }
+        currNode.innerHTML = strStarsHTML;
+      };
+    }
   }
   
   // Add event for hover edit button
