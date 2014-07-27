@@ -105,7 +105,7 @@ function draw_memes(){
             memeComments : "Random Comment",
             memeSRC : memeSRCStr,
             memeHREF : "#",
-            memeRating : '3',
+            memeRating : '0',
             memeDimensions : memeDimens
         }
     }
