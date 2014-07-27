@@ -256,6 +256,15 @@ footer .navbar {
     #login-drop > a.dropdown-toggle > span {
         display: inline-flex !important;
     }
+
+    #mainnav > ul > li {
+        text-align: right;
+    }
+
+    #search > form {
+        margin-left: 320px;
+    }
+
 }
 
 @media (max-width: 1200px){
