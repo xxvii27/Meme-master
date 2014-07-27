@@ -360,7 +360,6 @@ div.modal-footer {
    it doesn’t make the test unnecessarily selective */
 .rating:not(:checked) > input {
     position:absolute;
-    top:-9999px;
     clip:rect(0,0,0,0);
 }
 
