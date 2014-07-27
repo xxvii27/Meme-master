@@ -106,6 +106,7 @@ function draw_memes(){
             memeSRC : memeSRCStr,
             memeHREF : "#",
             memeRating : ""+Math.floor((Math.random() * 5)),
+            /*memeRating : '0', */
             memeDimensions : memeDimens
         }
     }
