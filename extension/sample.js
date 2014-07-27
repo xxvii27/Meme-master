@@ -8,6 +8,8 @@ function genericOnClick(info, tab) {
 
 function savepopup(url){
   window.open(url,"window", "width=600,height=400,status=yes,scrollbars=yes,resizable=yes");
+  alert("info: " + JSON.stringify(info));
+  //alert("tab: " + JSON.stringify(tab));
 }
 
 var title = "Add this image to Meme Master";

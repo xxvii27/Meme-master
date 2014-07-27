@@ -59,20 +59,21 @@ $(document).ready(function(){
     });
 
 
+
+    /** Data base setup **/
     var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
 
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
         
         var nurl = $('#urlInput').val();
-        
-
         var ntitle = $('#titleInput').val();
-
         var newMeme = DBmeme.child(ntitle);
         var ncomment = $('#commentInput').val();
-        var ntag = $('#tagInput').val();         
-        newMeme.set({url: nurl, title: ntitle, note: ncomment, tag: ntag},
+        var ntag = $('#tagInput').val();    
+
+
+        newMeme.set({'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag},
             function(error) {
             if(error){
                 alert('There was an error with DB.\n' + error);
