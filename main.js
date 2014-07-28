@@ -130,20 +130,19 @@ function draw_memes(){
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>"+
-    "      <p class ='text-right ratings'>";
+    "      <p class ='text-right ratings rating'>";
     // If no rating, show rate button (needs some flag)
     if( +memeArray[i].memeRating == 0) {
-      memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>"+
-      "</p>";      
+      memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";   
     }
     else {
       // Print stars (for now, just doing while loops)      
       for( var j = 0; j < +memeArray[i].memeRating; j++ ) {        
-        memeBlock +="<input type='radio' id='starx1' name='rating' value='1' /><label for='starx1' title='Sucks big time'>1 star</label>";
+        memeBlock +="<input type='radio'/><label></label>";
       }
-      memeBlock +="      </p>";
     }
-    memeBlock +="      <div class='comments pull-left'>"+memeArray[i].memeComments+"</div>"+
+    memeBlock += "      </p>"+
+    "      <div class='comments pull-left'>"+memeArray[i].memeComments+"</div>"+
     "    </div>"+
     "  </div>"+
     "</div>";
@@ -195,7 +194,7 @@ window.onload = function () {
         var currNode = e.target.parentNode.parentNode; // p node for ratings
         var strStarsHTML = "";
         for( j = 0; j < +strStars; j++ ) {
-          strStarsHTML += "<span class='glyphicon glyphicon-star'></span>";
+          strStarsHTML += "<input type='radio'/><label></label>";
         }
         currNode.innerHTML = strStarsHTML;
       };
@@ -227,7 +226,7 @@ function modMemeModal(e){
 
   for( var i = 0; i < ratingCheck.length; i++ ) {
     if( ""+ratingCheck[i] == "<button" ) { currRating = "Not Yet Rated"; break; }
-    if( ""+ratingCheck[i] == "<span" ) { break; }
+    if( ""+ratingCheck[i] == "<input" ) { break; }
   }
   
   // Info of meme that was clicked
