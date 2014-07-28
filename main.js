@@ -69,7 +69,7 @@ $(document).ready(function(){
         var nurl = $('#urlInput').val();
         var ntitle = $('#titleInput').val();
         var newMeme = DBmeme.child(ntitle);
-        var ncomment = $('#commentInput').val();
+        var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
 
 
