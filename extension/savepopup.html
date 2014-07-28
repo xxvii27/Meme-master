@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+   	<script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src = "savepopup.js" type="text/javascript"></script>
+	<meta charset="UTF-8">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="savepopup.css" rel="stylesheet">
+    <title>MemeMaster</title>
+</head>
+<body>
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Upload a Meme</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="urlInput">
+                    <input type="text" class="form-control" placeholder="Title" id="titleInput">
+                    <input id="saveComments" type="text" class="form-control" placeholder="Comments">
+                    <input type="text" class="form-control" placeholder="Tags" id="tagInput">
+                </div>
+                <br>
+                <h4>&nbsp;Rate It:</h4>
+                <div class="rating pull-left">
+                    <input type="radio" id="stars5" name="rating" value="5" /><label for="stars5" title="Rocks!">5 stars</label>
+                    <input type="radio" id="stars4" name="rating" value="4" /><label for="stars4" title="Pretty good">4 stars</label>
+                    <input type="radio" id="stars3" name="rating" value="3" /><label for="stars3" title="Meh">3 stars</label>
+                    <input type="radio" id="stars2" name="rating" value="2" /><label for="stars2" title="Kinda bad">2 stars</label>
+                    <input type="radio" id="stars1" name="rating" value="1" /><label for="stars1" title="Sucks big time">1 star</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default submit" id="saveSubmit"><b>Submit</b></button>
+            </div>
+        </div>
+    </div>
+
+
+<script src="../js/bootstrap.min.js"></script>
+
+</body>
+</html>

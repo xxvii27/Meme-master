@@ -4,7 +4,7 @@
   "version": "0.6",
   "permissions": ["contextMenus"],
   "background": {
-    "scripts": ["sample.js"]
+    "scripts": ["extension.js"]
   },
   "icons": {
     "16": "TrollFace.png"
