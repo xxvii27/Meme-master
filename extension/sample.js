@@ -7,7 +7,7 @@ function genericOnClick(info, tab) {
 }
 
 function savepopup(info, tab){
-  var url = 'file:///C:/Users/Jason%20Cho/Documents/git/cse134_group10/extension/savepopup.html';
+  var url = 'http://cse134-135-2014.github.io/cse134_group10/extension/savepopup.html';
   alert("info: " + info.srcUrl);
   alert("url: " + url);
   window.open(url,"window", "width=600,height=400,status=yes,scrollbars=yes,resizable=yes");
