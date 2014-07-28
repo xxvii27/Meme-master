@@ -214,27 +214,42 @@ window.onload = function () {
 // Retrieve meme info and insert into memeModal
 function modMemeModal(e){
   var currNode = e.target; 
+  var currRating;  // Holds the rating of the triggered modal
+  var ratingCheck; // Determines if the rating has stars or not
   var pencilTriggered = false;
   if("hoverEditBtn"==""+currNode.parentNode.className){
     currNode=currNode.parentNode;
     pencilTriggered = true;
   }
-  currNode=currNode.parentNode.parentNode.parentNode;
+  currNode=currNode.parentNode.parentNode.parentNode; // node class: thumbnail
+  // If not rated yet, print out "Not Yet Rated" for modal view
+  currRating = currNode.querySelector(".text-right").innerHTML;
+  ratingCheck = currRating.split(" ");
+
+  for( var i = 0; i < ratingCheck.length; i++ ) {
+    if( ""+ratingCheck[i] == "<button" ) { currRating = "Not Yet Rated"; break; }
+    if( ""+ratingCheck[i] == "<span" ) { break; }
+  }
   
-  var currMeme = {title: currNode.querySelector("h5>a").innerHTML,
+  var currMeme = {
+  title: currNode.querySelector("h5>a").innerHTML,
   picture: currNode.querySelector(".img-thumb-nail").src,
-  comments: currNode.querySelector(".comments").innerHTML};
+  comments: currNode.querySelector(".comments").innerHTML,
+  rating: currRating};
   
+  document.getElementById("viewModalRating").innerHTML = currMeme.rating;
   document.getElementById("viewModalTitle").innerHTML = currMeme.title;
   document.getElementById("viewModalImage").src = currMeme.picture;
   document.getElementById("viewModalComments").innerHTML = currMeme.comments;
   
   var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
 
+  // Hide edit button, show submit and cancel buttons in view Modal
   modalFooterList[0].removeAttribute("style");
   modalFooterList[1].style.display = "none";
   modalFooterList[2].style.display = "none";
   
+  // Once edit button has been clicked
   modalFooterList[0].onclick = function() {
     modalFooterList[0].style.display = "none";
     modalFooterList[1].removeAttribute("style");
