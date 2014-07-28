@@ -73,7 +73,8 @@ $(document).ready(function(){
         var ntag = $('#tagInput').val();    
 
 
-        newMeme.set({'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag},
+        newMeme.set({
+                meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
             function(error) {
             if(error){
                 alert('There was an error with DB.\n' + error);
@@ -138,7 +139,7 @@ function draw_memes(){
     else {
       // Print stars (for now, just doing while loops)      
       for( var j = 0; j < +memeArray[i].memeRating; j++ ) {        
-        memeBlock +="        <span class='glyphicon glyphicon-star'></span>";
+        memeBlock +="<input type='radio' id='starx1' name='rating' value='1' /><label for='starx1' title='Sucks big time'>1 star</label>";
       }
       memeBlock +="      </p>";
     }
