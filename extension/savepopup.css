@@ -1,0 +1,233 @@
+@font-face{
+    font-family: SourceSansPro;
+    src:url(../fonts/SourceSansPro-Regular.otf);
+}
+
+@font-face{
+    font-family: SourceSansPro;
+    src:url(../fonts/SourceSansPro-Bold.otf);
+    font-weight: bold;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+/* margin bottom by footer height */
+body {
+/*    margin-bottom: 60px; */
+    background-color: #B2F6F7;
+    font-family: "SourceSansPro";
+}
+
+
+#content{
+    margin-top: 100px;
+}
+
+#saveComments{
+    height: 100px;
+}
+
+
+
+.submit{       
+    background-image: linear-gradient(#95d788, #6cbb6b);
+    border-width: 1px;
+    border-style: solid;
+    border-color: #7eba7c #578e57 #447d43;
+}
+
+.submit:hover{
+    background-color: #95d788;
+    background-image: linear-gradient(#6cbb6b, #95d788);
+}
+
+.submit:active{       
+    background: #95d788;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;        
+}
+
+#main-heading{
+    font-weight: bold;
+    background-color:  #8CC739;
+    margin-right: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+
+}
+
+/* center image in modal upon clicking */
+#viewModalImage{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* images for nav bar & view by */
+.image{
+    display: inline;
+    height: 19px;
+}
+
+
+h5{
+    margin: 0;
+    float: left;
+    font-weight: bold;
+}
+
+.comments.pull-left{
+    margin-top: 10px;
+    height: 40px;
+}
+
+/* ratings button */
+text-right.ratings{
+    float: right;
+}
+
+
+h1{
+    margin-top: 0;
+    text-align: center;
+    padding: 0 30px 10px;
+    border-bottom: 1px solid;
+    font-weight: bold;
+}
+
+.conditions{
+    font-size: 16px;
+}
+
+/* customize dialogs */
+.modal.custom .modal-dialog {
+    width:50%;
+    margin:0 auto;
+    /*add what you want here*/
+}
+
+div.modal-header{
+    background-color: #085DAD;
+    color: #ffffff;
+}
+
+div.modal-footer {
+    background-color: #085DAD;
+}
+
+/* Rating */
+.rating {
+    float:left;
+}
+
+/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
+   follow these rules. Every browser that supports :checked also supports :not(), so
+   it doesn’t make the test unnecessarily selective */
+.rating:not(:checked) > input {
+    position:absolute;
+    clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:200%;
+    line-height:1.2;
+    color:#ddd;
+    text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:before {
+    content: '★';
+}
+
+.rating > input:checked ~ label {
+    color: #f70;
+    text-shadow:1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: gold;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+    color: #ea0;
+    text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+}
+
+.rating > label:active {
+    position:relative;
+    top:2px;
+    left:2px;
+}
+
+/* input */
+input.form-control{
+    border-radius: 0;
+}
+
+/* buttons */
+.submit{
+    background-color:  #8CC739;
+    color: white;
+}
+
+.cancel{
+    background-color: red;
+    color: white;
+}
+
+.mb img {	
+	-webkit-transition: all 0.2s linear;
+	-mos-transition: all 0.2s linear;
+	transition: all 0.2s linear;
+}
+
+.mb .mask {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+
+   opacity: 0;
+   background-color: rgba(5,101,186, 0.3);
+   -webkit-transition: all 0.2s ease-in-out;
+   -moz-transition: all 0.2s ease-in-out;
+   -o-transition: all 0.2s ease-in-out;
+   -ms-transition: all 0.2s ease-in-out;
+   transition: all 0.2s ease-in-out;
+}
+
+.mb:hover .mask {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+
+   opacity: 1;
+   -webkit-transform: translateX(0px);
+   -moz-transform: translateX(0px);
+   -o-transform: translateX(0px);
+   -ms-transform: translateX(0px);
+   transform: translateX(0px);
+}
+
+.t_c .mask a:link{
+	text-decoration: none;
+	border-style: none;
+}
+
+.t_c .mask a img{
+	width: 30px;
+	height: 30px;
+	margin: 3px 3px 0px 0px;
+	padding: 2px;
+	border-style: none;
+	display: inline-block;
+}
