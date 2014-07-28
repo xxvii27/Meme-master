@@ -177,18 +177,15 @@ window.onload = function () {
   };
   
   // Add onclick listener for all 'Rate it' buttons
-  var rateItBtns = document.getElementsByClassName("rate");
-
-  for( var i = 0; i < rateItBtns.length; i++ ) {
-    rateItBtns[i].onclick = function (evt) {
-      // After click, show stars
-      evt.target.parentNode.innerHTML = star_rating;
-      clickStarRating();
-    };
-  }
+  var rateItBtns = $("#memeContent .rate").click(function (evt) {
+    // After click, show stars
+    var currClick = evt.target;
+    evt.target.parentNode.innerHTML = star_rating;
+    clickStarRating(currClick);
+  });
   
   // Add onclick listener for stars
-  function clickStarRating() {
+  function clickStarRating(currClicked) {
     var rateEvent = document.getElementsByName("rating");
     for( var i = 0; i < rateEvent.length; i++ ) {
       rateEvent[i].onclick = function (e) {                
