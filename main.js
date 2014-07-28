@@ -217,20 +217,22 @@ function modMemeModal(e){
   var currRating;  // Holds the rating of the triggered modal
   var ratingCheck; // Determines if the rating has stars or not
   var pencilTriggered = false;
-  if("hoverEditBtn"==""+currNode.parentNode.className){
+
+  if( ""+currNode.parentNode.className == "hoverEditBtn" ){
     currNode=currNode.parentNode;
     pencilTriggered = true;
   }
   currNode=currNode.parentNode.parentNode.parentNode; // node class: thumbnail
   // If not rated yet, print out "Not Yet Rated" for modal view
   currRating = currNode.querySelector(".text-right").innerHTML;
-  ratingCheck = currRating.split(" ");
+  ratingCheck = currRating.split(" ");  
 
   for( var i = 0; i < ratingCheck.length; i++ ) {
     if( ""+ratingCheck[i] == "<button" ) { currRating = "Not Yet Rated"; break; }
     if( ""+ratingCheck[i] == "<span" ) { break; }
   }
   
+  // Info of meme that was clicked
   var currMeme = {
   title: currNode.querySelector("h5>a").innerHTML,
   picture: currNode.querySelector(".img-thumb-nail").src,
@@ -244,17 +246,57 @@ function modMemeModal(e){
   
   var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
 
-  // Hide edit button, show submit and cancel buttons in view Modal
+  // In footer, show edit button only
   modalFooterList[0].removeAttribute("style");
   modalFooterList[1].style.display = "none";
   modalFooterList[2].style.display = "none";
   
+  // Keep copy of current modal body
+  var currModalBody = ""+document.getElementById("viewModalBody").innerHTML;
+  
   // Once edit button has been clicked
   modalFooterList[0].onclick = function() {
+    // Only show cancel and submit buttons
     modalFooterList[0].style.display = "none";
     modalFooterList[1].removeAttribute("style");
-    modalFooterList[2].removeAttribute("style");
+    modalFooterList[2].removeAttribute("style");    
+    
+    // keep current img, append form format, place into modal body
+    var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
+    viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
+    document.querySelector("#viewModalBody").innerHTML = viewModalForm;
+    
+    
+    // Reuse viewModalForm to traverse the actual form nodes in modal-body
+    viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
+    // Insert placeholders
+    viewModalForm[0].setAttribute("placeholder", currMeme.picture);
+    viewModalForm[1].setAttribute("placeholder", currMeme.title);
+    viewModalForm[2].setAttribute("placeholder", currMeme.comments);
+    viewModalForm[3].setAttribute("placeholder", "need tag info");
+    // Force click on stars based off rating
+
+    // Reset modal to display info (for submit- info is updated before reset)
+    document.querySelector("#viewModal .close").onclick = resetModalBody;
+    modalFooterList[1].onclick = resetModalBody;
+    modalFooterList[2].onclick = function (e) {
+    
+      resetModalBody(e);
+    };
+    
   };
+  
+  function resetModalBody(evt) {
+    // Remove event listener from cancel button
+    evt.target.onclick = null;
+    document.getElementById("viewModalBody").innerHTML = currModalBody;
+    
+    // Hide edit button, show submit and cancel buttons in view Modal
+    modalFooterList[0].removeAttribute("style");
+    modalFooterList[1].style.display = "none";
+    modalFooterList[2].style.display = "none";
+  }
+   
   // Force click, if event was triggered by pencil
   if( pencilTriggered ) { modalFooterList[0].click(); }
-}
+} // view Modal event
