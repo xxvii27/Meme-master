@@ -59,20 +59,21 @@ $(document).ready(function(){
     });
 
 
+
+    /** Data base setup **/
     var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
 
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
         
         var nurl = $('#urlInput').val();
-        
-
         var ntitle = $('#titleInput').val();
-
         var newMeme = DBmeme.child(ntitle);
-        var ncomment = $('#commentInput').val();
-        var ntag = $('#tagInput').val();         
-        newMeme.set({url: nurl, title: ntitle, note: ncomment, tag: ntag},
+        var ncomment = $('#saveComments').val();
+        var ntag = $('#tagInput').val();    
+
+
+        newMeme.set({'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag},
             function(error) {
             if(error){
                 alert('There was an error with DB.\n' + error);
@@ -105,7 +106,7 @@ function draw_memes(){
             memeComments : "Random Comment",
             memeSRC : memeSRCStr,
             memeHREF : "#",
-            memeRating : '3',
+            memeRating : ""+Math.floor((Math.random() * 5)),
             memeDimensions : memeDimens
         }
     }
@@ -174,19 +175,33 @@ window.onload = function () {
     }
   };
   
-  // Handle new rating system
-  var ratingList = document.getElementsByClassName("rate");
-  for( var i = 0; i < ratingList.length; i++ ) {
-    ratingList[i].onclick = function (e) {
-      e.currentTarget.parentNode.innerHTML = star_rating;
+  // Add onclick listener for all 'Rate it' buttons
+  var rateItBtns = document.getElementsByClassName("rate");
+
+  for( var i = 0; i < rateItBtns.length; i++ ) {
+    rateItBtns[i].onclick = function (evt) {
+      // After click, show stars
+      evt.target.parentNode.innerHTML = star_rating;
+      clickStarRating();
     };
   }
   
-  var rateEvent = document.getElementsByClassName("rating");
-  for( var i = 0; i < rateEvent.length; i++ ) {
-    rateEvent[i].onclick = function (e) {
-      alert(e.value);
-    };
+  // Add onclick listener for stars
+  function clickStarRating() {
+    var rateEvent = document.getElementsByName("rating");
+    for( var i = 0; i < rateEvent.length; i++ ) {
+      rateEvent[i].onclick = function (e) {                
+        var strStars = e.target.value;  // Number of stars clicked
+        
+        alert("NOTE: Need to send value of: "+strStars+" to the dB");
+        var currNode = e.target.parentNode.parentNode; // p node for ratings
+        var strStarsHTML = "";
+        for( j = 0; j < +strStars; j++ ) {
+          strStarsHTML += "<span class='glyphicon glyphicon-star'></span>";
+        }
+        currNode.innerHTML = strStarsHTML;
+      };
+    }
   }
   
   // Add event for hover edit button
@@ -199,27 +214,42 @@ window.onload = function () {
 // Retrieve meme info and insert into memeModal
 function modMemeModal(e){
   var currNode = e.target; 
+  var currRating;  // Holds the rating of the triggered modal
+  var ratingCheck; // Determines if the rating has stars or not
   var pencilTriggered = false;
   if("hoverEditBtn"==""+currNode.parentNode.className){
     currNode=currNode.parentNode;
     pencilTriggered = true;
   }
-  currNode=currNode.parentNode.parentNode.parentNode;
+  currNode=currNode.parentNode.parentNode.parentNode; // node class: thumbnail
+  // If not rated yet, print out "Not Yet Rated" for modal view
+  currRating = currNode.querySelector(".text-right").innerHTML;
+  ratingCheck = currRating.split(" ");
+
+  for( var i = 0; i < ratingCheck.length; i++ ) {
+    if( ""+ratingCheck[i] == "<button" ) { currRating = "Not Yet Rated"; break; }
+    if( ""+ratingCheck[i] == "<span" ) { break; }
+  }
   
-  var currMeme = {title: currNode.querySelector("h5>a").innerHTML,
+  var currMeme = {
+  title: currNode.querySelector("h5>a").innerHTML,
   picture: currNode.querySelector(".img-thumb-nail").src,
-  comments: currNode.querySelector(".comments").innerHTML};
+  comments: currNode.querySelector(".comments").innerHTML,
+  rating: currRating};
   
+  document.getElementById("viewModalRating").innerHTML = currMeme.rating;
   document.getElementById("viewModalTitle").innerHTML = currMeme.title;
   document.getElementById("viewModalImage").src = currMeme.picture;
   document.getElementById("viewModalComments").innerHTML = currMeme.comments;
   
   var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
 
+  // Hide edit button, show submit and cancel buttons in view Modal
   modalFooterList[0].removeAttribute("style");
   modalFooterList[1].style.display = "none";
   modalFooterList[2].style.display = "none";
   
+  // Once edit button has been clicked
   modalFooterList[0].onclick = function() {
     modalFooterList[0].style.display = "none";
     modalFooterList[1].removeAttribute("style");

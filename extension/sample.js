@@ -6,16 +6,19 @@ function genericOnClick(info, tab) {
   //alert("tab: " + JSON.stringify(tab));
 }
 
+function savepopup(info, tab){
+  var url = 'file:///C:/Users/Jason%20Cho/Documents/git/cse134_group10/extension/savepopup.html';
+  alert("info: " + info.srcUrl);
+  alert("url: " + url);
+  window.open(url,"window", "width=600,height=400,status=yes,scrollbars=yes,resizable=yes");
 
-var contexts = ["image"];
-for (var i = 0; i < contexts.length; i++) {
-  var context = contexts[i];
-  var title = "Add this image to Meme Master";
-  var id = chrome.contextMenus.create({"title": title, "contexts":[context],
-                                       "onclick": genericOnClick});
-  //alert("'" + context + "' item:" + id);
+  //alert("tab: " + JSON.stringify(tab));
 }
 
+var title = "Add this image to Meme Master";
+chrome.contextMenus.create({"title": title, "contexts":["image"],
+                            "onclick": savepopup
+                          });
 
 console.log("About to try creating an invalid item - an error about " +
             "item 999 should show up");
