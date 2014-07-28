@@ -63,13 +63,13 @@ $(document).ready(function(){
 
 // Assign onclick listener for each meme
 window.onload = function () {   
+  // parsing image url
+  var hashParams = window.location.hash.substr(1); // substr(1) to remove the `#`
+  var imgUrl = hashParams.substr(hashParams.indexOf('=') + 1);
+  //alert(window.location.hash.substr(1).substr(hashParams.indexOf('=')+1));
+  document.getElementById('urlInput').value = decodeURIComponent(imgUrl);;
 
-  var hashParams = window.location.hash.substr(1).split('&'); // substr(1) to remove the `#`
-  alert(hashParams);
-  for(var i = 0; i < hashParams.length; i++){
-      var p = hashParams[i].split('=');
-      document.getElementById(p[0]).value = decodeURIComponent(p[1]);;
-  }
+
   // Add onclick listener for stars
   function clickStarRating() {
     var rateEvent = document.getElementsByName("rating");
