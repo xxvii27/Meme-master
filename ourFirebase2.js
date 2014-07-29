@@ -33,6 +33,7 @@ User.setupByNewest = function() {
 		// Grab keys and put into list
 		var retQuery = snapshot.val();
 		this.pushQueryToList(retQuery,1);
+		this.nextRenderList();
 		
 	},this);
 }
@@ -48,7 +49,8 @@ User.setupByOldest = function() {
 	this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
 		// Grab keys and put into list
 		var retQuery = snapshot.val();
-		this.pushQueryToList(retQuery,0);	
+		this.pushQueryToList(retQuery,0);
+		this.nextRenderList();
 	},this);
 }
 
@@ -56,8 +58,28 @@ User.setupByOldest = function() {
 	Sorts keys in database by Rating. Then sets the current list for UI to render
  */
 User.setupByRating = function() {
+	
+	var counter = 0;
+	
 	// Clear Reference List
-	this.clearRefList();	
+	this.clearRefList();
+
+	// Generate references by priority
+	for(priority = 1; priority <= 6; priority++){
+		this.dbref.child(this.name + "/" + IMG_DETAILS).startAt(priority).endAt(priority).once('value',function (snapshot) {
+			
+			counter++;
+			var query = snapshot.val();
+			for(key in query){
+				this.imgRefList.push(key);
+			}
+			
+			if(counter == 6) {
+				this.nextRenderList();
+			}
+			
+		},this);
+	}
 }
 
 /*
@@ -80,7 +102,6 @@ User.pushQueryToList = function (obj, byNewest) {
 		this.endPtr = 9;
 	}
 	
-	this.nextRenderList();	
 }
 
 /*
@@ -162,16 +183,19 @@ User.clearRenderList = function(){
 	while(this.curList.length > 0) {
 		this.curList.pop();
 	}
+
 }
 
 /*
-	Clear Reference List.
+	Clear Reference List AND resets Pointers
 	Should NOT be called directly.
  */
 User.clearRefList = function(){
 	while(this.imgRefList.length > 0) {
 		this.imgRefList.pop();
 	}
+	this.startPtr = 0;
+	this.endPtr = 9;
 }
 
 /* 	For Save img URL. Sets by priorty
