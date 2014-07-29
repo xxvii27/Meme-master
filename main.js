@@ -33,6 +33,7 @@ User.setupData = function() {
     // Setup delete on delete child (delete meme)
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
         //alert("REMOVED" + JSON.stringify(oldData.val()));
+		// Do Nothing
     });
 
     document.getElementById('prev').style.display = 'none';
@@ -280,7 +281,7 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 
     // Push other information into detail on images
     this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
-        {
+		{
             url: aurl
             ,title: atitle
             ,category: acat
@@ -334,7 +335,6 @@ User.delImg = function(url) {
             this.totalImgs -= 1;
             this.dbref.child(this.name).update({total_imgs : this.totalImgs});
 			
-			alert(ref);
             // remove reference from Database
             this.dbref.child(this.name + "/" + IMG_REF + "/" + ref).remove();
 
