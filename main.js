@@ -616,10 +616,10 @@ function draw_memes(){
     "  <div class='thumbnail'>"+
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
-    "        <a onclick='download_meme(" + '"' +memeArray[i].url+'"'+")'><img src='icons/download32w.png' alt=''/></a>"+
-    "        <a href='#' class='hoverEditBtn' data-toggle='modal' data-target='#viewModal'>"+
+    "        <a href='#' onclick='download_meme(" + '"' +memeArray[i].url+'"'+")' title='Download'><img src='icons/download32w.png' alt=''/></a>"+
+    "        <a href='#' class='hoverEditBtn' data-toggle='modal' data-target='#viewModal' title='Edit'>"+
     "          <img src='icons/pencil32w.png' alt=''/></a>"+
-    "        <a onclick='confirm_delete()'><img src='icons/trash.png' alt=''></a>"+
+    "        <a href='#' onclick='confirm_delete()' title='Delete'><img src='icons/trash.png' alt=''></a>"+
     "      </div>"+
     "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
     "        <img class ='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
