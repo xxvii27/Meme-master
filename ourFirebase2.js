@@ -228,18 +228,22 @@ User.clearRefList = function(){
 /* 	For Save img URL. Sets by priorty
 	INSURE DATA IS LEGIT!
 	use case: Save img details to database
- 	Params: aurl: (string) url
+ 	Params: aurl: 	(string) url
 			atitle:	(string) title
 			acat:	(string) category
 			acom:	(string) comment (TEST LENGTH TO DATABASE)
 			arate:	(number) rating
+			[edit] 	(boolean) from edit function (optional) 
 */
-User.saveImg = function(aurl,atitle,acat,acom,arate) {
+User.saveImg = function(aurl,atitle,acat,acom,arate,edit) {
 	
 	// first, convert url, push reference
 	var priority = (arate && (arate == 0)) ? 6 : (6-arate);
 	var changeurl = replaceBadChars(aurl);
-	var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+	
+	// Push if not editing
+	if(!edit)
+		var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
 	
 	atitle = (atitle) ? atitle : NO_TITLE;
 	
@@ -256,19 +260,32 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 	// set priority
 	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
 	
-	// add 1 to total imgs
-	this.dbref.child(this.name).once('value', function(snap) {
-		var total = snap.val()['total_imgs'];
-		this.dbref.child(this.name).update({total_imgs : (total + 1)});
-	},this);
+	// add 1 to total imgs if not editing
+	if(!edit) {
+		this.dbref.child(this.name).once('value', function(snap) {
+			var total = snap.val()['total_imgs'];
+			this.dbref.child(this.name).update({total_imgs : (total + 1)});
+		},this);
+	}
 	
 }
 
-/* 
-	Deletes an image from the database. Automatically refreshes the page
+/* 	For edit img information. Sets by priorty
+	INSURE DATA IS LEGIT!
+	use case: edit img details to database
+ 	Params: aurl: (string) url
+			atitle:	(string) title
+			acat:	(string) category
+			acom:	(string) comment (TEST LENGTH TO DATABASE)
+			arate:	(number) rating
+*/
+User.editImg = function(aurl,atitle,acat,acom,arate){
+	this.saveImg(aurl,atitle,acat,acom,arate,true);
+}
+
+/*  Deletes an image from the database. Automatically refreshes the page
 	use case: delete image button
 	Params:	(string) url
-	
 */
 User.delImg = function(url) {
 	
@@ -277,8 +294,6 @@ User.delImg = function(url) {
 	
 	// Access the Database
 	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
-		
-		
 		
 		// Remove the value from USER reference array
 		if(snap.val()) {
@@ -359,5 +374,10 @@ User.writeToDiv = function(){
 	}
 	document.getElementById("display").innerHTML = str;
 }
+/*
+window.onload = function() {
+	User.setupData();
+}
+*/
 
 
