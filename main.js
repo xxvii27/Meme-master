@@ -27,7 +27,6 @@ User.setupData = function() {
     this.dbref.child(this.name).once('value', function(snap) {
         this.totalImgs = snap.val()['total_imgs'];
         this.setupByNewest();
-        draw_button(this.totalImgs);
     },this);
 
     // Setup delete on delete child (delete meme)
@@ -668,7 +667,7 @@ function modMemeModal(e){
   modalFooterList[0].removeAttribute("style");
   modalFooterList[1].style.display = "none";
   modalFooterList[2].style.display = "none";
-  
+
   // Keep copy of current modal body
   var currModalBody = ""+document.getElementById("viewModalBody").innerHTML;
   
@@ -726,29 +725,8 @@ alert("line 295");
   if( pencilTriggered ) { modalFooterList[0].click(); }
 } // view Modal event
 
-//Draw the number of pages based total # of images
-function draw_button(x) {
 
-    //get total images
-    var markup = "";
-    var total_images = x;
 
-    //Assign markup
-
-    //Begin
-    markup += "<ul class='pagination pagination-lg'>";
-    markup += "<li><a href='#'>&laquo;</a></li>";
-    //Drawing Buttons
-    for (var i = 0; i < (total_images / 10 ); i++) {
-        markup += "<li><a href='#'>" + (i + 1) + "</a></li>";
-
-    }
-    //End
-    markup += "<li><a href='#'>&raquo;</a></li>";
-    markup += "</ul>";
-
-    document.getElementById('buttonContent').innerHTML = markup;
-}
 
 
 
