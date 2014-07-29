@@ -10,13 +10,14 @@ var DEBUG = true;			// FOR DEBUGING PURPOSES
 var User = {};
 
 // Add User fields
-User.dbref = new Firebase(FBURL);
-User.startPtr = 0;
-User.endPtr = 9;
-User.totalImgs = 0;
+User.dbref 		= new Firebase(FBURL);
+User.startPtr 	= 0;
+User.endPtr 	= 9;
+User.totalImgs 	= 0;
 User.limit 		= 10;
+User.state 		= -1;	// 0 = by newest | 1 = by oldest | 2= by rating
 User.imgRefList = [];	// List of database url references
-User.curList = [];		// Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
+User.curList 	= [];	// Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
 
 // TEST FIELD!
 User.name = "thomas";
@@ -35,23 +36,42 @@ User.setupData = function() {
     });
 }
 
+User.evalSetup = function (state) {
+	switch(state) {
+		case 0:
+			this.setupByNewest();
+			break;
+		case 1:
+			this.setupByOldest();
+			break;
+		case 2:
+			this.setupByRating();
+		default:
+			// pass
+	}
+}
+
 /*
  Sorts keys in database by chronological order. Then sets the current list for UI to render
  use case: dropdown option to sory by 'newest'
  */
 User.setupByNewest = function() {
-    // Clear Reference List
-    this.clearRefList();
+    
+	if(this.state != 0) {
+		this.state = 0;
+		// Clear Reference List
+		this.clearRefList();
+	
+		// Get chonoList
+		this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
 
-    // Get chonoList
-    this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
+			// Grab keys and put into list
+			var retQuery = snapshot.val();
+			this.pushQueryToList(retQuery,1);
+			this.nextRenderList();
 
-        // Grab keys and put into list
-        var retQuery = snapshot.val();
-        this.pushQueryToList(retQuery,1);
-        this.nextRenderList();
-
-    },this);
+		},this);
+	}
 }
 
 /*
@@ -59,16 +79,21 @@ User.setupByNewest = function() {
  use case: dropdown option to sory by 'oldest'
  */
 User.setupByOldest = function() {
-    // Clear Reference List
-    this.clearRefList();
-
-    // Get chonoList
-    this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
-        // Grab keys and put into list
-        var retQuery = snapshot.val();
-        this.pushQueryToList(retQuery,0);
-        this.nextRenderList();
-    },this);
+    
+	if(this.state != 1) {
+	
+		this.state = 1;
+		// Clear Reference List
+		this.clearRefList();	
+			
+		 // Get chonoList
+		this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
+			// Grab keys and put into list
+			var retQuery = snapshot.val();
+			this.pushQueryToList(retQuery,0);
+			this.nextRenderList();
+		},this);
+	}
 }
 
 /*
@@ -77,27 +102,29 @@ User.setupByOldest = function() {
  */
 User.setupByRating = function() {
 
-    var counter = 0;
+	if(this.state != 2) {
+		this.state = 2;
+		var counter = 0;
 
-    // Clear Reference List
-    this.clearRefList();
+		// Clear Reference List
+		this.clearRefList();
 
-    // Generate references by priority
-    for(priority = 1; priority <= 6; priority++){
-        this.dbref.child(this.name + "/" + IMG_DETAILS).startAt(priority).endAt(priority).once('value',function (snapshot) {
+		// Generate references by priority
+		for(priority = 1; priority <= 6; priority++){
+			this.dbref.child(this.name + "/" + IMG_DETAILS).startAt(priority).endAt(priority).once('value',function (snapshot) {
 
-            counter++;
-            var query = snapshot.val();
-            for(key in query){
-                this.imgRefList.push(key);
-            }
+				counter++;
+				var query = snapshot.val();
+				for(key in query){
+					this.imgRefList.push(key);
+				}
 
-            if(counter == 6) {
-                this.nextRenderList();
-            }
-
-        },this);
-    }
+				if(counter == 6) {
+					this.nextRenderList();
+				}
+			},this);
+		}
+	} 
 }
 
 /*
