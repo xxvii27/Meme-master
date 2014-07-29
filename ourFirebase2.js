@@ -374,5 +374,10 @@ User.writeToDiv = function(){
 	}
 	document.getElementById("display").innerHTML = str;
 }
+/*
+window.onload = function() {
+	User.setupData();
+}
+*/
 
 
