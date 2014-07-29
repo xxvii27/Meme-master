@@ -475,10 +475,6 @@ $(document).ready(function(){
 window.onload = function () {
   User.setupData();
   //draw_memes();
-  var clickableMemes = document.getElementsByClassName('img-thumb-nail');
-  for( var i = 0; i < clickableMemes.length; i++ ) {    
-    clickableMemes[i].onclick = modMemeModal;
-  }
   
   // Handle thumbnail and normal viewing mode
   var dispList = document.getElementsByClassName("disp_icon");
@@ -520,7 +516,9 @@ window.onload = function () {
       };
     }
   }
-  
+
+  $('img-thumb-nail').click( modMemeModal );
+
   // Add event for hover edit button
   var editList = document.querySelectorAll(".hoverEditBtn>img");
   for( var i = 0; i < editList.length; i++ ) {
