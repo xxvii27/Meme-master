@@ -34,6 +34,8 @@ User.setupData = function() {
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
         alert("REMOVED" + JSON.stringify(oldData.val()));
     });
+
+    document.getElementById('prev').style.visibility = 'hidden';
 }
 
 User.evalSetup = function (state) {
@@ -162,8 +164,13 @@ User.nextRenderList = function() {
         if(this.imgRefList.length == 0) {
             alert("nextRenderList() may not work. No imgs");
         }
-        else if(this.startPtr >= this.imgRefList.length || this.startPtr < 0) {
-            alert("To Developers: Fell off List! Fix button functionality");
+        else if(this.startPtr >= this.imgRefList.length-1 || this.startPtr > 0) {
+            document.getElementById('next').style.visibility = 'hidden';
+            document.getElementById('prev').style.visibility = 'visible';
+        }
+        else if(this.startPtr === 0){
+            document.getElementById('prev').style.visibility = 'hidden';
+            document.getElementById('next').style.visibility = 'visible';
         }
     }
 
@@ -200,6 +207,7 @@ User.nextRenderList = function() {
             break;
         }
     }
+
 }
 
 /*
@@ -753,9 +761,6 @@ function modMemeModal(e){
   // Force click, if event was triggered by pencil
   if( pencilTriggered ) { modalFooterList[0].click(); }
 } // view Modal event
-
-
-
 
 
 
