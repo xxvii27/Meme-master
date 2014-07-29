@@ -39,8 +39,7 @@ star_rating += "<input type='radio' id='starx4' name='rating' value='4' /><label
 star_rating += "<input type='radio' id='starx3' name='rating' value='3' /><label for='starx3' title='Meh'>3 stars</label>"
 star_rating += "<input type='radio' id='starx2' name='rating' value='2' /><label for='starx2' title='Kinda bad'>2 stars</label>"
 star_rating += "<input type='radio' id='starx1' name='rating' value='1' /><label for='starx1' title='Sucks big time'>1 star</label>"
-star_rating += "</div>"
-
+star_rating += "</div>";
 
 $(document).ready(function(){
     $(".rate").click(function(){
@@ -58,8 +57,6 @@ $(document).ready(function(){
         //use above onclick if rate it button already clicked at least once by the user
     });
 
-
-
     /** Data base setup **/
     var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
 
@@ -73,7 +70,8 @@ $(document).ready(function(){
         var ntag = $('#tagInput').val();    
 
 
-        newMeme.set({'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag},
+        newMeme.set({
+                meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
             function(error) {
             if(error){
                 alert('There was an error with DB.\n' + error);
@@ -85,7 +83,6 @@ $(document).ready(function(){
 });
 
 function draw_memes(){
-
     var memeArray = new Array(10);
     var title = ["First Meme", "Second Meme", "Third Meme", "Fourth Meme", "Fifth Meme", "Sixth Meme", "Seventh Meme",
                  "Eighth Meme", "Nineth Meme", "Tenth Meme"];
@@ -129,20 +126,19 @@ function draw_memes(){
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>"+
-    "      <p class ='text-right ratings'>";
+    "      <p class ='text-right ratings rating'>";
     // If no rating, show rate button (needs some flag)
     if( +memeArray[i].memeRating == 0) {
-      memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>"+
-      "</p>";      
+      memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";   
     }
     else {
       // Print stars (for now, just doing while loops)      
       for( var j = 0; j < +memeArray[i].memeRating; j++ ) {        
-        memeBlock +="        <span class='glyphicon glyphicon-star'></span>";
+        memeBlock +="<label class='yellow-star'></label>";
       }
-      memeBlock +="      </p>";
     }
-    memeBlock +="      <div class='comments pull-left'>"+memeArray[i].memeComments+"</div>"+
+    memeBlock += "      </p>"+
+    "      <div class='comments pull-left'>"+memeArray[i].memeComments+"</div>"+
     "    </div>"+
     "  </div>"+
     "</div>";
@@ -176,28 +172,24 @@ window.onload = function () {
   };
   
   // Add onclick listener for all 'Rate it' buttons
-  var rateItBtns = document.getElementsByClassName("rate");
-
-  for( var i = 0; i < rateItBtns.length; i++ ) {
-    rateItBtns[i].onclick = function (evt) {
-      // After click, show stars
-      evt.target.parentNode.innerHTML = star_rating;
-      clickStarRating();
-    };
-  }
+  var rateItBtns = $("#memeContent .rate").click(function (evt) {
+    // After click, show stars
+    var currClick = evt.target;
+    evt.target.parentNode.innerHTML = star_rating;
+    clickStarRating(currClick);
+  });
   
   // Add onclick listener for stars
-  function clickStarRating() {
+  function clickStarRating(currClicked) {
     var rateEvent = document.getElementsByName("rating");
     for( var i = 0; i < rateEvent.length; i++ ) {
       rateEvent[i].onclick = function (e) {                
-        var strStars = e.target.value;  // Number of stars clicked
+        var strStars = e.target.value;  // Number of stars clicked        
         
-        alert("NOTE: Need to send value of: "+strStars+" to the dB");
         var currNode = e.target.parentNode.parentNode; // p node for ratings
         var strStarsHTML = "";
         for( j = 0; j < +strStars; j++ ) {
-          strStarsHTML += "<span class='glyphicon glyphicon-star'></span>";
+          strStarsHTML += "<label class='yellow-star'></label>";
         }
         currNode.innerHTML = strStarsHTML;
       };
@@ -213,30 +205,25 @@ window.onload = function () {
  
 // Retrieve meme info and insert into memeModal
 function modMemeModal(e){
-  var currNode = e.target; 
-  var currRating;  // Holds the rating of the triggered modal
-  var ratingCheck; // Determines if the rating has stars or not
+  // grandparent container of triggered image
+  var currThumbnail = e.target.parentNode.parentNode.parentNode;
+  var currRating;  // Holds the rating container of triggered modal
   var pencilTriggered = false;
 
-  if( ""+currNode.parentNode.className == "hoverEditBtn" ){
-    currNode=currNode.parentNode;
+  if( ""+e.target.parentNode.className == "hoverEditBtn" ){
+    // This event was triggered with the hover button
     pencilTriggered = true;
+    currThumbnail = currThumbnail.parentNode;
   }
-  currNode=currNode.parentNode.parentNode.parentNode; // node class: thumbnail
-  // If not rated yet, print out "Not Yet Rated" for modal view
-  currRating = currNode.querySelector(".text-right").innerHTML;
-  ratingCheck = currRating.split(" ");  
-
-  for( var i = 0; i < ratingCheck.length; i++ ) {
-    if( ""+ratingCheck[i] == "<button" ) { currRating = "Not Yet Rated"; break; }
-    if( ""+ratingCheck[i] == "<span" ) { break; }
-  }
+  
+  // Get the current meme's rating display
+  currRating = currThumbnail.querySelector(".text-right").outerHTML;    
   
   // Info of meme that was clicked
   var currMeme = {
-  title: currNode.querySelector("h5>a").innerHTML,
-  picture: currNode.querySelector(".img-thumb-nail").src,
-  comments: currNode.querySelector(".comments").innerHTML,
+  title: currThumbnail.querySelector("h5>a").innerHTML,
+  picture: currThumbnail.querySelector(".img-thumb-nail").src,
+  comments: currThumbnail.querySelector(".comments").innerHTML,
   rating: currRating};
   
   document.getElementById("viewModalRating").innerHTML = currMeme.rating;
@@ -264,8 +251,7 @@ function modMemeModal(e){
     // keep current img, append form format, place into modal body
     var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
     viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
-    document.querySelector("#viewModalBody").innerHTML = viewModalForm;
-    
+    document.querySelector("#viewModalBody").innerHTML = viewModalForm;    
     
     // Reuse viewModalForm to traverse the actual form nodes in modal-body
     viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
@@ -279,11 +265,9 @@ function modMemeModal(e){
     // Reset modal to display info (for submit- info is updated before reset)
     document.querySelector("#viewModal .close").onclick = resetModalBody;
     modalFooterList[1].onclick = resetModalBody;
-    modalFooterList[2].onclick = function (e) {
-    
+    modalFooterList[2].onclick = function (e) {    
       resetModalBody(e);
-    };
-    
+    };    
   };
   
   function resetModalBody(evt) {
