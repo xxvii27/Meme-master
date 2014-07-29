@@ -3,7 +3,7 @@ var FBURL = "https://intense-fire-8114.firebaseio.com/user/";
 var IMG_REF = "r_imgs";
 var IMG_DETAILS = "d_imgs";
 var NO_TITLE = "no title";
-var DEBUG = true;
+var DEBUG = true;			// FOR DEBUGING PURPOSES
 
 /* Create User Wrapper Object to avoid namespace Conflict*/
 var User = {};
@@ -22,6 +22,7 @@ User.name = "thomas";
 // Functions for User class
 /*
 	Sorts keys in database by chronological order. Then sets the current list for UI to render
+	use case: dropdown option to sory by 'newest'
  */
 User.setupByNewest = function() {
 	// Clear Reference List
@@ -40,6 +41,7 @@ User.setupByNewest = function() {
 
 /*
 	Sorts keys in database by chronological order. Then sets the current list for UI to render
+	use case: dropdown option to sory by 'oldest'
  */
 User.setupByOldest = function() {
 	// Clear Reference List
@@ -54,8 +56,9 @@ User.setupByOldest = function() {
 	},this);
 }
 
-/*	TODO
+/*	
 	Sorts keys in database by Rating. Then sets the current list for UI to render
+	use case: dropdown option to sory by 'rating'
  */
 User.setupByRating = function() {
 	
@@ -84,7 +87,7 @@ User.setupByRating = function() {
 
 /*
 	Sorts JSON obj and if list needs to be sorted
-	Should NOT be called directly
+	use case: Should NOT be called directly
  */
 User.pushQueryToList = function (obj, byNewest) {
 	
@@ -107,7 +110,6 @@ User.pushQueryToList = function (obj, byNewest) {
 /*
 	Create next list of Objects for UI to render base on ordering.
 	Use case: 'Next' Button
-	NOTE: Bug when pass img render List
  */
 User.nextRenderList = function() {
 	
@@ -140,13 +142,13 @@ User.nextRenderList = function() {
 				
 				this.curList.push(snapshot.val());
 				if(counter == max) {
-					// Move Pointers To Appropriate position
+					// Move Pointers NEXT Appropriate position
 					this.startPtr += max + 1;
 					this.endPtr = this.startPtr + 10;
 					
 					// Img List Ready HERE
 										// JAMES: Put Drawmemes method here
-					this.writeToDiv(); // TESTING
+					this.writeToDiv(); // FOR TESTING on test.html
 				}
 				else{
 					counter++;
@@ -162,13 +164,24 @@ User.nextRenderList = function() {
 /*
 	Create next list of Objects for UI to render base on ordering.
 	Use case: 'prev' Button
-	NOTE: Bug when pass img render List
-	TODO: MODIFY
 */
 User.prevRenderList = function() {
 	
 	// Move pointers back and call nextRenderList
-	this.startPtr = ((this.startPtr - 20) < 0) ? 0 : (this.startPtr - 20);
+	this.startPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+	this.endPtr = this.startPtr + 9;
+	
+	this.nextRenderList();
+}
+
+/*
+	Refreshes the Rendering List 
+	Use case: AFTER 'delete' meme. Should NOT use directly
+*/
+User.refreshRenderList = function() {
+	
+	// Move pointers back and call nextRenderList
+	this.startPtr -= this.limit;
 	this.endPtr = this.startPtr + 9;
 	
 	this.nextRenderList();
@@ -200,6 +213,7 @@ User.clearRefList = function(){
 
 /* 	For Save img URL. Sets by priorty
 	INSURE DATA IS LEGIT!
+	use case: Save img details to database
  	Params: aurl: (string) url
 			atitle:	(string) title
 			acat:	(string) category
@@ -235,17 +249,6 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 	},this);
 }
 
-// TEST function 
-User.writeToDiv = function(){
-	var str = "";
-	for(i = 0; i < this.curList.length; i++)
-	{
-		str+="<img src=\"" + this.curList[i].url + "\" /> <p>Ref: " + this.curList[i].ref + "<p>Rating: " + this.curList[i].rating + 
-		"<p>Title: " + this.curList[i].title + "<br/>";
-	}
-	document.getElementById("display").innerHTML = str;
-}
-
 // Other Functions
 function replaceBadChars(str){
 	var temp = str.replace(/\./g,',');
@@ -279,7 +282,17 @@ function size(obj) {
 	return i;
 }
 
-// TEST FUNCTIONS
+// TEST FUNCTIONS for test.html
+User.writeToDiv = function(){
+	var str = "";
+	for(i = 0; i < this.curList.length; i++)
+	{
+		str+="<img src=\"" + this.curList[i].url + "\" /> <p>Ref: " + this.curList[i].ref + "<p>Rating: " + this.curList[i].rating + 
+		"<p>Title: " + this.curList[i].title + "<br/>";
+	}
+	document.getElementById("display").innerHTML = str;
+}
+
 window.onload = function(){
 	User.setupByNewest();	
 }
