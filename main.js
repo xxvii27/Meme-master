@@ -360,6 +360,7 @@ User.writeToDiv = function(){
     document.getElementById("display").innerHTML = str;
 }
 
+/** Variable section **/
 var hovID;
 var hovS;
 var x;
@@ -384,6 +385,7 @@ star_rating += "</div>";
 
 // when document is loading.
 $(document).ready(function(){
+    var saveRate = 0;
     $(".rate").click(function(){
         $(this).parent().append(star_rating);
         $(this).remove();
@@ -394,25 +396,26 @@ $(document).ready(function(){
     });
 
     $('.rating input').click(function(){
-        alert( $(this).val() );
+        //alert( $(this).val() );
+        saveRate = $(this.val());
         //For rate in modals
         //use above onclick if rate it button already clicked at least once by the user
     });
 
     /** Data base setup **/
-    var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
+    //var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
 
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
         
         var nurl = $('#urlInput').val();
         var ntitle = $('#titleInput').val();
-        var newMeme = DBmeme.child(ntitle);
         var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
-
-
-        newMeme.set({
+        var nrate = saveRate;
+        alert(nrate);
+        User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+        /**newMeme.set({
                 meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
             function(error) {
             if(error){
@@ -421,6 +424,7 @@ $(document).ready(function(){
                 alert('Save successful');
             }
         });
+        **/
     });    
 });
 
@@ -591,7 +595,7 @@ function draw_memes(){
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>"+
-    "       <div class='rating pull-right'>";
+    "       <div class='rating pull-right' data-rating= "+'"'+memeArray[i].memeRating+'"'+">";
     // If no rating, show rate button (needs some flag)
     if( +memeArray[i].memeRating == 0) {
       memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";   
@@ -732,6 +736,7 @@ function draw_button(x) {
     //Drawing Buttons
     for (var i = 0; i < (total_images / 10 ); i++) {
         markup += "<li><a href='#'>" + (i + 1) + "</a></li>";
+
     }
     //End
     markup += "<li><a href='#'>&raquo;</a></li>";
