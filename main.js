@@ -94,6 +94,7 @@ $(document).ready(function(){
 // functions loaded when all elements has been loaded
 window.onload = function () {   
   draw_memes();
+  draw_button();
   var clickableMemes = document.getElementsByClassName('img-thumb-nail');  
   for( var i = 0; i < clickableMemes.length; i++ ) {    
     clickableMemes[i].onclick = modMemeModal;
@@ -325,3 +326,27 @@ function modMemeModal(e){
   // Force click, if event was triggered by pencil
   if( pencilTriggered ) { modalFooterList[0].click(); }
 } // view Modal event
+
+//Draw the number of pages based total # of images
+function draw_button(){
+
+     //get total images
+    var markup = "";
+    var total_images = 30;
+
+    //Assign markup
+
+    //Begin
+    markup += "<ul class='pagination pagination-lg'>";
+    markup += "<li><a href='#'>&laquo;</a></li>";
+    //Drawing Buttons
+    for(var i = 0; i < (total_images / 10 ); i++){
+        markup += "<li><a href='#'>"+ (i+1) + "</a></li>";
+    }
+    //End
+    markup += "<li><a href='#'>&raquo;</a></li>";
+    markup += "</ul>";
+
+
+    document.getElementById('buttonContent').innerHTML = markup;
+}
