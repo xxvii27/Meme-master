@@ -3,9 +3,11 @@
 
 <head lang="en">
     <!-- Importing external javascript -->
-    <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>
+    <!-- FireBase API-->
+    <script src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
+	<!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
+	<!-- our JS -->
     <script src = "main.js" type="text/javascript"> </script>
 
 	<!-- end javascript -->
@@ -17,8 +19,6 @@
  
 </head>
 <body>
-<!-- DB init -->
-
 
 <!-- Fixed navbar -->
 <div class="navbar navbar-default navbar-fixed-top " role="navigation" id = "headernav">
@@ -100,7 +100,6 @@
     </div>
 </div>
 
-
 <div class="modal custom fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -112,17 +111,17 @@
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Url: http://" id="urlInput">
                     <input type="text" class="form-control" placeholder="Title" id="titleInput">
-                    <input id="saveComments" type="text" class="form-control" placeholder="Comments">
+                    <input type="text" class="form-control" placeholder="Comments" id="saveComments" >
                     <input type="text" class="form-control" placeholder="Tags" id="tagInput">
                 </div>
                 <br>
                 <h4>&nbsp;Rate It:</h4>
                 <div class="rating pull-left">
-                    <input type="radio" id="stars5"  value="5" /><label for="stars5" title="Rocks!">5 stars</label>
-                    <input type="radio" id="stars4"  value="4" /><label for="stars4" title="Pretty good">4 stars</label>
-                    <input type="radio" id="stars3"  value="3" /><label for="stars3" title="Meh">3 stars</label>
-                    <input type="radio" id="stars2"  value="2" /><label for="stars2" title="Kinda bad">2 stars</label>
-                    <input type="radio" id="stars1"  value="1" /><label for="stars1" title="Sucks big time">1 star</label>
+                    <input type="radio" id="stars5" name="rating" value="5" /><label for="stars5" title="Rocks!">5 stars</label>
+                    <input type="radio" id="stars4" name="rating" value="4" /><label for="stars4" title="Pretty good">4 stars</label>
+                    <input type="radio" id="stars3" name="rating" value="3" /><label for="stars3" title="Meh">3 stars</label>
+                    <input type="radio" id="stars2" name="rating" value="2" /><label for="stars2" title="Kinda bad">2 stars</label>
+                    <input type="radio" id="stars1" name="rating" value="1" /><label for="stars1" title="Sucks big time">1 star</label>
                 </div>
             </div>
 
@@ -134,7 +133,7 @@
     </div>
 </div>
 
-<div class="modal custom fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+<div class="modal custom fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -155,11 +154,11 @@
                 <br>
                 <h4>&nbsp;Rate It:</h4>
                 <div class="rating pull-left">
-                    <input type="radio" id="star5"   value="5" /><label for="star5" title="Rocks!">5 stars</label>
-                    <input type="radio" id="star4"   value="4" /><label for="star4" title="Pretty good">4 stars</label>
-                    <input type="radio" id="star3"   value="3" /><label for="star3" title="Meh">3 stars</label>
-                    <input type="radio" id="star2"   value="2" /><label for="star2" title="Kinda bad">2 stars</label>
-                    <input type="radio" id="star1"   value="1" /><label for="star1" title="Sucks big time">1 star</label>
+                    <input type="radio" id="star5"  name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+                    <input type="radio" id="star4"  name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+                    <input type="radio" id="star3"  name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
+                    <input type="radio" id="star2"  name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+                    <input type="radio" id="star1"  name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -170,300 +169,66 @@
     </div>
 </div>
 
+<!-- view mode modal -->
+<div class="modal custom fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="viewModalTitle">Oops! Wrong title!</h4>
+            </div>
+            <div class="modal-body" id="viewModalBody" style="overflow: auto">
+              <img src="" alt="" id="viewModalImage">              
+              <h3>Tags:</h3>
+              <p id="viewModalTags">No Tags</p>
+              <h3>Comments:</h3>
+              <p id="viewModalComments">No Comments</p>
+              <p id="viewModalRating" class="rating"></p>
+            </div>
+            <div class="modal-footer" id="viewModalFooter">
+              <button type="button" class="btn btn-default submit vmf" id="viewModalEditBtn">Edit</button>
+              <button type="button" class="btn btn-default cancel vmf" >Cancel</button>
+              <button type="button" class="btn btn-default submit vmf" ><b>Submit</b></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class ="container" id ="content">
-
+	<!-- Sorts memes based on condition and grid viewing-->
     <p class ="text-right"><b>Sort By:</b>
-        <select>
-        <option value="relevance">Relevance</option>
-        <option value="newest">Newest</option>
-        <option value="oldest">Oldest</option>
-        <option value="avg_rating">Avg Rating</option>
+        <select onChange="User.evalSetup(this.selectedIndex)">
+        <option value="0">Newest</option>
+        <option value="1">Oldest</option>
+        <option value="2">Avg Rating</option>
+		<option value="relevance">Relevance</option>
         </select>
         &nbsp;
         &nbsp;
         <b>View By:</b>
-        <a class="disp_icon" href="main.html" onmouseover="m_d_tooltip(event,'GVT')" onmouseout="hide()">
+        <a class="disp_icon" onmouseover="m_d_tooltip(event,'GVT')" onmouseout="hide()">
 			<span id="GVT">Grid View</span>
 			<img class ="image" src="icons/gridview.png" alt=""/>
 		</a> | 
-		<a class="disp_icon" href="thumb.html" onmouseover="m_d_tooltip(event,'TVT')" onmouseout="hide()">
+		<a class="disp_icon" onmouseover="m_d_tooltip(event,'TVT')" onmouseout="hide()">
 			<span id="TVT">Thumb View</span>
 			<img class ="image" src="icons/imageview.png" alt=""/>
 		</a>
     </p>
 
-    <div class="row">
-
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="memes/0.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">First Meme</a></h5>
-                        <div class="rating pull-right">
-                            <input type="radio" id="stara5"   value="5" /><label for="stara5" title="Rocks!">5 stars</label>
-                            <input type="radio" id="stara4"   value="4" /><label for="stara4" title="Pretty good">4 stars</label>
-                            <input type="radio" id="stara3"   value="3" checked="true" /><label for="stara3" title="Meh">3 stars</label>
-                            <input type="radio" id="stara2"   value="2" /><label for="stara2" title="Kinda bad">2 stars</label>
-                            <input type="radio" id="stara1"   value="1" /><label for="stara1" title="Sucks big time">1 star</label>
-                        </div>
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="memes/1.gif" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Second Meme</a></h5>
-                    <div class="rating pull-right">
-                        <button class="btn btn-default btn-xs rate">Rate It !!</button>
-                    </div>
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="memes/2.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Third Meme</a></h5>
-                    <div class="rating pull-right">
-                        <input type="radio" id="starj5"   value="5" /><label for="starj5" title="Rocks!">5 stars</label>
-                        <input type="radio" id="starj4"   value="4" /><label for="starj4" title="Pretty good">4 stars</label>
-                        <input type="radio" id="starj3"   value="3" checked="true" /><label for="starj3" title="Meh">3 stars</label>
-                        <input type="radio" id="starj2"   value="2" /><label for="starj2" title="Kinda bad">2 stars</label>
-                        <input type="radio" id="starj1"   value="1" /><label for="starj1" title="Sucks big time">1 star</label>
-                    </div>
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="memes/3.jpg" alt="">
-                </div>
-
-                <div class="caption small">
-                    <h5><a href="#">Fourth Meme</a></h5>
-                    <div class="rating pull-right">
-                        <button class="btn btn-default btn-xs rate">Rate It !!</button>
-                    </div>
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="memes/4.jpg" alt="">
-                </div>
-
-                <div class="caption small">
-                    <h5><a href="#">Fifth Meme</a></h5>
-                    <div class="rating pull-right">
-                        <input type="radio" id="starm5"   value="5" /><label for="starm5" title="Rocks!">5 stars</label>
-                        <input type="radio" id="starm4"   value="4" /><label for="starm4" title="Pretty good">4 stars</label>
-                        <input type="radio" id="starm3"   value="3" checked="true" /><label for="starm3" title="Meh">3 stars</label>
-                        <input type="radio" id="starm2"   value="2" /><label for="starm2" title="Kinda bad">2 stars</label>
-                        <input type="radio" id="starm1"   value="1" /><label for="starm1" title="Sucks big time">1 star</label>
-                    </div>
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="memes/5.jpg" alt="">
-                </div>
-
-                <div class="caption small">
-                    <h5><a href="#">Sixth Meme</a></h5>
-                    <div class="rating pull-right">
-                        <input type="radio" id="starz5"  value="5" /><label for="starz5" title="Rocks!">5 stars</label>
-                        <input type="radio" id="starz4"  value="4" /><label for="starz4" title="Pretty good">4 stars</label>
-                        <input type="radio" id="starz3"  value="3" checked="true" /><label for="starz3" title="Meh">3 stars</label>
-                        <input type="radio" id="starz2"  value="2" /><label for="starz2" title="Kinda bad">2 stars</label>
-                        <input type="radio" id="starz1"  value="1" /><label for="starz1" title="Sucks big time">1 star</label>
-                    </div>
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-lg-3 col-md-4">
-            <div class="thumbnail">
-                <div class="t_c mb">
-                    <div class="mask">
-                        <a href="#"><img src="icons/download32w.png" alt=""/></a>
-                        <a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-                        <a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-                    </div>
-                    <img class ="img-thumb-nail" src="memes/6.gif" alt="">
-                </div>
-
-                <div class="caption small">
-                    <h5><a href="#">Seventh Meme</a></h5>
-                    <div class="rating pull-right">
-                        <button class="btn btn-default btn-xs rate">Rate It !!</button>
-                    </div>
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="memes/7.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Eighth Meme</a></h5>
-                    <div class="rating pull-right">
-                        <input type="radio" id="starb5"  value="5" /><label for="starb5" title="Rocks!">5 stars</label>
-                        <input type="radio" id="starb4"  value="4" /><label for="starb4" title="Pretty good">4 stars</label>
-                        <input type="radio" id="starb3"  value="3" checked="true" /><label for="starb3" title="Meh">3 stars</label>
-                        <input type="radio" id="starb2"  value="2" /><label for="starb2" title="Kinda bad">2 stars</label>
-                        <input type="radio" id="starb1"  value="1" /><label for="starb1" title="Sucks big time">1 star</label>
-                    </div>
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="memes/8.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Ninth Meme</a></h5>
-                    <div class="rating pull-right">
-                        <input type="radio" id="starc5"   value="5" /><label for="starc5" title="Rocks!">5 stars</label>
-                        <input type="radio" id="starc4"   value="4" /><label for="starc4" title="Pretty good">4 stars</label>
-                        <input type="radio" id="starc3"   value="3" checked="true" /><label for="starc3" title="Meh">3 stars</label>
-                        <input type="radio" id="starc2"   value="2" /><label for="starc2" title="Kinda bad">2 stars</label>
-                        <input type="radio" id="starc1"   value="1" /><label for="starc1" title="Sucks big time">1 star</label>
-                    </div>
-
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="thumbnail">
-				<div class="t_c mb">
-					<div class="mask">
-						<a href="#"><img src="icons/download32w.png" alt=""/></a>
-						<a href="#"><img src="icons/pencil32w.png" alt=""/></a>
-						<a onclick="confirm_delete()"><img src="icons/trash.png" alt=""></a>
-					</div>
-					<img class ="img-thumb-nail" src="memes/9.jpg" alt="">
-				</div>
-                <div class="caption big">
-                    <h5><a href="#">Tenth Meme</a></h5>
-                    <div class="rating pull-right">
-                        <input type="radio" id="starn5"  value="5" /><label for="starn5" title="Rocks!">5 stars</label>
-                        <input type="radio" id="starn4"  value="4" /><label for="starn4" title="Pretty good">4 stars</label>
-                        <input type="radio" id="starn3"  value="3" checked="true" /><label for="starn3" title="Meh">3 stars</label>
-                        <input type="radio" id="starn2"  value="2" /><label for="starn2" title="Kinda bad">2 stars</label>
-                        <input type="radio" id="starn1"  value="1" /><label for="starn1" title="Sucks big time">1 star</label>
-                    </div>
-                    <div class="comments pull-left">
-                        Some comments...
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-    </div>
+	<!-- Displays all meme content from main.js -->
+    <div class="row" id="memeContent"> </div>
     
+	<!-- Displays page number navigation at bottom -->
     <div class="paging">
-        <ul class="pagination pagination-lg">
-            <li><a href="#">&laquo;</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
+        <ul class='pagination pagination-lg'>
+            <li><a id="prev" href='#' onclick="User.prevRenderList()">&laquo;</a></li>
+            <li><a id="next" href='#' onclick="User.nextRenderList()">&raquo;</a></li>
         </ul>
     </div>
 </div>
 
-
+<!-- Footer information about website -->
 <footer>
     <div class="navbar navbar-default">
         <div class="container" id="footer">
@@ -484,8 +249,6 @@
         </div>
     </div>
 </footer>
-
-
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
