@@ -65,11 +65,16 @@ body {
     margin-right: auto;
 }
 
+#imgPreview{
+    margin-bottom: 10px;
+}
+
 /* images for nav bar & view by */
 .image{
     display: inline;
     height: 19px;
 }
+
 
 
 h5{
