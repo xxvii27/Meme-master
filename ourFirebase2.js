@@ -1,8 +1,9 @@
 // String Constants
-var FBURL = "https://shining-fire-3762.firebaseio.com/user/";
+var FBURL = "https://intense-fire-8114.firebaseio.com/user/";
 var IMG_REF = "r_imgs";
 var IMG_DETAILS = "d_imgs";
 var NO_TITLE = "no title";
+var DEBUG = true;
 
 /* Create User Wrapper Object to avoid namespace Conflict*/
 var User = {};
@@ -56,9 +57,7 @@ User.setupByOldest = function() {
  */
 User.setupByRating = function() {
 	// Clear Reference List
-	this.clearRefList();
-	
-	
+	this.clearRefList();	
 }
 
 /*
@@ -96,13 +95,22 @@ User.nextRenderList = function() {
 	
 	this.clearRenderList();
 
-	for(i=this.endPtr; i > this.startPtr; i--){
-		if(this.imgRefList[i]){
-			max = i;
-			break;
+	if(DEBUG)
+	{
+		if(this.imgRefList.length == 0) {
+			alert("nextRenderList() may not work. No imgs");
+		}
+		else if(this.startPtr >= this.imgRefList.length || this.startPtr < 0) {
+			alert("To Developers: Fell off List! Fix button functionality");
 		}
 	}
 	
+	for(i=this.endPtr; i > this.startPtr; i--){
+		if(this.imgRefList[i]){
+			max = (i-this.startPtr);
+			break;
+		}
+	}
 	for(i = this.startPtr; i < (this.startPtr + this.limit); i++){
 		
 		url = this.imgRefList[i];
@@ -112,7 +120,7 @@ User.nextRenderList = function() {
 				User.curList.push(snapshot.val());
 				if(counter == max) {
 					// Move Pointers To Appropriate position
-					User.startPtr = max + 1;
+					User.startPtr += max + 1;
 					User.endPtr = User.startPtr + 10;
 					
 					// Img List Ready HERE
@@ -138,46 +146,11 @@ User.nextRenderList = function() {
 */
 User.prevRenderList = function() {
 	
-	User.startPtr -= 10;
+	// Move pointers back and call nextRenderList
+	User.startPtr = ((User.startPtr - 20) < 0) ? 0 : (User.startPtr - 20);
 	User.endPtr = User.startPtr + 9;
 	
-	var max;
-	var counter = 0;
-	
-	this.clearRenderList();
-
-	for(i=this.endPtr; i > this.startPtr; i--){
-		if(this.imgRefList[i]){
-			max = i;
-			break;
-		}
-	}
-	
-	for(i = this.startPtr; i < (this.startPtr + this.limit); i++){
-		
-		url = this.imgRefList[i];
-		if(url) {
-			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + url).once('value', function(snapshot) {
-				
-				User.curList.push(snapshot.val());
-				if(counter == max) {
-					// Move Pointers To Appropriate position
-					User.startPtr = max + 1;
-					User.endPtr = User.startPtr + 10;
-					
-					// Img List Ready HERE
-					// JAMES: Put Drawmemes method here
-					User.writeToDiv(); // TESTING
-				}
-				else{
-					counter++;
-				}
-			});
-		}
-		else {
-			break;
-		}
-	}
+	this.nextRenderList();
 }
 
 
