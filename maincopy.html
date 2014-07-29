@@ -3,7 +3,10 @@
 
 <head lang="en">
     <!-- Importing external javascript -->
-    <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>
+    <!-- FireBase API-->
+    <script src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
+    <!-- Firebase JS -->
+    <script src="ourFirebase2.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <script src = "main.js" type="text/javascript"> </script>
@@ -181,7 +184,7 @@
               <p id="viewModalTags">No Tags</p>
               <h3>Comments:</h3>
               <p id="viewModalComments">No Comments</p>
-              <p id="viewModalRating"></p>
+              <p id="viewModalRating" class="rating"></p>
             </div>
             <div class="modal-footer" id="viewModalFooter">
               <button type="button" class="btn btn-default submit vmf" id="viewModalEditBtn">Edit</button>

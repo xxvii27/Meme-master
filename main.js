@@ -86,7 +86,6 @@ $(document).ready(function(){
 });
 
 function draw_memes(){
-
     var memeArray = new Array(10);
     var title = ["First Meme", "Second Meme", "Third Meme", "Fourth Meme", "Fifth Meme", "Sixth Meme", "Seventh Meme",
                  "Eighth Meme", "Nineth Meme", "Tenth Meme"];
@@ -138,7 +137,7 @@ function draw_memes(){
     else {
       // Print stars (for now, just doing while loops)      
       for( var j = 0; j < +memeArray[i].memeRating; j++ ) {        
-        memeBlock +="<input type='radio'/><label></label>";
+        memeBlock +="<label class='yellow-star'></label>";
       }
     }
     memeBlock += "      </p>"+
@@ -188,13 +187,12 @@ window.onload = function () {
     var rateEvent = document.getElementsByName("rating");
     for( var i = 0; i < rateEvent.length; i++ ) {
       rateEvent[i].onclick = function (e) {                
-        var strStars = e.target.value;  // Number of stars clicked
+        var strStars = e.target.value;  // Number of stars clicked        
         
-        alert("NOTE: Need to send value of: "+strStars+" to the dB");
         var currNode = e.target.parentNode.parentNode; // p node for ratings
         var strStarsHTML = "";
         for( j = 0; j < +strStars; j++ ) {
-          strStarsHTML += "<input type='radio'/><label></label>";
+          strStarsHTML += "<label class='yellow-star'></label>";
         }
         currNode.innerHTML = strStarsHTML;
       };
@@ -210,30 +208,29 @@ window.onload = function () {
  
 // Retrieve meme info and insert into memeModal
 function modMemeModal(e){
-  var currNode = e.target; 
-  var currRating;  // Holds the rating of the triggered modal
-  var ratingCheck; // Determines if the rating has stars or not
+  // grandparent container of triggered image
+  var currThumbnail = e.target.parentNode.parentNode.parentNode;
+  var currRating;  // Holds the rating container of triggered modal
   var pencilTriggered = false;
 
-  if( ""+currNode.parentNode.className == "hoverEditBtn" ){
-    currNode=currNode.parentNode;
+  if( ""+e.target.parentNode.className == "hoverEditBtn" ){
+    // This event was triggered with the hover button
     pencilTriggered = true;
   }
-  currNode=currNode.parentNode.parentNode.parentNode; // node class: thumbnail
+  
   // If not rated yet, print out "Not Yet Rated" for modal view
-  currRating = currNode.querySelector(".text-right").innerHTML;
-  ratingCheck = currRating.split(" ");  
-
-  for( var i = 0; i < ratingCheck.length; i++ ) {
-    if( ""+ratingCheck[i] == "<button" ) { currRating = "Not Yet Rated"; break; }
-    if( ""+ratingCheck[i] == "<input" ) { break; }
+  currRating = currThumbnail.querySelector(".text-right");
+  if( ""+currRating.firstChild.tagName === "button" ) {
+    currRating = "Not Yet Rated";
+  } else {
+    currRating = ""+currRating.outerHTML;
   }
   
   // Info of meme that was clicked
   var currMeme = {
-  title: currNode.querySelector("h5>a").innerHTML,
-  picture: currNode.querySelector(".img-thumb-nail").src,
-  comments: currNode.querySelector(".comments").innerHTML,
+  title: currThumbnail.querySelector("h5>a").innerHTML,
+  picture: currThumbnail.querySelector(".img-thumb-nail").src,
+  comments: currThumbnail.querySelector(".comments").innerHTML,
   rating: currRating};
   
   document.getElementById("viewModalRating").innerHTML = currMeme.rating;
@@ -261,8 +258,7 @@ function modMemeModal(e){
     // keep current img, append form format, place into modal body
     var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
     viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
-    document.querySelector("#viewModalBody").innerHTML = viewModalForm;
-    
+    document.querySelector("#viewModalBody").innerHTML = viewModalForm;    
     
     // Reuse viewModalForm to traverse the actual form nodes in modal-body
     viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
@@ -276,8 +272,7 @@ function modMemeModal(e){
     // Reset modal to display info (for submit- info is updated before reset)
     document.querySelector("#viewModal .close").onclick = resetModalBody;
     modalFooterList[1].onclick = resetModalBody;
-    modalFooterList[2].onclick = function (e) {
-    
+    modalFooterList[2].onclick = function (e) {    
       resetModalBody(e);
     };
     
