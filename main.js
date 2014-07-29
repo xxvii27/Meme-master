@@ -642,7 +642,7 @@ function modMemeModal(e){
   }
   
   // Get the current meme's rating display
-  currRating = currThumbnail.querySelector(".text-right");
+  currRating = currThumbnail.querySelector(".rating");
   
   if( ""+currRating.getAttribute("data-rating") == "0" ) {
     currRating = "Not yet rated";
