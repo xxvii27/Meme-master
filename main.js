@@ -361,7 +361,7 @@ function draw_button() {
 
     //get total images
     var markup = "";
-    var total_images = 30;
+    var total_images = User.totalImgs;
 
     //Assign markup
 
@@ -525,3 +525,5 @@ User.writeToDiv = function(){
   }
   document.getElementById("display").innerHTML = str;
 }
+
+
