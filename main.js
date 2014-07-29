@@ -584,7 +584,7 @@ function draw_memes(){
           
   var memeBlock =""; // Holds what would be written in div.row
   
-  for (var i= 0; i < 10; i++) {
+  for (var i= 0; i < memeArray.length; i++) {
     memeBlock += "<div class='col-sm-" + memeDimens[i].charAt(0)+" col-md-" + memeDimens[i].charAt(1)+
     " col-lg-" + memeDimens[i].charAt(2)+"'>"+
     "  <div class='thumbnail'>"+
