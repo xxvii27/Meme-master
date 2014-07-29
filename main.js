@@ -6,32 +6,6 @@ var hovS;
 var x;
 var y;
 
-function m_d_tooltip(evt,id) {
-    hovS = id;
-    x = evt.pageX;
-    y = evt.pageY;
-    hovID = setTimeout(function () {
-            var ele = document.getElementById(hovS);
-            ele.style.top = (y+25) + "px";
-            ele.style.left = (x-65)+ "px";
-            ele.style.display = "block"
-        }
-        ,750);
-}
-
-function hide() {
-    var ele = document.getElementById(hovS);
-    ele.style.display = "none"
-    clearTimeout(hovID)
-}
-
-function confirm_delete() {
-    if(confirm("Are you sure you want to delete?")){
-        alert("Deleted");
-    }
-    return false;
-}
-
 var star_rating = "";
 star_rating += "<div class='rating pull-right' id='app'> "
 star_rating += "<input type='radio' id='starx5' name='rating' value='5' /><label for='starx5' title='Rocks!'>5 stars</label>"
@@ -41,6 +15,8 @@ star_rating += "<input type='radio' id='starx2' name='rating' value='2' /><label
 star_rating += "<input type='radio' id='starx1' name='rating' value='1' /><label for='starx1' title='Sucks big time'>1 star</label>"
 star_rating += "</div>";
 
+
+// when document is loading.
 $(document).ready(function(){
     $(".rate").click(function(){
         $(this).parent().append(star_rating);
@@ -81,6 +57,90 @@ $(document).ready(function(){
         });
     });    
 });
+
+// functions loaded when all elements has been loaded
+window.onload = function () {   
+  draw_memes();
+  var clickableMemes = document.getElementsByClassName('img-thumb-nail');  
+  for( var i = 0; i < clickableMemes.length; i++ ) {    
+    clickableMemes[i].onclick = modMemeModal;
+  }
+  
+  // Handle thumbnail and normal viewing mode
+  var dispList = document.getElementsByClassName("disp_icon");
+  var captionList = document.getElementsByClassName("caption");  
+  dispList[0].onclick = function(e) {
+    for( var i = 0; i < captionList.length; i++ ) {
+      if( captionList[i].hasAttribute("style") ) {
+        captionList[i].removeAttribute("style");
+      }
+    }
+  };
+  dispList[1].onclick = function(e) {
+    for( var i = 0; i < captionList.length; i++ ) {
+      captionList[i].style.display = "none";
+    }
+  };
+  
+  // Add onclick listener for all 'Rate it' buttons
+  var rateItBtns = $("#memeContent .rate").click(function (evt) {
+    // After click, show stars
+    var currClick = evt.target;
+    evt.target.parentNode.innerHTML = star_rating;
+    clickStarRating(currClick);
+  });
+  
+  // Add onclick listener for stars
+  function clickStarRating(currClicked) {
+    var rateEvent = document.getElementsByName("rating");
+    for( var i = 0; i < rateEvent.length; i++ ) {
+      rateEvent[i].onclick = function (e) {                
+        var strStars = e.target.value;  // Number of stars clicked        
+        
+        var currNode = e.target.parentNode.parentNode; // p node for ratings
+        var strStarsHTML = "";
+        for( j = 0; j < +strStars; j++ ) {
+          strStarsHTML += "<label class='yellow-star'></label>";
+        }
+        currNode.innerHTML = strStarsHTML;
+      };
+    }
+  }
+  
+  // Add event for hover edit button
+  var editList = document.querySelectorAll(".hoverEditBtn>img");
+  for( var i = 0; i < editList.length; i++ ) {
+    editList[i].onclick = modMemeModal;
+  }
+}
+
+
+/** Basic Functions **/
+function m_d_tooltip(evt,id) {
+    hovS = id;
+    x = evt.pageX;
+    y = evt.pageY;
+    hovID = setTimeout(function () {
+            var ele = document.getElementById(hovS);
+            ele.style.top = (y+25) + "px";
+            ele.style.left = (x-65)+ "px";
+            ele.style.display = "block"
+        }
+        ,750);
+}
+
+function hide() {
+    var ele = document.getElementById(hovS);
+    ele.style.display = "none"
+    clearTimeout(hovID)
+}
+
+function confirm_delete() {
+    if(confirm("Are you sure you want to delete?")){
+        alert("Deleted");
+    }
+    return false;
+}
 
 function draw_memes(){
     var memeArray = new Array(10);
@@ -148,60 +208,7 @@ function draw_memes(){
 }
 
 // Assign onclick listener for each meme
-window.onload = function () {   
-  draw_memes();
-  var clickableMemes = document.getElementsByClassName('img-thumb-nail');  
-  for( var i = 0; i < clickableMemes.length; i++ ) {    
-    clickableMemes[i].onclick = modMemeModal;
-  }
-  
-  // Handle thumbnail and normal viewing mode
-  var dispList = document.getElementsByClassName("disp_icon");
-  var captionList = document.getElementsByClassName("caption");  
-  dispList[0].onclick = function(e) {
-    for( var i = 0; i < captionList.length; i++ ) {
-      if( captionList[i].hasAttribute("style") ) {
-        captionList[i].removeAttribute("style");
-      }
-    }
-  };
-  dispList[1].onclick = function(e) {
-    for( var i = 0; i < captionList.length; i++ ) {
-      captionList[i].style.display = "none";
-    }
-  };
-  
-  // Add onclick listener for all 'Rate it' buttons
-  var rateItBtns = $("#memeContent .rate").click(function (evt) {
-    // After click, show stars
-    var currClick = evt.target;
-    evt.target.parentNode.innerHTML = star_rating;
-    clickStarRating(currClick);
-  });
-  
-  // Add onclick listener for stars
-  function clickStarRating(currClicked) {
-    var rateEvent = document.getElementsByName("rating");
-    for( var i = 0; i < rateEvent.length; i++ ) {
-      rateEvent[i].onclick = function (e) {                
-        var strStars = e.target.value;  // Number of stars clicked        
-        
-        var currNode = e.target.parentNode.parentNode; // p node for ratings
-        var strStarsHTML = "";
-        for( j = 0; j < +strStars; j++ ) {
-          strStarsHTML += "<label class='yellow-star'></label>";
-        }
-        currNode.innerHTML = strStarsHTML;
-      };
-    }
-  }
-  
-  // Add event for hover edit button
-  var editList = document.querySelectorAll(".hoverEditBtn>img");
-  for( var i = 0; i < editList.length; i++ ) {
-    editList[i].onclick = modMemeModal;
-  }
-}
+
  
 // Retrieve meme info and insert into memeModal
 function modMemeModal(e){
