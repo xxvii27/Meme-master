@@ -6,7 +6,6 @@ var hovS;
 var x;
 var y;
 
-<<<<<<< HEAD
 function m_d_tooltip(evt,id) {
     hovS = id;
     x = evt.pageX;
@@ -33,17 +32,13 @@ function confirm_delete() {
     return false;
 }
 
+/* Save a meme on local computer */
 function download_meme(URL) {
-    alert(this.href);
-    var a = $("<a>").attr("href", "URL").attr("download", "img.png").appendTo("body");
-
+    var a = $("<a>").attr("href", URL).attr("download", URL).appendTo("body");
     a[0].click();
-
     a.remove();
 }
 
-=======
->>>>>>> 9554038ca2d00ba8e212e8c4425913db2cd8e5f0
 var star_rating = "";
 star_rating += "<div class='rating pull-right' id='app'> "
 star_rating += "<input type='radio' id='starx5' name='rating' value='5' /><label for='starx5' title='Rocks!'>5 stars</label>"
@@ -215,7 +210,7 @@ function draw_memes(){
     "  <div class='thumbnail'>"+
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
-    "        <a onclick='download_meme('this.href')'><img src='icons/download32w.png' alt=''/></a>"+
+    "        <a onclick='download_meme("+'"'+memeArray[i].memeSRC+'"'+")'><img src='icons/download32w.png' alt=''/></a>"+
     "        <a href='#' class='hoverEditBtn' data-toggle='modal' data-target='#viewModal'>"+
     "          <img src='icons/pencil32w.png' alt=''/></a>"+
     "        <a onclick='confirm_delete()'><img src='icons/trash.png' alt=''></a>"+
