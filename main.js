@@ -606,7 +606,7 @@ function draw_memes(){
     }
     else {
       // Print stars (for now, just doing while loops)      
-      for( var j = 0; j < +memeArray[i].memeRating; j++ ) {        
+      for( var j = 0; j < +memeArray[i].rating; j++ ) {        
         memeBlock +="<label class='yellow-star'></label>";
       }
     }
@@ -620,10 +620,6 @@ function draw_memes(){
   document.getElementById('memeContent').innerHTML = memeBlock;
 }
 
-// Assign onclick listener for each meme
-
- 
-// Retrieve meme info and insert into memeModal
 // Retrieve meme info and insert into memeModal
 function modMemeModal(e){
   // grandparent container of triggered image
