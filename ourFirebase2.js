@@ -32,9 +32,9 @@ User.setupByNewest = function() {
 		
 		// Grab keys and put into list
 		var retQuery = snapshot.val();
-		User.pushQueryToList(retQuery,1);
+		this.pushQueryToList(retQuery,1);
 		
-	});
+	},this);
 }
 
 /*
@@ -48,8 +48,8 @@ User.setupByOldest = function() {
 	this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
 		// Grab keys and put into list
 		var retQuery = snapshot.val();
-		User.pushQueryToList(retQuery,0);	
-	});
+		this.pushQueryToList(retQuery,0);	
+	},this);
 }
 
 /*	TODO
@@ -117,20 +117,20 @@ User.nextRenderList = function() {
 		if(url) {
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + url).once('value', function(snapshot) {
 				
-				User.curList.push(snapshot.val());
+				this.curList.push(snapshot.val());
 				if(counter == max) {
 					// Move Pointers To Appropriate position
-					User.startPtr += max + 1;
-					User.endPtr = User.startPtr + 10;
+					this.startPtr += max + 1;
+					this.endPtr = this.startPtr + 10;
 					
 					// Img List Ready HERE
 										// JAMES: Put Drawmemes method here
-					User.writeToDiv(); // TESTING
+					this.writeToDiv(); // TESTING
 				}
 				else{
 					counter++;
 				}
-			});
+			},this);
 		}
 		else {
 			break;
@@ -147,8 +147,8 @@ User.nextRenderList = function() {
 User.prevRenderList = function() {
 	
 	// Move pointers back and call nextRenderList
-	User.startPtr = ((User.startPtr - 20) < 0) ? 0 : (User.startPtr - 20);
-	User.endPtr = User.startPtr + 9;
+	this.startPtr = ((this.startPtr - 20) < 0) ? 0 : (this.startPtr - 20);
+	this.endPtr = this.startPtr + 9;
 	
 	this.nextRenderList();
 }
@@ -207,17 +207,17 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 	// add 1 to total imgs
 	this.dbref.child(this.name).once('value', function(snap) {
 		var total = snap.val()['total_imgs'];
-		User.dbref.child(User.name).update({total_imgs : (total + 1)});
-	});
+		this.dbref.child(this.name).update({total_imgs : (total + 1)});
+	},this);
 }
 
 // TEST function 
 User.writeToDiv = function(){
 	var str = "";
-	for(i = 0; i < User.curList.length; i++)
+	for(i = 0; i < this.curList.length; i++)
 	{
-		str+="<img src=\"" + User.curList[i].url + "\" /> <p>Ref: " + User.curList[i].ref + "<p>Rating: " + User.curList[i].rating + 
-		"<p>Title: " + User.curList[i].title + "<br/>";
+		str+="<img src=\"" + this.curList[i].url + "\" /> <p>Ref: " + this.curList[i].ref + "<p>Rating: " + this.curList[i].rating + 
+		"<p>Title: " + this.curList[i].title + "<br/>";
 	}
 	document.getElementById("display").innerHTML = str;
 }
