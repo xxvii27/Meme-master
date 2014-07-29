@@ -1,8 +1,9 @@
 // String Constants
-var FBURL = "https://shining-fire-3762.firebaseio.com/user/";
+var FBURL = "https://intense-fire-8114.firebaseio.com/user/";
 var IMG_REF = "r_imgs";
 var IMG_DETAILS = "d_imgs";
 var NO_TITLE = "no title";
+var DEBUG = true;			// FOR DEBUGING PURPOSES
 
 /* Create User Wrapper Object to avoid namespace Conflict*/
 var User = {};
@@ -21,6 +22,7 @@ User.name = "thomas";
 // Functions for User class
 /*
 	Sorts keys in database by chronological order. Then sets the current list for UI to render
+	use case: dropdown option to sory by 'newest'
  */
 User.setupByNewest = function() {
 	// Clear Reference List
@@ -31,13 +33,15 @@ User.setupByNewest = function() {
 		
 		// Grab keys and put into list
 		var retQuery = snapshot.val();
-		User.pushQueryToList(retQuery,1);
+		this.pushQueryToList(retQuery,1);
+		this.nextRenderList();
 		
-	});
+	},this);
 }
 
 /*
 	Sorts keys in database by chronological order. Then sets the current list for UI to render
+	use case: dropdown option to sory by 'oldest'
  */
 User.setupByOldest = function() {
 	// Clear Reference List
@@ -47,23 +51,43 @@ User.setupByOldest = function() {
 	this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
 		// Grab keys and put into list
 		var retQuery = snapshot.val();
-		User.pushQueryToList(retQuery,0);	
-	});
+		this.pushQueryToList(retQuery,0);
+		this.nextRenderList();
+	},this);
 }
 
-/*	TODO
+/*	
 	Sorts keys in database by Rating. Then sets the current list for UI to render
+	use case: dropdown option to sory by 'rating'
  */
 User.setupByRating = function() {
+	
+	var counter = 0;
+	
 	// Clear Reference List
 	this.clearRefList();
-	
-	
+
+	// Generate references by priority
+	for(priority = 1; priority <= 6; priority++){
+		this.dbref.child(this.name + "/" + IMG_DETAILS).startAt(priority).endAt(priority).once('value',function (snapshot) {
+			
+			counter++;
+			var query = snapshot.val();
+			for(key in query){
+				this.imgRefList.push(key);
+			}
+			
+			if(counter == 6) {
+				this.nextRenderList();
+			}
+			
+		},this);
+	}
 }
 
 /*
 	Sorts JSON obj and if list needs to be sorted
-	Should NOT be called directly
+	use case: Should NOT be called directly
  */
 User.pushQueryToList = function (obj, byNewest) {
 	
@@ -81,13 +105,11 @@ User.pushQueryToList = function (obj, byNewest) {
 		this.endPtr = 9;
 	}
 	
-	this.nextRenderList();	
 }
 
 /*
 	Create next list of Objects for UI to render base on ordering.
 	Use case: 'Next' Button
-	NOTE: Bug when pass img render List
  */
 User.nextRenderList = function() {
 	
@@ -96,33 +118,42 @@ User.nextRenderList = function() {
 	
 	this.clearRenderList();
 
-	for(i=this.endPtr; i > this.startPtr; i--){
-		if(this.imgRefList[i]){
-			max = i;
-			break;
+	if(DEBUG)
+	{
+		if(this.imgRefList.length == 0) {
+			alert("nextRenderList() may not work. No imgs");
+		}
+		else if(this.startPtr >= this.imgRefList.length || this.startPtr < 0) {
+			alert("To Developers: Fell off List! Fix button functionality");
 		}
 	}
 	
+	for(i=this.endPtr; i > this.startPtr; i--){
+		if(this.imgRefList[i]){
+			max = (i-this.startPtr);
+			break;
+		}
+	}
 	for(i = this.startPtr; i < (this.startPtr + this.limit); i++){
 		
 		url = this.imgRefList[i];
 		if(url) {
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + url).once('value', function(snapshot) {
 				
-				User.curList.push(snapshot.val());
+				this.curList.push(snapshot.val());
 				if(counter == max) {
-					// Move Pointers To Appropriate position
-					User.startPtr = max + 1;
-					User.endPtr = User.startPtr + 10;
+					// Move Pointers NEXT Appropriate position
+					this.startPtr += max + 1;
+					this.endPtr = this.startPtr + 10;
 					
 					// Img List Ready HERE
 										// JAMES: Put Drawmemes method here
-					User.writeToDiv(); // TESTING
+					this.writeToDiv(); // FOR TESTING on test.html
 				}
 				else{
 					counter++;
 				}
-			});
+			},this);
 		}
 		else {
 			break;
@@ -133,51 +164,27 @@ User.nextRenderList = function() {
 /*
 	Create next list of Objects for UI to render base on ordering.
 	Use case: 'prev' Button
-	NOTE: Bug when pass img render List
-	TODO: MODIFY
 */
 User.prevRenderList = function() {
 	
-	User.startPtr -= 10;
-	User.endPtr = User.startPtr + 9;
+	// Move pointers back and call nextRenderList
+	this.startPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+	this.endPtr = this.startPtr + 9;
 	
-	var max;
-	var counter = 0;
-	
-	this.clearRenderList();
+	this.nextRenderList();
+}
 
-	for(i=this.endPtr; i > this.startPtr; i--){
-		if(this.imgRefList[i]){
-			max = i;
-			break;
-		}
-	}
+/*
+	Refreshes the Rendering List 
+	Use case: AFTER 'delete' meme. Should NOT use directly
+*/
+User.refreshRenderList = function() {
 	
-	for(i = this.startPtr; i < (this.startPtr + this.limit); i++){
-		
-		url = this.imgRefList[i];
-		if(url) {
-			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + url).once('value', function(snapshot) {
-				
-				User.curList.push(snapshot.val());
-				if(counter == max) {
-					// Move Pointers To Appropriate position
-					User.startPtr = max + 1;
-					User.endPtr = User.startPtr + 10;
-					
-					// Img List Ready HERE
-					// JAMES: Put Drawmemes method here
-					User.writeToDiv(); // TESTING
-				}
-				else{
-					counter++;
-				}
-			});
-		}
-		else {
-			break;
-		}
-	}
+	// Move pointers back and call nextRenderList
+	this.startPtr -= this.limit;
+	this.endPtr = this.startPtr + 9;
+	
+	this.nextRenderList();
 }
 
 
@@ -189,20 +196,24 @@ User.clearRenderList = function(){
 	while(this.curList.length > 0) {
 		this.curList.pop();
 	}
+
 }
 
 /*
-	Clear Reference List.
+	Clear Reference List AND resets Pointers
 	Should NOT be called directly.
  */
 User.clearRefList = function(){
 	while(this.imgRefList.length > 0) {
 		this.imgRefList.pop();
 	}
+	this.startPtr = 0;
+	this.endPtr = 9;
 }
 
 /* 	For Save img URL. Sets by priorty
 	INSURE DATA IS LEGIT!
+	use case: Save img details to database
  	Params: aurl: (string) url
 			atitle:	(string) title
 			acat:	(string) category
@@ -234,19 +245,8 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 	// add 1 to total imgs
 	this.dbref.child(this.name).once('value', function(snap) {
 		var total = snap.val()['total_imgs'];
-		User.dbref.child(User.name).update({total_imgs : (total + 1)});
-	});
-}
-
-// TEST function 
-User.writeToDiv = function(){
-	var str = "";
-	for(i = 0; i < User.curList.length; i++)
-	{
-		str+="<img src=\"" + User.curList[i].url + "\" /> <p>Ref: " + User.curList[i].ref + "<p>Rating: " + User.curList[i].rating + 
-		"<p>Title: " + User.curList[i].title + "<br/>";
-	}
-	document.getElementById("display").innerHTML = str;
+		this.dbref.child(this.name).update({total_imgs : (total + 1)});
+	},this);
 }
 
 // Other Functions
@@ -282,7 +282,17 @@ function size(obj) {
 	return i;
 }
 
-// TEST FUNCTIONS
+// TEST FUNCTIONS for test.html
+User.writeToDiv = function(){
+	var str = "";
+	for(i = 0; i < this.curList.length; i++)
+	{
+		str+="<img src=\"" + this.curList[i].url + "\" /> <p>Ref: " + this.curList[i].ref + "<p>Rating: " + this.curList[i].rating + 
+		"<p>Title: " + this.curList[i].title + "<br/>";
+	}
+	document.getElementById("display").innerHTML = str;
+}
+
 window.onload = function(){
 	User.setupByNewest();	
 }

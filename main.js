@@ -48,8 +48,7 @@ star_rating += "<input type='radio' id='starx4' name='rating' value='4' /><label
 star_rating += "<input type='radio' id='starx3' name='rating' value='3' /><label for='starx3' title='Meh'>3 stars</label>"
 star_rating += "<input type='radio' id='starx2' name='rating' value='2' /><label for='starx2' title='Kinda bad'>2 stars</label>"
 star_rating += "<input type='radio' id='starx1' name='rating' value='1' /><label for='starx1' title='Sucks big time'>1 star</label>"
-star_rating += "</div>"
-
+star_rating += "</div>";
 
 $(document).ready(function(){
     $(".rate").click(function(){
@@ -66,8 +65,6 @@ $(document).ready(function(){
         //For rate in modals
         //use above onclick if rate it button already clicked at least once by the user
     });
-
-
 
     /** Data base setup **/
     var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
@@ -139,7 +136,7 @@ function draw_memes(){
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>"+
-    "      <p class ='text-right ratings rating'>";
+    "       <div class='rating pull-right'>";
     // If no rating, show rate button (needs some flag)
     if( +memeArray[i].memeRating == 0) {
       memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";   
@@ -150,7 +147,7 @@ function draw_memes(){
         memeBlock +="<label class='yellow-star'></label>";
       }
     }
-    memeBlock += "      </p>"+
+    memeBlock += "      </div>"+
     "      <div class='comments pull-left'>"+memeArray[i].memeComments+"</div>"+
     "    </div>"+
     "  </div>"+
@@ -226,15 +223,11 @@ function modMemeModal(e){
   if( ""+e.target.parentNode.className == "hoverEditBtn" ){
     // This event was triggered with the hover button
     pencilTriggered = true;
+    currThumbnail = currThumbnail.parentNode;
   }
   
-  // If not rated yet, print out "Not Yet Rated" for modal view
-  currRating = currThumbnail.querySelector(".text-right");
-  if( ""+currRating.firstChild.tagName === "button" ) {
-    currRating = "Not Yet Rated";
-  } else {
-    currRating = ""+currRating.outerHTML;
-  }
+  // Get the current meme's rating display
+  currRating = currThumbnail.querySelector(".text-right").outerHTML;    
   
   // Info of meme that was clicked
   var currMeme = {
@@ -284,8 +277,7 @@ function modMemeModal(e){
     modalFooterList[1].onclick = resetModalBody;
     modalFooterList[2].onclick = function (e) {    
       resetModalBody(e);
-    };
-    
+    };    
   };
   
   function resetModalBody(evt) {
