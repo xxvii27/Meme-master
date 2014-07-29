@@ -99,12 +99,7 @@ User.pushQueryToList = function (obj, byNewest) {
 		if(byNewest) {
 			this.imgRefList.reverse();
 		}
-		
-		// Set Pointers
-		this.startPtr = 0;
-		this.endPtr = 9;
 	}
-	
 }
 
 /*
@@ -118,6 +113,7 @@ User.nextRenderList = function() {
 	
 	this.clearRenderList();
 
+	// If in DEBUG mode
 	if(DEBUG)
 	{
 		if(this.imgRefList.length == 0) {
@@ -128,14 +124,16 @@ User.nextRenderList = function() {
 		}
 	}
 	
+	// Find maximum number of images left on the list
 	for(i=this.endPtr; i > this.startPtr; i--){
 		if(this.imgRefList[i]){
 			max = (i-this.startPtr);
 			break;
 		}
 	}
+	
+	// Query each image
 	for(i = this.startPtr; i < (this.startPtr + this.limit); i++){
-		
 		url = this.imgRefList[i];
 		if(url) {
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + url).once('value', function(snapshot) {
@@ -176,10 +174,10 @@ User.prevRenderList = function() {
 
 /*
 	Refreshes the Rendering List 
-	Use case: AFTER 'delete' meme. Should NOT use directly
+	Use case: AFTER 'delete' meme or user page Refreshes
 */
 User.refreshRenderList = function() {
-	
+
 	// Move pointers back and call nextRenderList
 	this.startPtr -= this.limit;
 	this.endPtr = this.startPtr + 9;
@@ -223,7 +221,7 @@ User.clearRefList = function(){
 User.saveImg = function(aurl,atitle,acat,acom,arate) {
 	
 	// first, convert url, push reference
-	var priority = (arate == 0) ? 6 : (6-arate);
+	var priority = (arate && (arate == 0)) ? 6 : (6-arate);
 	var changeurl = replaceBadChars(aurl);
 	var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
 	
@@ -246,6 +244,48 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 	this.dbref.child(this.name).once('value', function(snap) {
 		var total = snap.val()['total_imgs'];
 		this.dbref.child(this.name).update({total_imgs : (total + 1)});
+	},this);
+}
+
+/* 
+	Deletes an image from the database. Automatically refreshes the page
+	use case: delete image button
+	Params:	(string) url
+	
+*/
+User.delImg = function(url) {
+	
+	// encode the URL
+	var encodedURL = replaceBadChars(url);
+	
+	// Access the Database
+	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
+		
+		// Get reference value from snapshot
+		var ref = snap.val()['ref'];
+		
+		// Remove the value from USER reference array
+		if(ref) {
+			var tempStartPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+			var tempEndPtr = tempStartPtr + 9;
+			
+			for(i = tempStartPtr; i < tempEndPtr; i++) {
+				if(this.imgRefList[i] == encodedURL) {
+					this.imgRefList.splice(i,1);
+					break;
+				}
+			}
+			
+			// remove reference from Database
+			this.dbref.child(this.name + "/" + IMG_REF + "/" + ref).remove();
+			// remove image data from Database
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).remove();
+			// Re-render image
+			this.refreshRenderList();
+		}
+		else {
+			alert("TO DEVELOPERS: URL DOES NOT EXIST");
+		}
 	},this);
 }
 
@@ -295,4 +335,7 @@ User.writeToDiv = function(){
 
 window.onload = function(){
 	User.setupByNewest();	
+	User.dbref.child(User.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
+		alert("REMOVED" + JSON.stringify(oldData.val()));
+	});
 }
