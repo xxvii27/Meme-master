@@ -325,3 +325,26 @@ function modMemeModal(e){
   // Force click, if event was triggered by pencil
   if( pencilTriggered ) { modalFooterList[0].click(); }
 } // view Modal event
+
+
+/** DB section **/
+// String Constants
+var FBURL = "https://intense-fire-8114.firebaseio.com/user/";
+var IMG_REF = "r_imgs";
+var IMG_DETAILS = "d_imgs";
+var NO_TITLE = "no title";
+var DEBUG = true;     // FOR DEBUGING PURPOSES
+
+/* Create User Wrapper Object to avoid namespace Conflict*/
+var User = {};
+
+// Add User fields
+User.dbref = new Firebase(FBURL);
+User.startPtr = 0;
+User.endPtr = 9;
+User.limit    = 10;
+User.imgRefList = []; // List of database url references
+User.curList = [];    // Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
+
+// TEST FIELD!
+User.name = "thomas";
