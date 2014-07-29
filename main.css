@@ -420,12 +420,6 @@ input.form-control{
     color: white;
 }
 
-/* thumbnail images */
-.img-thumb-nail{
-    height: auto !important;
-    width: 100% !important;
-}
-
 div.thumbnail > div.t_c.mb > div.mask {
     width: 100%;
 }
