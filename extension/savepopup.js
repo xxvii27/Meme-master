@@ -106,8 +106,9 @@ $(document).ready(function(){
         var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
         var nrate = saveRate;
-        alert(nrate);
+        //alert(nrate);
         User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+        self.close();
     });    
 });
 

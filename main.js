@@ -432,7 +432,7 @@ $(document).ready(function(){
 
     $('.rating input').click(function(){
         //alert( $(this).val() );
-        saveRate = $(this.val());
+        saveRate = $(this).val();
         //For rate in modals
         //use above onclick if rate it button already clicked at least once by the user
     });
@@ -448,8 +448,9 @@ $(document).ready(function(){
         var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
         var nrate = saveRate;
-        alert(nrate);
+        //alert(nrate);
         User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+        saveRate = 0;
         /**newMeme.set({
                 meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
             function(error) {
