@@ -337,7 +337,7 @@ User.delImg = function(url) {
                     break;
                 }
             }
-
+			
             // change total img count and from database
             this.totalImgs -= 1;
             this.dbref.child(this.name).update({total_imgs : this.totalImgs});
@@ -350,6 +350,7 @@ User.delImg = function(url) {
 			
             // Re-render image
             this.refreshRenderList();
+			
         }
         else {
             alert("TO DEVELOPERS: URL DOES NOT EXIST");
