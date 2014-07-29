@@ -67,6 +67,7 @@ window.onload = function () {
   var hashParams = window.location.hash.substr(1); // substr(1) to remove the `#`
   var imgUrl = hashParams.substr(hashParams.indexOf('=') + 1);
   //alert(window.location.hash.substr(1).substr(hashParams.indexOf('=')+1));
+  document.getElementById("imgPreview").src=imgUrl;
   document.getElementById('urlInput').value = decodeURIComponent(imgUrl);;
 
 
