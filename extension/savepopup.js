@@ -100,7 +100,7 @@ $(document).ready(function(){
     });
 
     $('.rating input').click(function(){
-        alert( $(this).val() );
+        //alert( $(this).val() );
         saveRate = $(this).val();
         //For rate in modals
         //use above onclick if rate it button already clicked at least once by the user
