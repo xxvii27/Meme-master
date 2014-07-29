@@ -1,11 +1,18 @@
 {
   "name": "Add to Meme Master",
-  "description": "Add this awesome meme to Meme Master",
-  "version": "0.6",
+  "description": "Extension for CSI's Meme Master",
+  "version": "1.0",
+  
   "permissions": ["contextMenus"],
   "background": {
     "scripts": ["extension.js"]
   },
+
+  "browser_action":{
+    "default_icon" : "TrollFace.png",
+    "default_popup" : "popup.html"
+  },
+
   "icons": {
     "16": "TrollFace.png"
   },

@@ -12,6 +12,7 @@ var User = {};
 User.dbref = new Firebase(FBURL);
 User.startPtr = 0;
 User.endPtr = 9;
+User.totalImgs = 0;
 User.limit 		= 10;
 User.imgRefList = [];	// List of database url references
 User.curList = [];		// Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
@@ -20,6 +21,21 @@ User.curList = [];		// Current List of objects to render (JAMES: THIS IS THE LIS
 User.name = "thomas";
 
 // Functions for User class
+User.setupData = function() {
+	// Change Count of Total Imgs
+	this.dbref.child(this.name).once('value', function(snap) {
+		this.totalImgs = snap.val()['total_imgs'];
+        alert(this.totalImgs);
+		this.setupByNewest();
+
+	},this);
+	
+	// Setup delete on delete child (delete meme)
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
+			alert("REMOVED" + JSON.stringify(oldData.val()));
+	});
+}
+
 /*
 	Sorts keys in database by chronological order. Then sets the current list for UI to render
 	use case: dropdown option to sory by 'newest'
@@ -99,12 +115,7 @@ User.pushQueryToList = function (obj, byNewest) {
 		if(byNewest) {
 			this.imgRefList.reverse();
 		}
-		
-		// Set Pointers
-		this.startPtr = 0;
-		this.endPtr = 9;
 	}
-	
 }
 
 /*
@@ -115,9 +126,11 @@ User.nextRenderList = function() {
 	
 	var max;
 	var counter = 0;
+	var capStartPtr = this.startPtr;
 	
 	this.clearRenderList();
 
+	// If in DEBUG mode
 	if(DEBUG)
 	{
 		if(this.imgRefList.length == 0) {
@@ -128,14 +141,16 @@ User.nextRenderList = function() {
 		}
 	}
 	
+	// Find maximum number of images left on the list
 	for(i=this.endPtr; i > this.startPtr; i--){
 		if(this.imgRefList[i]){
 			max = (i-this.startPtr);
 			break;
 		}
 	}
-	for(i = this.startPtr; i < (this.startPtr + this.limit); i++){
-		
+	
+	// Query each image
+	for(i = capStartPtr; i < (capStartPtr + this.limit); i++){
 		url = this.imgRefList[i];
 		if(url) {
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + url).once('value', function(snapshot) {
@@ -149,10 +164,9 @@ User.nextRenderList = function() {
 					// Img List Ready HERE
 										// JAMES: Put Drawmemes method here
 					this.writeToDiv(); // FOR TESTING on test.html
+
 				}
-				else{
-					counter++;
-				}
+				counter++;
 			},this);
 		}
 		else {
@@ -176,14 +190,14 @@ User.prevRenderList = function() {
 
 /*
 	Refreshes the Rendering List 
-	Use case: AFTER 'delete' meme. Should NOT use directly
+	Use case: AFTER 'delete' meme or user page Refreshes
 */
 User.refreshRenderList = function() {
-	
+
 	// Move pointers back and call nextRenderList
 	this.startPtr -= this.limit;
 	this.endPtr = this.startPtr + 9;
-	
+
 	this.nextRenderList();
 }
 
@@ -214,18 +228,22 @@ User.clearRefList = function(){
 /* 	For Save img URL. Sets by priorty
 	INSURE DATA IS LEGIT!
 	use case: Save img details to database
- 	Params: aurl: (string) url
+ 	Params: aurl: 	(string) url
 			atitle:	(string) title
 			acat:	(string) category
 			acom:	(string) comment (TEST LENGTH TO DATABASE)
 			arate:	(number) rating
+			[edit] 	(boolean) from edit function (optional) 
 */
-User.saveImg = function(aurl,atitle,acat,acom,arate) {
+User.saveImg = function(aurl,atitle,acat,acom,arate,edit) {
 	
 	// first, convert url, push reference
-	var priority = (arate == 0) ? 6 : (6-arate);
+	var priority = (arate && (arate == 0)) ? 6 : (6-arate);
 	var changeurl = replaceBadChars(aurl);
-	var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+	
+	// Push if not editing
+	if(!edit)
+		var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
 	
 	atitle = (atitle) ? atitle : NO_TITLE;
 	
@@ -242,12 +260,76 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 	// set priority
 	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
 	
-	// add 1 to total imgs
-	this.dbref.child(this.name).once('value', function(snap) {
-		var total = snap.val()['total_imgs'];
-		this.dbref.child(this.name).update({total_imgs : (total + 1)});
+	// add 1 to total imgs if not editing
+	if(!edit) {
+		this.dbref.child(this.name).once('value', function(snap) {
+			var total = snap.val()['total_imgs'];
+			this.dbref.child(this.name).update({total_imgs : (total + 1)});
+		},this);
+	}
+	
+}
+
+/* 	For edit img information. Sets by priorty
+	INSURE DATA IS LEGIT!
+	use case: edit img details to database
+ 	Params: aurl: (string) url
+			atitle:	(string) title
+			acat:	(string) category
+			acom:	(string) comment (TEST LENGTH TO DATABASE)
+			arate:	(number) rating
+*/
+User.editImg = function(aurl,atitle,acat,acom,arate){
+	this.saveImg(aurl,atitle,acat,acom,arate,true);
+}
+
+/*  Deletes an image from the database. Automatically refreshes the page
+	use case: delete image button
+	Params:	(string) url
+*/
+User.delImg = function(url) {
+	
+	// encode the URL
+	var encodedURL = replaceBadChars(url);
+	
+	// Access the Database
+	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
+		
+		// Remove the value from USER reference array
+		if(snap.val()) {
+			
+			// Get reference value from snapshot
+			var ref = snap.val()['ref'];
+		
+			var tempStartPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+			var tempEndPtr = tempStartPtr + 9;
+			
+			for(i = tempStartPtr; i < tempEndPtr; i++) {
+				if(this.imgRefList[i] == encodedURL) {
+					this.imgRefList.splice(i,1);
+					break;
+				}
+			}
+			
+			// change total img count and from database
+			this.totalImgs -= 1;
+			this.dbref.child(this.name).update({total_imgs : this.totalImgs});
+			
+			// remove reference from Database
+			this.dbref.child(this.name + "/" + IMG_REF + "/" + ref).remove();
+			
+			// remove image data from Database
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).remove();
+			
+			// Re-render image
+			this.refreshRenderList();
+		}
+		else {
+			alert("TO DEVELOPERS: URL DOES NOT EXIST");
+		}
 	},this);
 }
+
 
 // Other Functions
 function replaceBadChars(str){
@@ -292,7 +374,10 @@ User.writeToDiv = function(){
 	}
 	document.getElementById("display").innerHTML = str;
 }
-
-window.onload = function(){
-	User.setupByNewest();	
+/*
+window.onload = function() {
+	User.setupData();
 }
+*/
+
+
