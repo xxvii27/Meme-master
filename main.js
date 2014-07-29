@@ -39,6 +39,17 @@ function download_meme(URL) {
     a.remove();
 }
 
+
+
+
+    
+
+
+
+
+
+
+
 var star_rating = "";
 star_rating += "<div class='rating pull-right' id='app'> "
 star_rating += "<input type='radio' id='starx5' name='rating' value='5' /><label for='starx5' title='Rocks!'>5 stars</label>"
