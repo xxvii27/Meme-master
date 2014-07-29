@@ -162,7 +162,8 @@ User.nextRenderList = function() {
 
                     // Img List Ready HERE
                     // JAMES: Put Drawmemes method here
-                    this.writeToDiv(); // FOR TESTING on test.html
+					draw_memes();
+                    //this.writeToDiv(); // FOR TESTING on test.html
 
                 }
                 counter++;
@@ -430,7 +431,7 @@ $(document).ready(function(){
 // functions loaded when all elements has been loaded
 window.onload = function () {
   User.setupData();
-  draw_memes();
+  //draw_memes();
   var clickableMemes = document.getElementsByClassName('img-thumb-nail');
   for( var i = 0; i < clickableMemes.length; i++ ) {    
     clickableMemes[i].onclick = modMemeModal;
@@ -550,19 +551,22 @@ function rateItEvt(evt) {
 }
 
 function draw_memes(){
-    var memeArray = new Array(10);
-    var title = ["First Meme", "Second Meme", "Third Meme", "Fourth Meme", "Fifth Meme", "Sixth Meme", "Seventh Meme",
-                 "Eighth Meme", "Nineth Meme", "Tenth Meme"];
-    var gifs = [1, 6];
+	var memeArray = User.curList;
+    //var memeArray = new Array(10);
+   // var title = ["First Meme", "Second Meme", "Third Meme", "Fourth Meme", "Fifth Meme", "Sixth Meme", "Seventh Meme",
+   //              "Eighth Meme", "Nineth Meme", "Tenth Meme"];
+    //var gifs = [1, 6];
     var dimens = [3, 4, 5, 6];
-    var str = "memes/";
+    //var str = "memes/";
     var toStr;
     var memeSRCStr;
-    var memeDimens;
+    var memeDimens = [];
     
+	
     for (var i = 0; i < memeArray.length; i++)
     {
-        toStr = i.toString();
+		memeDimens.push(dimens.indexOf(i) != -1 ? '643' : '644');
+       /* toStr = i.toString();
         memeSRCStr = str + toStr + (gifs.indexOf(i) != -1 ? ".gif" : ".jpg");
         memeDimens = dimens.indexOf(i) != -1 ? '643' : '644';
         memeArray[i] = {
@@ -571,32 +575,33 @@ function draw_memes(){
             memeSRC : memeSRCStr,
             memeHREF : "#",
             memeRating : ""+Math.floor((Math.random() * 5)),
-            /*memeRating : '0', */
+            //memeRating : '0', 
             memeDimensions : memeDimens
-        }
+        }*/
     }
+	
           
   var memeBlock =""; // Holds what would be written in div.row
   
   for (var i= 0; i < 10; i++) {
-    memeBlock +="<div class='col-sm-"+memeArray[i].memeDimensions.charAt(0)+" col-md-"+memeArray[i].memeDimensions.charAt(1)+
-    " col-lg-"+memeArray[i].memeDimensions.charAt(2)+"'>"+
+    memeBlock += "<div class='col-sm-" + memeDimens[i].charAt(0)+" col-md-" + memeDimens[i].charAt(1)+
+    " col-lg-" + memeDimens[i].charAt(2)+"'>"+
     "  <div class='thumbnail'>"+
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
-    "        <a onclick='download_meme("+'"'+memeArray[i].memeSRC+'"'+")'><img src='icons/download32w.png' alt=''/></a>"+
+    "        <a onclick='download_meme(" + '"' +memeArray[i].url+'"'+")'><img src='icons/download32w.png' alt=''/></a>"+
     "        <a href='#' class='hoverEditBtn' data-toggle='modal' data-target='#viewModal'>"+
     "          <img src='icons/pencil32w.png' alt=''/></a>"+
     "        <a onclick='confirm_delete()'><img src='icons/trash.png' alt=''></a>"+
     "      </div>"+
     "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
-    "        <img class ='img-thumb-nail' src='"+memeArray[i].memeSRC+"' alt=''></a>"+
+    "        <img class ='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
     "    </div>"+
     "    <div class='caption big'>"+
-    "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>"+
-    "       <div class='rating pull-right' data-rating= "+'"'+memeArray[i].memeRating+'"'+">";
+    "      <h5><a href='#'>"+memeArray[i].title+"</a></h5>"+
+    "       <div class='rating pull-right' data-rating= "+'"'+memeArray[i].rating+'"'+">";
     // If no rating, show rate button (needs some flag)
-    if( +memeArray[i].memeRating == 0) {
+    if( + memeArray[i].rating == 0) {
       memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";   
     }
     else {
@@ -606,7 +611,7 @@ function draw_memes(){
       }
     }
     memeBlock += "      </div>"+
-    "      <div class='comments pull-left'>"+memeArray[i].memeComments+"</div>"+
+    "      <div class='comments pull-left'>"+memeArray[i].comment+"</div>"+
     "    </div>"+
     "  </div>"+
     "</div>";
