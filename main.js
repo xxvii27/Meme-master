@@ -126,7 +126,7 @@ function draw_memes(){
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='"+memeArray[i].memeHREF+"'>"+memeArray[i].memeTitle+"</a></h5>"+
-    "      <p class ='text-right ratings rating'>";
+    "       <div class='rating pull-right'>";
     // If no rating, show rate button (needs some flag)
     if( +memeArray[i].memeRating == 0) {
       memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";   
@@ -137,7 +137,7 @@ function draw_memes(){
         memeBlock +="<label class='yellow-star'></label>";
       }
     }
-    memeBlock += "      </p>"+
+    memeBlock += "      </div>"+
     "      <div class='comments pull-left'>"+memeArray[i].memeComments+"</div>"+
     "    </div>"+
     "  </div>"+
