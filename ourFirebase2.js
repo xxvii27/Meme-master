@@ -12,6 +12,7 @@ var User = {};
 User.dbref = new Firebase(FBURL);
 User.startPtr = 0;
 User.endPtr = 9;
+User.totalImgs = 0;
 User.limit 		= 10;
 User.imgRefList = [];	// List of database url references
 User.curList = [];		// Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
@@ -20,6 +21,19 @@ User.curList = [];		// Current List of objects to render (JAMES: THIS IS THE LIS
 User.name = "thomas";
 
 // Functions for User class
+User.setupData = function() {
+	// Change Count of Total Imgs
+	this.dbref.child(this.name).once('value', function(snap) {
+		this.totalImgs = snap.val()['total_imgs'];	
+		this.setupByNewest();		
+	},this);
+	
+	// Setup delete on delete child (delete meme)
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
+			alert("REMOVED" + JSON.stringify(oldData.val()));
+	});
+}
+
 /*
 	Sorts keys in database by chronological order. Then sets the current list for UI to render
 	use case: dropdown option to sory by 'newest'
@@ -110,6 +124,7 @@ User.nextRenderList = function() {
 	
 	var max;
 	var counter = 0;
+	var capStartPtr = this.startPtr;
 	
 	this.clearRenderList();
 
@@ -133,7 +148,7 @@ User.nextRenderList = function() {
 	}
 	
 	// Query each image
-	for(i = this.startPtr; i < (this.startPtr + this.limit); i++){
+	for(i = capStartPtr; i < (capStartPtr + this.limit); i++){
 		url = this.imgRefList[i];
 		if(url) {
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + url).once('value', function(snapshot) {
@@ -148,9 +163,7 @@ User.nextRenderList = function() {
 										// JAMES: Put Drawmemes method here
 					this.writeToDiv(); // FOR TESTING on test.html
 				}
-				else{
-					counter++;
-				}
+				counter++;
 			},this);
 		}
 		else {
@@ -181,7 +194,7 @@ User.refreshRenderList = function() {
 	// Move pointers back and call nextRenderList
 	this.startPtr -= this.limit;
 	this.endPtr = this.startPtr + 9;
-	
+
 	this.nextRenderList();
 }
 
@@ -245,6 +258,7 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 		var total = snap.val()['total_imgs'];
 		this.dbref.child(this.name).update({total_imgs : (total + 1)});
 	},this);
+	
 }
 
 /* 
@@ -261,11 +275,14 @@ User.delImg = function(url) {
 	// Access the Database
 	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
 		
-		// Get reference value from snapshot
-		var ref = snap.val()['ref'];
+		
 		
 		// Remove the value from USER reference array
-		if(ref) {
+		if(snap.val()) {
+			
+			// Get reference value from snapshot
+			var ref = snap.val()['ref'];
+		
 			var tempStartPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
 			var tempEndPtr = tempStartPtr + 9;
 			
@@ -276,10 +293,16 @@ User.delImg = function(url) {
 				}
 			}
 			
+			// change total img count and from database
+			this.totalImgs -= 1;
+			this.dbref.child(this.name).update({total_imgs : this.totalImgs});
+			
 			// remove reference from Database
 			this.dbref.child(this.name + "/" + IMG_REF + "/" + ref).remove();
+			
 			// remove image data from Database
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).remove();
+			
 			// Re-render image
 			this.refreshRenderList();
 		}
@@ -288,6 +311,7 @@ User.delImg = function(url) {
 		}
 	},this);
 }
+
 
 // Other Functions
 function replaceBadChars(str){
@@ -334,8 +358,5 @@ User.writeToDiv = function(){
 }
 
 window.onload = function(){
-	User.setupByNewest();	
-	User.dbref.child(User.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
-		alert("REMOVED" + JSON.stringify(oldData.val()));
-	});
+	User.setupData();
 }
