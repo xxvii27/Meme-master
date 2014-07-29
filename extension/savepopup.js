@@ -16,8 +16,71 @@ star_rating += "<input type='radio' id='starx2' name='rating' value='2' /><label
 star_rating += "<input type='radio' id='starx1' name='rating' value='1' /><label for='starx1' title='Sucks big time'>1 star</label>"
 star_rating += "</div>"
 
+//Database Functions
+// String Constants
+var FBURL = "https://intense-fire-8114.firebaseio.com/user/";
+var IMG_REF = "r_imgs";
+var IMG_DETAILS = "d_imgs";
+var NO_TITLE = "no title";
+var DEBUG = true;     // FOR DEBUGING PURPOSES
 
+/* Create User Wrapper Object to avoid namespace Conflict*/
+var User = {};
+
+// Add User fields
+User.dbref    = new Firebase(FBURL);
+
+// TEST FIELD!
+User.name = "thomas";
+
+/*  For Save img URL. Sets by priorty
+ INSURE DATA IS LEGIT!
+ use case: Save img details to database
+ Params: aurl: (string) url
+ atitle:  (string) title
+ acat:  (string) category
+ acom:  (string) comment (TEST LENGTH TO DATABASE)
+ arate: (number) rating
+ */
+User.saveImg = function(aurl,atitle,acat,acom,arate) {
+
+    // first, convert url, push reference
+    var priority = (arate && (arate == 0)) ? 6 : (6-arate);
+    var changeurl = replaceBadChars(aurl);
+    var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+
+    atitle = (atitle) ? atitle : NO_TITLE;
+
+    // Push other information into detail on images
+    this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+        {
+            url: aurl
+            ,title: atitle
+            ,category: acat
+            ,comment: acom
+            ,rating: arate
+        });
+
+    // set priority
+    this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+
+    // add 1 to total imgs
+    this.dbref.child(this.name).once('value', function(snap) {
+        var total = snap.val()['total_imgs'];
+        this.dbref.child(this.name).update({total_imgs : (total + 1)});
+    },this);
+
+}
+
+function replaceBadChars(str){
+    var temp = str.replace(/\./g,',');
+    return temp.replace(/\//g,'|');
+}
+
+
+// when document is loading.
 $(document).ready(function(){
+    var saveRate = 0;
     $(".rate").click(function(){
         $(this).parent().append(star_rating);
         $(this).remove();
@@ -29,33 +92,23 @@ $(document).ready(function(){
 
     $('.rating input').click(function(){
         alert( $(this).val() );
+        saveRate = $(this).val();
         //For rate in modals
         //use above onclick if rate it button already clicked at least once by the user
     });
 
-
-
     /** Data base setup **/
-    var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
-
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
         
         var nurl = $('#urlInput').val();
         var ntitle = $('#titleInput').val();
-        var newMeme = DBmeme.child(ntitle);
         var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
-
-
-        newMeme.set({'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag},
-            function(error) {
-            if(error){
-                alert('There was an error with DB.\n' + error);
-            } else {
-                alert('Save successful');
-            }
-        });
+        var nrate = saveRate;
+        //alert(nrate);
+        User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+        self.close();
     });    
 });
 
@@ -70,30 +123,6 @@ window.onload = function () {
   document.getElementById("imgPreview").src=imgUrl;
   document.getElementById('urlInput').value = decodeURIComponent(imgUrl);;
 
-
-  // Add onclick listener for stars
-  function clickStarRating() {
-    var rateEvent = document.getElementsByName("rating");
-    for( var i = 0; i < rateEvent.length; i++ ) {
-      rateEvent[i].onclick = function (e) {                
-        var strStars = e.target.value;  // Number of stars clicked
-        
-        alert("NOTE: Need to send value of: "+strStars+" to the dB");
-        var currNode = e.target.parentNode.parentNode; // p node for ratings
-        var strStarsHTML = "";
-        for( j = 0; j < +strStars; j++ ) {
-          strStarsHTML += "<span class='glyphicon glyphicon-star'></span>";
-        }
-        currNode.innerHTML = strStarsHTML;
-      };
-    }
-  }
-  
-  // Add event for hover edit button
-  var editList = document.querySelectorAll(".hoverEditBtn>img");
-  for( var i = 0; i < editList.length; i++ ) {
-    editList[i].onclick = modMemeModal;
-  }
 }
  
 // Retrieve meme info and insert into memeModal

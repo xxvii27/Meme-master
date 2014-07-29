@@ -35,7 +35,7 @@ User.setupData = function() {
         //alert("REMOVED" + JSON.stringify(oldData.val()));
     });
 
-    document.getElementById('prev').style.visibility = 'hidden';
+    document.getElementById('prev').style.display = 'none';
 }
 
 User.evalSetup = function (state) {
@@ -165,12 +165,12 @@ User.nextRenderList = function() {
             alert("nextRenderList() may not work. No imgs");
         }
         else if(this.startPtr >= this.imgRefList.length-1 || this.startPtr > 0) {
-            document.getElementById('next').style.visibility = 'hidden';
-            document.getElementById('prev').style.visibility = 'visible';
+            document.getElementById('next').style.display = 'none';
+            document.getElementById('prev').style.display = 'inline';
         }
         else if(this.startPtr === 0){
-            document.getElementById('prev').style.visibility = 'hidden';
-            document.getElementById('next').style.visibility = 'visible';
+            document.getElementById('prev').style.display = 'none';
+            document.getElementById('next').style.display = 'inline';
         }
     }
 
@@ -432,7 +432,7 @@ $(document).ready(function(){
 
     $('.rating input').click(function(){
         //alert( $(this).val() );
-        saveRate = $(this.val());
+        saveRate = $(this).val();
         //For rate in modals
         //use above onclick if rate it button already clicked at least once by the user
     });
@@ -448,8 +448,9 @@ $(document).ready(function(){
         var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
         var nrate = saveRate;
-        alert(nrate);
+        //alert(nrate);
         User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+        saveRate = 0;
         /**newMeme.set({
                 meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
             function(error) {
