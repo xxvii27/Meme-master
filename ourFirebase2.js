@@ -24,8 +24,10 @@ User.name = "thomas";
 User.setupData = function() {
 	// Change Count of Total Imgs
 	this.dbref.child(this.name).once('value', function(snap) {
-		this.totalImgs = snap.val()['total_imgs'];	
-		this.setupByNewest();		
+		this.totalImgs = snap.val()['total_imgs'];
+        alert(this.totalImgs);
+		this.setupByNewest();
+
 	},this);
 	
 	// Setup delete on delete child (delete meme)
@@ -162,6 +164,7 @@ User.nextRenderList = function() {
 					// Img List Ready HERE
 										// JAMES: Put Drawmemes method here
 					this.writeToDiv(); // FOR TESTING on test.html
+
 				}
 				counter++;
 			},this);
@@ -357,6 +360,4 @@ User.writeToDiv = function(){
 	document.getElementById("display").innerHTML = str;
 }
 
-window.onload = function(){
-	User.setupData();
-}
+
