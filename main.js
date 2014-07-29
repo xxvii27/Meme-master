@@ -32,7 +32,7 @@ User.setupData = function() {
 
     // Setup delete on delete child (delete meme)
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
-        alert("REMOVED" + JSON.stringify(oldData.val()));
+        //alert("REMOVED" + JSON.stringify(oldData.val()));
     });
 
     document.getElementById('prev').style.visibility = 'hidden';
@@ -286,6 +286,7 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
             ,category: acat
             ,comment: acom
             ,rating: arate
+			,ref: refID
         });
 
     // set priority
@@ -313,8 +314,6 @@ User.delImg = function(url) {
     // Access the Database
     this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
 
-
-
         // Remove the value from USER reference array
         if(snap.val()) {
 
@@ -334,13 +333,14 @@ User.delImg = function(url) {
             // change total img count and from database
             this.totalImgs -= 1;
             this.dbref.child(this.name).update({total_imgs : this.totalImgs});
-
+			
+			alert(ref);
             // remove reference from Database
             this.dbref.child(this.name + "/" + IMG_REF + "/" + ref).remove();
 
             // remove image data from Database
             this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).remove();
-
+			
             // Re-render image
             this.refreshRenderList();
         }
@@ -540,9 +540,9 @@ function hide() {
     clearTimeout(hovID)
 }
 
-function confirm_delete() {
+function confirm_delete(url) {
     if(confirm("Are you sure you want to delete?")){
-        alert("Deleted");
+        User.delImg(url);
     }
     return false;
 }
@@ -627,7 +627,7 @@ function draw_memes(){
     "        <a href='#' onclick='download_meme(" + '"' +memeArray[i].url+'"'+")' title='Download'><img src='icons/download32w.png' alt=''/></a>"+
     "        <a href='#' class='hoverEditBtn' data-toggle='modal' data-target='#viewModal' title='Edit'>"+
     "          <img src='icons/pencil32w.png' alt=''/></a>"+
-    "        <a href='#' onclick='confirm_delete()' title='Delete'><img src='icons/trash.png' alt=''></a>"+
+    "        <a href='#' onclick='confirm_delete(\"" + memeArray[i].url + "\")' title='Delete'><img src='icons/trash.png' alt=''></a>"+
     "      </div>"+
     "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
     "        <img class ='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
