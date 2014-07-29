@@ -6,31 +6,6 @@ var hovS;
 var x;
 var y;
 
-function m_d_tooltip(evt,id) {
-    hovS = id;
-    x = evt.pageX;
-    y = evt.pageY;
-    hovID = setTimeout(function () {
-            var ele = document.getElementById(hovS);
-            ele.style.top = (y+25) + "px";
-            ele.style.left = (x-65)+ "px";
-            ele.style.display = "block"
-        }
-        ,750);
-}
-
-function hide() {
-    var ele = document.getElementById(hovS);
-    ele.style.display = "none"
-    clearTimeout(hovID)
-}
-
-function confirm_delete() {
-    if(confirm("Are you sure you want to delete?")){
-        alert("Deleted");
-    }
-    return false;
-}
 
 /* Save a meme on local computer */
 function download_meme(URL) {
@@ -348,3 +323,128 @@ User.curList = [];    // Current List of objects to render (JAMES: THIS IS THE L
 
 // TEST FIELD!
 User.name = "thomas";
+
+
+/*  For Save img URL. Sets by priorty
+  INSURE DATA IS LEGIT!
+  use case: Save img details to database
+  Params: aurl: (string) url
+      atitle: (string) title
+      acat: (string) category
+      acom: (string) comment (TEST LENGTH TO DATABASE)
+      arate:  (number) rating
+*/
+User.saveImg = function(aurl,atitle,acat,acom,arate) {
+  
+  // first, convert url, push reference
+  var priority = (arate && (arate == 0)) ? 6 : (6-arate);
+  var changeurl = replaceBadChars(aurl);
+  var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+  
+  atitle = (atitle) ? atitle : NO_TITLE;
+  
+  // Push other information into detail on images
+  this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+    {
+      url: aurl
+      ,title: atitle
+      ,category: acat
+      ,comment: acom
+      ,rating: arate
+    });
+    
+  // set priority
+  this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+  
+  // add 1 to total imgs
+  this.dbref.child(this.name).once('value', function(snap) {
+    var total = snap.val()['total_imgs'];
+    this.dbref.child(this.name).update({total_imgs : (total + 1)});
+  },this);
+}
+
+/* 
+  Deletes an image from the database. Automatically refreshes the page
+  use case: delete image button
+  Params: (string) url
+  
+*/
+User.delImg = function(url) {
+  
+  // encode the URL
+  var encodedURL = replaceBadChars(url);
+  
+  // Access the Database
+  this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
+    
+    // Get reference value from snapshot
+    var ref = snap.val()['ref'];
+    
+    // Remove the value from USER reference array
+    if(ref) {
+      var tempStartPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+      var tempEndPtr = tempStartPtr + 9;
+      
+      for(i = tempStartPtr; i < tempEndPtr; i++) {
+        if(this.imgRefList[i] == encodedURL) {
+          this.imgRefList.splice(i,1);
+          break;
+        }
+      }
+      
+      // remove reference from Database
+      this.dbref.child(this.name + "/" + IMG_REF + "/" + ref).remove();
+      // remove image data from Database
+      this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).remove();
+      // Re-render image
+      this.refreshRenderList();
+    }
+    else {
+      alert("TO DEVELOPERS: URL DOES NOT EXIST");
+    }
+  },this);
+}
+
+// Other Functions
+function replaceBadChars(str){
+  var temp = str.replace(/\./g,',');
+  return temp.replace(/\//g,'|');
+}
+
+function restoreBadChars(str){
+  var temp = str.replace(/,/g,'.');
+  return temp.replace(/\|/g,'/');
+}
+
+function each(obj,cb){
+    
+    if(obj){
+      for (k in obj){
+        if(obj.hasOwnProperty(k)){
+          var res = cb(obj[k],k);
+          if(res === true){
+            break;
+          }
+        }
+      }
+    }
+  }
+  
+function size(obj) {
+  var i = 0;
+  each(obj, function () {
+    i++;
+  });
+  return i;
+}
+
+// TEST FUNCTIONS for test.html
+User.writeToDiv = function(){
+  var str = "";
+  for(i = 0; i < this.curList.length; i++)
+  {
+    str+="<img src=\"" + this.curList[i].url + "\" /> <p>Ref: " + this.curList[i].ref + "<p>Rating: " + this.curList[i].rating + 
+    "<p>Title: " + this.curList[i].title + "<br/>";
+  }
+  document.getElementById("display").innerHTML = str;
+}
