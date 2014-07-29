@@ -6,32 +6,6 @@ var hovS;
 var x;
 var y;
 
-function m_d_tooltip(evt,id) {
-    hovS = id;
-    x = evt.pageX;
-    y = evt.pageY;
-    hovID = setTimeout(function () {
-            var ele = document.getElementById(hovS);
-            ele.style.top = (y+25) + "px";
-            ele.style.left = (x-65)+ "px";
-            ele.style.display = "block"
-        }
-        ,750);
-}
-
-function hide() {
-    var ele = document.getElementById(hovS);
-    ele.style.display = "none"
-    clearTimeout(hovID)
-}
-
-function confirm_delete() {
-    if(confirm("Are you sure you want to delete?")){
-        alert("Deleted");
-    }
-    return false;
-}
-
 /* Save a meme on local computer */
 function download_meme(URL) {
     var a = $("<a>").attr("href", URL).attr("download", URL).appendTo("body");
@@ -147,7 +121,6 @@ window.onload = function () {
   }
 }
 
-
 /** Basic Functions **/
 function m_d_tooltip(evt,id) {
     hovS = id;
@@ -173,6 +146,44 @@ function confirm_delete() {
         alert("Deleted");
     }
     return false;
+}
+
+function rateItEvt(evt) {
+  evt.stopPropagation();
+  // After click, show stars
+  var currClick = evt.target;
+  var currRateButton = currClick.parentNode.innerHTML;
+
+  currClick.parentNode.innerHTML = star_rating;
+
+  $("body").click( function (e) {
+    // unbind body
+    $("body").unbind("click");
+    
+    if(e.target.tagName == "LABEL") {
+      // User clicked on number of stars
+      var strStars = e.target.innerHTML.charAt(0);  // Number of stars clicked
+      var currNode = e.target.parentNode.parentNode; // p node for ratings
+      currNode.setAttribute("data-rating", ""+strStars );
+      // ************ Send rating to server HERE **************************************
+      
+      var strStarsHTML = "";
+      for( j = 0; j < +strStars; j++ ) {
+        strStarsHTML += "<label class='yellow-star'></label>";
+      }
+      currNode.innerHTML = strStarsHTML;    
+    } else {
+      // Find the stars and traverse up to find p.rating
+      var currNode = $("p.ratings>div.rating");
+      // Show rate it button
+      currRateBtn = currNode[0].parentNode;
+      currRateBtn.innerHTML = currRateButton;
+      // rebind onclick
+      $("#memeContent .rate").unbind("click");
+      $("#memeContent .rate").click( rateItEvt );
+      
+    }
+  })
 }
 
 function draw_memes(){
@@ -245,11 +256,15 @@ function draw_memes(){
 
  
 // Retrieve meme info and insert into memeModal
+// Retrieve meme info and insert into memeModal
 function modMemeModal(e){
   // grandparent container of triggered image
   var currThumbnail = e.target.parentNode.parentNode.parentNode;
   var currRating;  // Holds the rating container of triggered modal
   var pencilTriggered = false;
+  
+  // Set rateItEvt in memeModal (if there is one)
+  $("#viewModal .rate").click( rateItEvt );
 
   if( ""+e.target.parentNode.className == "hoverEditBtn" ){
     // This event was triggered with the hover button
@@ -258,7 +273,13 @@ function modMemeModal(e){
   }
   
   // Get the current meme's rating display
-  currRating = currThumbnail.querySelector(".text-right").outerHTML;    
+  currRating = currThumbnail.querySelector(".text-right");
+  
+  if( ""+currRating.getAttribute("data-rating") == "0" ) {
+    currRating = "Not yet rated";
+  } else {
+    currRating = currRating.innerHTML;
+  }
   
   // Info of meme that was clicked
   var currMeme = {
@@ -284,31 +305,41 @@ function modMemeModal(e){
   
   // Once edit button has been clicked
   modalFooterList[0].onclick = function() {
-    // Only show cancel and submit buttons
-    modalFooterList[0].style.display = "none";
-    modalFooterList[1].removeAttribute("style");
-    modalFooterList[2].removeAttribute("style");    
-    
-    // keep current img, append form format, place into modal body
-    var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
-    viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
-    document.querySelector("#viewModalBody").innerHTML = viewModalForm;    
-    
-    // Reuse viewModalForm to traverse the actual form nodes in modal-body
-    viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
-    // Insert placeholders
-    viewModalForm[0].setAttribute("placeholder", currMeme.picture);
-    viewModalForm[1].setAttribute("placeholder", currMeme.title);
-    viewModalForm[2].setAttribute("placeholder", currMeme.comments);
-    viewModalForm[3].setAttribute("placeholder", "need tag info");
-    // Force click on stars based off rating
 
-    // Reset modal to display info (for submit- info is updated before reset)
-    document.querySelector("#viewModal .close").onclick = resetModalBody;
-    modalFooterList[1].onclick = resetModalBody;
-    modalFooterList[2].onclick = function (e) {    
-      resetModalBody(e);
-    };    
+    // Add eventListener for edit modal
+    $("#viewModal").click( function (e) {
+      e.stopPropagation();
+      var currClick = e.target;
+         
+      // Only show cancel and submit buttons
+      modalFooterList[0].style.display = "none";
+      modalFooterList[1].removeAttribute("style");
+      modalFooterList[2].removeAttribute("style");    
+      
+      // keep current img, build form format and place into modal body
+      var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
+      viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
+      document.querySelector("#viewModalBody").innerHTML = viewModalForm;    
+      
+      // Reuse viewModalForm to traverse the actual form nodes in modal-body
+      viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
+      // Insert placeholders
+      viewModalForm[0].setAttribute("placeholder", currMeme.picture);
+      viewModalForm[1].setAttribute("placeholder", currMeme.title);
+      viewModalForm[2].setAttribute("placeholder", currMeme.comments);
+      viewModalForm[3].setAttribute("placeholder", "need tag info");      
+alert(currModalBody);
+      if( ($(currClick+"").hasClass("cancel") ||
+          $(currClick+"").hasClass("submit")) ||
+          $(currClick+"").hasClass("close") ) {
+alert("line 295");
+        // Either cancel, submit or close was clicked. Unbind click for modal
+        $("#viewModal").unbind("click");
+        
+        // Put original modal body back in
+        document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+      }         
+    });
   };
   
   function resetModalBody(evt) {
