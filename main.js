@@ -668,42 +668,48 @@ function modMemeModal(e){
   var currModalBody = ""+document.getElementById("viewModalBody").innerHTML;
   
   // Once edit button has been clicked
-  modalFooterList[0].onclick = function() {
+  modalFooterList[0].onclick = function(evt) {
+		evt.stopPropagation();
+
+		// Only show cancel and submit buttons
+    modalFooterList[0].style.display = "none";
+    modalFooterList[1].removeAttribute("style");
+    modalFooterList[2].removeAttribute("style");    
+    
+    // keep current img, build form format and place into modal body
+    var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
+    viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
+    document.querySelector("#viewModalBody").innerHTML = viewModalForm;    
+    
+    // Reuse viewModalForm to traverse the actual form nodes in modal-body
+    viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
+    // Insert placeholders
+    viewModalForm[0].setAttribute("placeholder", currMeme.picture);
+    viewModalForm[1].setAttribute("placeholder", currMeme.title);
+    viewModalForm[2].setAttribute("placeholder", currMeme.comments);
+    viewModalForm[3].setAttribute("placeholder", "need tag info");
 
     // Add eventListener for edit modal
-    $("#viewModal").click( function (e) {
+    document.getElementById("viewModal").onclick = function (e) {
       e.stopPropagation();
-      var currClick = e.target;
-         
-      // Only show cancel and submit buttons
-      modalFooterList[0].style.display = "none";
-      modalFooterList[1].removeAttribute("style");
-      modalFooterList[2].removeAttribute("style");    
-      
-      // keep current img, build form format and place into modal body
-      var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
-      viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
-      document.querySelector("#viewModalBody").innerHTML = viewModalForm;    
-      
-      // Reuse viewModalForm to traverse the actual form nodes in modal-body
-      viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
-      // Insert placeholders
-      viewModalForm[0].setAttribute("placeholder", currMeme.picture);
-      viewModalForm[1].setAttribute("placeholder", currMeme.title);
-      viewModalForm[2].setAttribute("placeholder", currMeme.comments);
-      viewModalForm[3].setAttribute("placeholder", "need tag info");      
-alert(currModalBody);
-      if( ($(currClick+"").hasClass("cancel") ||
-          $(currClick+"").hasClass("submit")) ||
-          $(currClick+"").hasClass("close") ) {
-alert("line 295");
+
+      var currClick = e.target;            
+
+      if( $(currClick).hasClass("cancel") ||
+          $(currClick).hasClass("submit") ||
+          $(currClick).hasClass("close") ) {
         // Either cancel, submit or close was clicked. Unbind click for modal
-        $("#viewModal").unbind("click");
+        e.onclick = null;
         
         // Put original modal body back in
         document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+
+				// Only show cancel and submit buttons
+	      modalFooterList[0].removeAttribute("style");
+  			modalFooterList[1].style.display = "none";
+  			modalFooterList[2].style.display = "none";  
       }         
-    });
+    };
   };
   
   function resetModalBody(evt) {
