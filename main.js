@@ -1,8 +1,34 @@
-
+/** Variable section **/
 var hovID;
 var hovS;
 var x;
 var y;
+
+
+//DB Variable 
+// String Constants
+var FBURL = "https://intense-fire-8114.firebaseio.com/user/";
+var IMG_REF = "r_imgs";
+var IMG_DETAILS = "d_imgs";
+var NO_TITLE = "no title";
+var DEBUG = true;     // FOR DEBUGING PURPOSES
+
+/* Create User Wrapper Object to avoid namespace Conflict*/
+var User = {};
+
+// Add User fields
+User.dbref = new Firebase(FBURL);
+User.startPtr = 0;
+User.endPtr = 9;
+User.limit    = 10;
+User.imgRefList = []; // List of database url references
+User.curList = [];    // Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
+
+// TEST FIELD!
+User.name = "thomas";
+
+/** End Variable declation **/
+
 
 /* Save a meme on local computer */
 function download_meme(URL) {
@@ -39,7 +65,7 @@ $(document).ready(function(){
     });
 
     /** Data base setup **/
-    var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
+    //var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
 
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
@@ -49,9 +75,10 @@ $(document).ready(function(){
         var newMeme = DBmeme.child(ntitle);
         var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
+        var nrate = 3;
 
-
-        newMeme.set({
+        User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+        /**newMeme.set({
                 meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
             function(error) {
             if(error){
@@ -60,6 +87,7 @@ $(document).ready(function(){
                 alert('Save successful');
             }
         });
+        **/
     });    
 });
 
@@ -356,28 +384,7 @@ alert("line 295");
 } // view Modal event
 
 
-/** DB section **/
-// String Constants
-var FBURL = "https://intense-fire-8114.firebaseio.com/user/";
-var IMG_REF = "r_imgs";
-var IMG_DETAILS = "d_imgs";
-var NO_TITLE = "no title";
-var DEBUG = true;     // FOR DEBUGING PURPOSES
-
-/* Create User Wrapper Object to avoid namespace Conflict*/
-var User = {};
-
-// Add User fields
-User.dbref = new Firebase(FBURL);
-User.startPtr = 0;
-User.endPtr = 9;
-User.limit    = 10;
-User.imgRefList = []; // List of database url references
-User.curList = [];    // Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
-
-// TEST FIELD!
-User.name = "thomas";
-
+/** DB function section **/
 
 /*  For Save img URL. Sets by priorty
   INSURE DATA IS LEGIT!
