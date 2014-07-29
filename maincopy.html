@@ -112,7 +112,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Url: http://" id="urlInput">
                     <input type="text" class="form-control" placeholder="Title" id="titleInput">
-                    <input id="comments" type="text" class="form-control" placeholder="Comments" id="commentInput">
+                    <input type="text" class="form-control" placeholder="Comments" id="saveComments" >
                     <input type="text" class="form-control" placeholder="Tags" id="tagInput">
                 </div>
                 <br>
@@ -196,6 +196,7 @@
 </div>
 
 <div class ="container" id ="content">
+	<!-- Sorts memes based on condition and grid viewing-->
     <p class ="text-right"><b>Sort By:</b>
         <select>
         <option value="relevance">Relevance</option>
@@ -216,8 +217,10 @@
 		</a>
     </p>
 
+	<!-- Displays all meme content from main.js -->
     <div class="row" id="memeContent"> </div>
     
+	<!-- Displays page number navigation at bottom -->
     <div class="paging">
         <ul class="pagination pagination-lg">
             <li><a href="#">&laquo;</a></li>
@@ -231,6 +234,7 @@
     </div>
 </div>
 
+<!-- Footer information about website -->
 <footer>
     <div class="navbar navbar-default">
         <div class="container" id="footer">

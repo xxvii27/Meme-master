@@ -1,10 +1,15 @@
-/**
- * Created by xxvii27 on 7/24/14.
- */
+
 var hovID;
 var hovS;
 var x;
 var y;
+
+/* Save a meme on local computer */
+function download_meme(URL) {
+    var a = $("<a>").attr("href", URL).attr("download", URL).appendTo("body");
+    a[0].click();
+    a.remove();
+}
 
 var star_rating = "";
 star_rating += "<div class='rating pull-right' id='app'> "
@@ -114,7 +119,6 @@ window.onload = function () {
   }
 }
 
-
 /** Basic Functions **/
 function m_d_tooltip(evt,id) {
     hovS = id;
@@ -142,6 +146,44 @@ function confirm_delete() {
     return false;
 }
 
+function rateItEvt(evt) {
+  evt.stopPropagation();
+  // After click, show stars
+  var currClick = evt.target;
+  var currRateButton = currClick.parentNode.innerHTML;
+
+  currClick.parentNode.innerHTML = star_rating;
+
+  $("body").click( function (e) {
+    // unbind body
+    $("body").unbind("click");
+    
+    if(e.target.tagName == "LABEL") {
+      // User clicked on number of stars
+      var strStars = e.target.innerHTML.charAt(0);  // Number of stars clicked
+      var currNode = e.target.parentNode.parentNode; // p node for ratings
+      currNode.setAttribute("data-rating", ""+strStars );
+      // ************ Send rating to server HERE **************************************
+      
+      var strStarsHTML = "";
+      for( j = 0; j < +strStars; j++ ) {
+        strStarsHTML += "<label class='yellow-star'></label>";
+      }
+      currNode.innerHTML = strStarsHTML;    
+    } else {
+      // Find the stars and traverse up to find p.rating
+      var currNode = $("p.ratings>div.rating");
+      // Show rate it button
+      currRateBtn = currNode[0].parentNode;
+      currRateBtn.innerHTML = currRateButton;
+      // rebind onclick
+      $("#memeContent .rate").unbind("click");
+      $("#memeContent .rate").click( rateItEvt );
+      
+    }
+  })
+}
+
 function draw_memes(){
     var memeArray = new Array(10);
     var title = ["First Meme", "Second Meme", "Third Meme", "Fourth Meme", "Fifth Meme", "Sixth Meme", "Seventh Meme",
@@ -164,6 +206,7 @@ function draw_memes(){
             memeSRC : memeSRCStr,
             memeHREF : "#",
             memeRating : ""+Math.floor((Math.random() * 5)),
+            /*memeRating : '0', */
             memeDimensions : memeDimens
         }
     }
@@ -176,7 +219,7 @@ function draw_memes(){
     "  <div class='thumbnail'>"+
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
-    "        <a href='#'><img src='icons/download32w.png' alt=''/></a>"+
+    "        <a onclick='download_meme("+'"'+memeArray[i].memeSRC+'"'+")'><img src='icons/download32w.png' alt=''/></a>"+
     "        <a href='#' class='hoverEditBtn' data-toggle='modal' data-target='#viewModal'>"+
     "          <img src='icons/pencil32w.png' alt=''/></a>"+
     "        <a onclick='confirm_delete()'><img src='icons/trash.png' alt=''></a>"+
@@ -211,11 +254,15 @@ function draw_memes(){
 
  
 // Retrieve meme info and insert into memeModal
+// Retrieve meme info and insert into memeModal
 function modMemeModal(e){
   // grandparent container of triggered image
   var currThumbnail = e.target.parentNode.parentNode.parentNode;
   var currRating;  // Holds the rating container of triggered modal
   var pencilTriggered = false;
+  
+  // Set rateItEvt in memeModal (if there is one)
+  $("#viewModal .rate").click( rateItEvt );
 
   if( ""+e.target.parentNode.className == "hoverEditBtn" ){
     // This event was triggered with the hover button
@@ -224,7 +271,13 @@ function modMemeModal(e){
   }
   
   // Get the current meme's rating display
-  currRating = currThumbnail.querySelector(".text-right").outerHTML;    
+  currRating = currThumbnail.querySelector(".text-right");
+  
+  if( ""+currRating.getAttribute("data-rating") == "0" ) {
+    currRating = "Not yet rated";
+  } else {
+    currRating = currRating.innerHTML;
+  }
   
   // Info of meme that was clicked
   var currMeme = {
@@ -250,31 +303,41 @@ function modMemeModal(e){
   
   // Once edit button has been clicked
   modalFooterList[0].onclick = function() {
-    // Only show cancel and submit buttons
-    modalFooterList[0].style.display = "none";
-    modalFooterList[1].removeAttribute("style");
-    modalFooterList[2].removeAttribute("style");    
-    
-    // keep current img, append form format, place into modal body
-    var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
-    viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
-    document.querySelector("#viewModalBody").innerHTML = viewModalForm;    
-    
-    // Reuse viewModalForm to traverse the actual form nodes in modal-body
-    viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
-    // Insert placeholders
-    viewModalForm[0].setAttribute("placeholder", currMeme.picture);
-    viewModalForm[1].setAttribute("placeholder", currMeme.title);
-    viewModalForm[2].setAttribute("placeholder", currMeme.comments);
-    viewModalForm[3].setAttribute("placeholder", "need tag info");
-    // Force click on stars based off rating
 
-    // Reset modal to display info (for submit- info is updated before reset)
-    document.querySelector("#viewModal .close").onclick = resetModalBody;
-    modalFooterList[1].onclick = resetModalBody;
-    modalFooterList[2].onclick = function (e) {    
-      resetModalBody(e);
-    };    
+    // Add eventListener for edit modal
+    $("#viewModal").click( function (e) {
+      e.stopPropagation();
+      var currClick = e.target;
+         
+      // Only show cancel and submit buttons
+      modalFooterList[0].style.display = "none";
+      modalFooterList[1].removeAttribute("style");
+      modalFooterList[2].removeAttribute("style");    
+      
+      // keep current img, build form format and place into modal body
+      var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
+      viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
+      document.querySelector("#viewModalBody").innerHTML = viewModalForm;    
+      
+      // Reuse viewModalForm to traverse the actual form nodes in modal-body
+      viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
+      // Insert placeholders
+      viewModalForm[0].setAttribute("placeholder", currMeme.picture);
+      viewModalForm[1].setAttribute("placeholder", currMeme.title);
+      viewModalForm[2].setAttribute("placeholder", currMeme.comments);
+      viewModalForm[3].setAttribute("placeholder", "need tag info");      
+alert(currModalBody);
+      if( ($(currClick+"").hasClass("cancel") ||
+          $(currClick+"").hasClass("submit")) ||
+          $(currClick+"").hasClass("close") ) {
+alert("line 295");
+        // Either cancel, submit or close was clicked. Unbind click for modal
+        $("#viewModal").unbind("click");
+        
+        // Put original modal body back in
+        document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+      }         
+    });
   };
   
   function resetModalBody(evt) {
@@ -291,3 +354,151 @@ function modMemeModal(e){
   // Force click, if event was triggered by pencil
   if( pencilTriggered ) { modalFooterList[0].click(); }
 } // view Modal event
+
+
+/** DB section **/
+// String Constants
+var FBURL = "https://intense-fire-8114.firebaseio.com/user/";
+var IMG_REF = "r_imgs";
+var IMG_DETAILS = "d_imgs";
+var NO_TITLE = "no title";
+var DEBUG = true;     // FOR DEBUGING PURPOSES
+
+/* Create User Wrapper Object to avoid namespace Conflict*/
+var User = {};
+
+// Add User fields
+User.dbref = new Firebase(FBURL);
+User.startPtr = 0;
+User.endPtr = 9;
+User.limit    = 10;
+User.imgRefList = []; // List of database url references
+User.curList = [];    // Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
+
+// TEST FIELD!
+User.name = "thomas";
+
+
+/*  For Save img URL. Sets by priorty
+  INSURE DATA IS LEGIT!
+  use case: Save img details to database
+  Params: aurl: (string) url
+      atitle: (string) title
+      acat: (string) category
+      acom: (string) comment (TEST LENGTH TO DATABASE)
+      arate:  (number) rating
+*/
+User.saveImg = function(aurl,atitle,acat,acom,arate) {
+  
+  // first, convert url, push reference
+  var priority = (arate && (arate == 0)) ? 6 : (6-arate);
+  var changeurl = replaceBadChars(aurl);
+  var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+  
+  atitle = (atitle) ? atitle : NO_TITLE;
+  
+  // Push other information into detail on images
+  this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+    {
+      url: aurl
+      ,title: atitle
+      ,category: acat
+      ,comment: acom
+      ,rating: arate
+    });
+    
+  // set priority
+  this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+  
+  // add 1 to total imgs
+  this.dbref.child(this.name).once('value', function(snap) {
+    var total = snap.val()['total_imgs'];
+    this.dbref.child(this.name).update({total_imgs : (total + 1)});
+  },this);
+}
+
+/* 
+  Deletes an image from the database. Automatically refreshes the page
+  use case: delete image button
+  Params: (string) url
+  
+*/
+User.delImg = function(url) {
+  
+  // encode the URL
+  var encodedURL = replaceBadChars(url);
+  
+  // Access the Database
+  this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
+    
+    // Get reference value from snapshot
+    var ref = snap.val()['ref'];
+    
+    // Remove the value from USER reference array
+    if(ref) {
+      var tempStartPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+      var tempEndPtr = tempStartPtr + 9;
+      
+      for(i = tempStartPtr; i < tempEndPtr; i++) {
+        if(this.imgRefList[i] == encodedURL) {
+          this.imgRefList.splice(i,1);
+          break;
+        }
+      }
+      
+      // remove reference from Database
+      this.dbref.child(this.name + "/" + IMG_REF + "/" + ref).remove();
+      // remove image data from Database
+      this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).remove();
+      // Re-render image
+      this.refreshRenderList();
+    }
+    else {
+      alert("TO DEVELOPERS: URL DOES NOT EXIST");
+    }
+  },this);
+}
+
+// Other Functions
+function replaceBadChars(str){
+  var temp = str.replace(/\./g,',');
+  return temp.replace(/\//g,'|');
+}
+
+function restoreBadChars(str){
+  var temp = str.replace(/,/g,'.');
+  return temp.replace(/\|/g,'/');
+}
+
+function each(obj,cb){
+    
+    if(obj){
+      for (k in obj){
+        if(obj.hasOwnProperty(k)){
+          var res = cb(obj[k],k);
+          if(res === true){
+            break;
+          }
+        }
+      }
+    }
+  }
+  
+function size(obj) {
+  var i = 0;
+  each(obj, function () {
+    i++;
+  });
+  return i;
+}
+
+// TEST FUNCTIONS for test.html
+User.writeToDiv = function(){
+  var str = "";
+  for(i = 0; i < this.curList.length; i++)
+  {
+    str+="<img src=\"" + this.curList[i].url + "\" /> <p>Ref: " + this.curList[i].ref + "<p>Rating: " + this.curList[i].rating + 
+    "<p>Title: " + this.curList[i].title + "<br/>";
+  }
+  document.getElementById("display").innerHTML = str;
+}
