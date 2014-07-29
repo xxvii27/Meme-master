@@ -35,7 +35,7 @@ User.setupData = function() {
         alert("REMOVED" + JSON.stringify(oldData.val()));
     });
 
-    document.getElementById('prev').style.visibility = 'hidden';
+    document.getElementById('prev').style.display = 'none';
 }
 
 User.evalSetup = function (state) {
@@ -165,12 +165,12 @@ User.nextRenderList = function() {
             alert("nextRenderList() may not work. No imgs");
         }
         else if(this.startPtr >= this.imgRefList.length-1 || this.startPtr > 0) {
-            document.getElementById('next').style.visibility = 'hidden';
-            document.getElementById('prev').style.visibility = 'visible';
+            document.getElementById('next').style.display = 'none';
+            document.getElementById('prev').style.display = 'inline';
         }
         else if(this.startPtr === 0){
-            document.getElementById('prev').style.visibility = 'hidden';
-            document.getElementById('next').style.visibility = 'visible';
+            document.getElementById('prev').style.display = 'none';
+            document.getElementById('next').style.display = 'inline';
         }
     }
 
