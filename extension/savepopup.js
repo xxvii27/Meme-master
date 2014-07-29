@@ -53,13 +53,22 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 
     // Push other information into detail on images
     this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
-        {
-            url: aurl
-            ,title: atitle
-            ,category: acat
-            ,comment: acom
-            ,rating: arate
-        });
+          {
+              url: aurl
+              ,title: atitle
+              ,category: acat
+              ,comment: acom
+              ,rating: arate
+              ,ref: refID
+          },
+          function(error) {
+              if(error){
+                  alert('There was an error with DB.\n' + error);
+              } else {
+                  alert('Save successful');
+              }
+          }
+        );
 
     // set priority
     this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
@@ -108,7 +117,8 @@ $(document).ready(function(){
         var nrate = saveRate;
         //alert(nrate);
         User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
-        self.close();
+
+        window.close();
     });    
 });
 
