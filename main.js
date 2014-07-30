@@ -763,9 +763,9 @@ function draw_memes(){
   var memeBlock =""; // Holds what would be written in div.row
   
   for (var i= 0; i < memeArray.length; i++) {
-    memeBlock += "<div class='col-sm-" + 6+" col-md-" + 4 +
+    memeBlock += "<div class='col-xs-12 col-sm-" + 6+" col-md-" + 4 +
     " col-lg-" + 3 +"'>"+
-    "  <div class='thumbnail'>"+
+    "  <div class='thumbnail '>"+
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
     "        <a href='#' onclick='download_meme(" + '"' +memeArray[i].url+'"'+")' title='Download'><img src='icons/download32w.png' alt=''/></a>"+
