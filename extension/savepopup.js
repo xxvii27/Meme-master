@@ -117,19 +117,24 @@ $(document).ready(function(){
         //use above onclick if rate it button already clicked at least once by the user
     });
 
+    $('#urlInput').focusout(function(){
+      $('#imgPreview').attr("src",$('#urlInput').val());
+    });
+
     /** Data base setup **/
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
-        
+        if(ValidURL(nurl)){
         var nurl = $('#urlInput').val();
         var ntitle = $('#titleInput').val();
         var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
         var nrate = saveRate;
         //alert(nrate);
-        User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
-
         
+        User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+        saveRate = 0;
+        }
     });    
 });
 
@@ -235,3 +240,13 @@ function modMemeModal(e){
   // Force click, if event was triggered by pencil
   if( pencilTriggered ) { modalFooterList[0].click(); }
 } // view Modal event
+
+function ValidURL(str) {
+    var pattern = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/g); // fragment locater
+    if(!pattern.test(str)) {
+        alert("Please enter a valid URL.");
+        return false;
+    } else {
+        return true;
+    }
+}
