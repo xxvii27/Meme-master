@@ -81,6 +81,8 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
         var total = snap.val()['total_imgs'];
         this.dbref.child(this.name).update({total_imgs : (total + 1)});
       },this);
+
+      window.close();
     }
     else {
       alert("This content already exists in MemeMaster");
@@ -127,7 +129,7 @@ $(document).ready(function(){
         //alert(nrate);
         User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
 
-        window.close();
+        
     });    
 });
 
