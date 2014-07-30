@@ -572,29 +572,7 @@ function addEvents() {
   };
   
   // Add onclick listener for all 'Rate it' buttons
-  var rateItBtns = $("#memeContent .rate").click(function (evt) {
-    // After click, show stars
-    var currClick = evt.target;
-    evt.target.parentNode.innerHTML = star_rating;
-    clickStarRating(currClick);
-  });
-  
-  // Add onclick listener for stars
-  function clickStarRating(currClicked) {
-    var rateEvent = document.getElementsByName("rating");
-    for( var i = 0; i < rateEvent.length; i++ ) {
-      rateEvent[i].onclick = function (e) {                
-        var strStars = e.target.value;  // Number of stars clicked        
-        
-        var currNode = e.target.parentNode.parentNode; // p node for ratings
-        var strStarsHTML = "";
-        for( j = 0; j < +strStars; j++ ) {
-          strStarsHTML += "<label class='yellow-star'></label>";
-        }
-        currNode.innerHTML = strStarsHTML;
-      };
-    }
-  }
+  var rateItBtns = $("#memeContent .rate").click( rateItEvt );
 
   // Add event for hover edit button
   var editList = document.querySelectorAll(".hoverEditBtn>img");
@@ -632,6 +610,9 @@ function confirm_delete(url) {
 
 function rateItEvt(evt) {
   evt.stopPropagation();
+  $(evt.target).unbind("click");
+
+  // Find any other star_rating blocks and replace with rate it button and add event to that as well
   // After click, show stars
   var currClick = evt.target;
   var currRateButton = currClick.parentNode.innerHTML;
@@ -646,8 +627,10 @@ function rateItEvt(evt) {
       // User clicked on number of stars
       var strStars = e.target.innerHTML.charAt(0);  // Number of stars clicked
       var currNode = e.target.parentNode.parentNode; // p node for ratings
+      var currURL = currNode.parentNode.parentNode.querySelector(".t_c>a>img").src;
+
       currNode.setAttribute("data-rating", ""+strStars );
-      // ************ Send rating to server HERE **************************************
+// ************ Send rating to server HERE **************************************
       
       var strStarsHTML = "";
       for( j = 0; j < +strStars; j++ ) {
@@ -655,6 +638,7 @@ function rateItEvt(evt) {
       }
       currNode.innerHTML = strStarsHTML;    
     } else {
+alert("Stars not clicked, should show rate it btn again");
       // Find the stars and traverse up to find p.rating
       var currNode = $("p.ratings>div.rating");
       // Show rate it button
