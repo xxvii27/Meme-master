@@ -196,6 +196,15 @@
 </div>
 
 <div class ="container" id ="content">
+    
+    <!-- Displays page number navigation at bottom -->
+    <div class="paging">
+        <ul class='pagination pagination-lg'>
+            <li><a id="prev" href='#' onclick="User.prevRenderList()">&laquo;</a></li>
+            <li><a id="next" href='#' onclick="User.nextRenderList()">&raquo;</a></li>
+        </ul>
+    </div>
+    
 	<!-- Sorts memes based on condition and grid viewing-->
     <p class ="text-right"><b>Sort By:</b>
         <select onChange="User.evalSetup(this.selectedIndex)">
@@ -220,13 +229,6 @@
 	<!-- Displays all meme content from main.js -->
     <div class="row" id="memeContent"> </div>
     
-	<!-- Displays page number navigation at bottom -->
-    <div class="paging">
-        <ul class='pagination pagination-lg'>
-            <li><a id="prev" href='#' onclick="User.prevRenderList()">&laquo;</a></li>
-            <li><a id="next" href='#' onclick="User.nextRenderList()">&raquo;</a></li>
-        </ul>
-    </div>
 </div>
 
 <!-- Footer information about website -->
