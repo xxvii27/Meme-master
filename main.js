@@ -711,7 +711,8 @@ function detectClick() {
       var currURL = currNode.parentNode.parentNode.querySelector(".t_c>a>img").src;
 
       currNode.setAttribute("data-rating", ""+strStars );
-// ************ Send rating to server HERE **************************************
+      // Update rating
+      User.editRating(strStars, currURL);
       
       var strStarsHTML = "";
       for( j = 0; j < +strStars; j++ ) {
