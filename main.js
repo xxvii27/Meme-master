@@ -37,8 +37,14 @@ User.setupData = function() {
 		// Do Nothing
     },this);
 	
-	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(oldData) {
+	// Refresh page on editing
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(changedData) {
 		this.prevRenderList();
+    },this);
+	
+	// Refresh page when user inputs new image
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_added', function(newData) {
+		this.setupByNewest();
     },this);
 
     document.getElementById('prev').style.display = 'none';
