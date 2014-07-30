@@ -32,10 +32,11 @@ User.setupData = function() {
 
     // Setup delete on delete child (delete meme)
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
-        alert("REMOVED" + JSON.stringify(oldData.val()));
+        //alert("REMOVED" + JSON.stringify(oldData.val()));
+		// Do Nothing
     });
 
-    document.getElementById('prev').style.visibility = 'hidden';
+    document.getElementById('prev').style.display = 'none';
 }
 
 User.evalSetup = function (state) {
@@ -165,12 +166,12 @@ User.nextRenderList = function() {
             alert("nextRenderList() may not work. No imgs");
         }
         else if(this.startPtr >= this.imgRefList.length-1 || this.startPtr > 0) {
-            document.getElementById('next').style.visibility = 'hidden';
-            document.getElementById('prev').style.visibility = 'visible';
+            document.getElementById('next').style.display = 'none';
+            document.getElementById('prev').style.display = 'inline';
         }
         else if(this.startPtr === 0){
-            document.getElementById('prev').style.visibility = 'hidden';
-            document.getElementById('next').style.visibility = 'visible';
+            document.getElementById('prev').style.display = 'none';
+            document.getElementById('next').style.display = 'inline';
         }
     }
 
@@ -280,14 +281,22 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 
     // Push other information into detail on images
     this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
-        {
-            url: aurl
-            ,title: atitle
-            ,category: acat
-            ,comment: acom
-            ,rating: arate
-        });
-
+      {
+          url: aurl
+          ,title: atitle
+          ,category: acat
+          ,comment: acom
+          ,rating: arate
+          ,ref: refID
+      },
+      function(error) {
+          if(error){
+              alert('There was an error with DB.\n' + error);
+          } else {
+              alert('Save successful');
+          }
+      }
+    );
     // set priority
     this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
 
@@ -313,8 +322,6 @@ User.delImg = function(url) {
     // Access the Database
     this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
 
-
-
         // Remove the value from USER reference array
         if(snap.val()) {
 
@@ -330,19 +337,20 @@ User.delImg = function(url) {
                     break;
                 }
             }
-
+			
             // change total img count and from database
             this.totalImgs -= 1;
             this.dbref.child(this.name).update({total_imgs : this.totalImgs});
-
+			
             // remove reference from Database
             this.dbref.child(this.name + "/" + IMG_REF + "/" + ref).remove();
 
             // remove image data from Database
             this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).remove();
-
+			
             // Re-render image
             this.refreshRenderList();
+			
         }
         else {
             alert("TO DEVELOPERS: URL DOES NOT EXIST");
@@ -432,7 +440,7 @@ $(document).ready(function(){
 
     $('.rating input').click(function(){
         //alert( $(this).val() );
-        saveRate = $(this.val());
+        saveRate = $(this).val();
         //For rate in modals
         //use above onclick if rate it button already clicked at least once by the user
     });
@@ -448,8 +456,9 @@ $(document).ready(function(){
         var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
         var nrate = saveRate;
-        alert(nrate);
+        //alert(nrate);
         User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+        saveRate = 0;
         /**newMeme.set({
                 meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
             function(error) {
@@ -467,10 +476,6 @@ $(document).ready(function(){
 window.onload = function () {
   User.setupData();
   //draw_memes();
-  var clickableMemes = document.getElementsByClassName('img-thumb-nail');
-  for( var i = 0; i < clickableMemes.length; i++ ) {    
-    clickableMemes[i].onclick = modMemeModal;
-  }
   
   // Handle thumbnail and normal viewing mode
   var dispList = document.getElementsByClassName("disp_icon");
@@ -512,7 +517,9 @@ window.onload = function () {
       };
     }
   }
-  
+
+  $('img-thumb-nail').click( modMemeModal );
+
   // Add event for hover edit button
   var editList = document.querySelectorAll(".hoverEditBtn>img");
   for( var i = 0; i < editList.length; i++ ) {
@@ -540,9 +547,9 @@ function hide() {
     clearTimeout(hovID)
 }
 
-function confirm_delete() {
+function confirm_delete(url) {
     if(confirm("Are you sure you want to delete?")){
-        alert("Deleted");
+        User.delImg(url);
     }
     return false;
 }
@@ -612,7 +619,7 @@ function draw_memes(){
     "        <a href='#' onclick='download_meme(" + '"' +memeArray[i].url+'"'+")' title='Download'><img src='icons/download32w.png' alt=''/></a>"+
     "        <a href='#' class='hoverEditBtn' data-toggle='modal' data-target='#viewModal' title='Edit'>"+
     "          <img src='icons/pencil32w.png' alt=''/></a>"+
-    "        <a href='#' onclick='confirm_delete()' title='Delete'><img src='icons/trash.png' alt=''></a>"+
+    "        <a href='#' onclick='confirm_delete(\"" + memeArray[i].url + "\")' title='Delete'><img src='icons/trash.png' alt=''></a>"+
     "      </div>"+
     "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
     "        <img class ='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
