@@ -519,7 +519,8 @@ $(document).ready(function(){
         var ntag = $('#tagInput').val();    
         var nrate = saveRate;
         //alert(nrate);
-        User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+        if(ValidURL(nurl))
+           User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
         saveRate = 0;
         /**newMeme.set({
                 meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
@@ -822,6 +823,19 @@ function modMemeModal(e){
   if( pencilTriggered ) { modalFooterList[0].click(); }
 } // view Modal event
 
-
+function ValidURL(str) {
+    var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
+        '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
+        '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
+        '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
+        '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
+        '(\#[-a-z\d_]*)?$','i'); // fragment locater
+    if(!pattern.test(str)) {
+        alert("Please enter a valid URL.");
+        return false;
+    } else {
+        return true;
+    }
+}
 
 
