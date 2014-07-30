@@ -35,7 +35,11 @@ User.setupData = function() {
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
         //alert("REMOVED" + JSON.stringify(oldData.val()));
 		// Do Nothing
-    });
+    },this);
+	
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(oldData) {
+		this.prevRenderList();
+    },this);
 
     document.getElementById('prev').style.display = 'none';
 }
@@ -295,15 +299,14 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
     // first, convert url, push reference
     var priority = (arate && (arate == 0)) ? 6 : (6-arate);
     var changeurl = replaceBadChars(aurl);
+	atitle = (atitle) ? atitle : NO_TITLE;
 	
 	// First check if url is already in database
 	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
 		
 		if(!snap.val()) {
-			
 			var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
-			atitle = (atitle) ? atitle : NO_TITLE;
-
+			
 			// Push other information into detail on images
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
 			{
@@ -313,27 +316,61 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 				,comment: acom
 				,rating: arate
 				,ref: refID
-			},function(error) {
+			}
+			,function(error) {
 				if(error){
 					alert('There was an error with DB.\n' + error);
 				} else {
 					alert('Save successful');
 				}
-			},this);
+			});
     
 			// set priority
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
 
 			// add 1 to total imgs
-			this.dbref.child(this.name).once('value', function(snap) {
-				var total = snap.val()['total_imgs'];
+			this.dbref.child(this.name).once('value', function(snap2) {
+				var total = snap2.val()['total_imgs'];
+				this.dbref.child(this.name).update({total_imgs : (total + 1)});
+			},this);
+		}
+		else{
+			alert("This content already exists in MemeMaster");
+		}
+		/*if(!snap) {
+			
+			var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+			
+			// Push other information into detail on images
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+			{
+				url: aurl
+				,title: atitle
+				,category: acat
+				,comment: acom
+				,rating: arate
+				,ref: refID
+			}
+			,function(error) {
+				if(error){
+					alert('There was an error with DB.\n' + error);
+				} else {
+					alert('Save successful');
+				}
+			});
+    
+			// set priority
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+
+			// add 1 to total imgs
+			this.dbref.child(this.name).once('value', function(snap2) {
+				var total = snap2.val()['total_imgs'];
 				this.dbref.child(this.name).update({total_imgs : (total + 1)});
 			},this);
 		}
 		else {
 			alert("This content already exists in MemeMaster");
-		}
-		
+		}*/
 	},this);
 }
 
@@ -384,6 +421,46 @@ User.delImg = function(url) {
             alert("TO DEVELOPERS: URL DOES NOT EXIST");
         }
     },this);
+}
+
+/*	
+	For Edit img URL. Sets by priorty
+	INSURE DATA IS LEGIT!
+	use case: edit img details to database
+	Params: aurl: (string) url
+			atitle:	(string) title
+			acat:	(string) category
+			acom:	(string) comment (TEST LENGTH TO DATABASE)
+			arate:	(number) rating
+*/
+User.editImg = function(aurl,atitle,acat,acom,arate) {
+	
+	// first, convert url, push reference
+    var priority = (arate && (arate == 0)) ? 6 : (6-arate);
+    var changeurl = replaceBadChars(aurl);
+	atitle = (atitle) ? atitle : NO_TITLE;
+	
+	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
+		
+		if(snap.val()){
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).set(
+			{
+				url: aurl
+				,title: atitle
+				,category: acat
+				,comment: acom
+				,rating: arate
+				,ref: snap.val().ref
+	
+			});
+			
+			// set priority
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+		}
+		else {
+			alert("Error Editing Img");
+		}	
+	},this);
 }
 
 /*	For editing the rating of an image
@@ -512,16 +589,16 @@ $(document).ready(function(){
 
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
-        
-        var nurl = $('#urlInput').val();
-        var ntitle = $('#titleInput').val();
-        var ncomment = $('#saveComments').val();
-        var ntag = $('#tagInput').val();    
-        var nrate = saveRate;
-        //alert(nrate);
-        if(ValidURL(nurl))
-           User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
-        saveRate = 0;
+        if( ValidURL( $('#urlInput').val() ) ){
+            var nurl = $('#urlInput').val();
+            var ntitle = $('#titleInput').val();
+            var ncomment = $('#saveComments').val();
+            var ntag = $('#tagInput').val();
+            var nrate = saveRate;
+
+            User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+            saveRate = 0;
+        }
         /**newMeme.set({
                 meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
             function(error) {
@@ -833,16 +910,17 @@ function modMemeModal(e){
 } // view Modal event
 
 function ValidURL(str) {
-    var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
-        '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
-        '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
-        '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
-        '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
-        '(\#[-a-z\d_]*)?$','i'); // fragment locater
-    if(!pattern.test(str)) {
-        alert("Please enter a valid URL.");
+    var message;
+    var myRegExp =/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
+    var urlToValidate = str;
+    if (!myRegExp.test(urlToValidate)){
+        message = "Not a valid URL.";
+        alert(message);
         return false;
-    } else {
+    }else{
+        message =  "Its a valid URL."
+        alert(message);
         return true;
     }
+
 }
