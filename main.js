@@ -542,16 +542,16 @@ $(document).ready(function(){
 
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
-        if(ValidURL(nurl)){
-        var nurl = $('#urlInput').val();
-        var ntitle = $('#titleInput').val();
-        var ncomment = $('#saveComments').val();
-        var ntag = $('#tagInput').val();    
-        var nrate = saveRate;
-        //alert(nrate);
-        
-        User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
-        saveRate = 0;
+        if( ValidURL( $('#urlInput').val() ) ){
+            var nurl = $('#urlInput').val();
+            var ntitle = $('#titleInput').val();
+            var ncomment = $('#saveComments').val();
+            var ntag = $('#tagInput').val();
+            var nrate = saveRate;
+            //alert(nrate);
+
+            User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
+            saveRate = 0;
         }
         /**newMeme.set({
                 meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
@@ -871,13 +871,19 @@ function modMemeModal(e){
 } // view Modal event
 
 function ValidURL(str) {
-    var pattern = new RegExp("((?:https?:|www\.)[^\s]+)","g"); // fragment locater
-    if(!pattern.test(str)) {
-        alert("Please enter a valid URL.");
+    var message;
+    var myRegExp =/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
+    var urlToValidate = str;
+    if (!myRegExp.test(urlToValidate)){
+        message = "Not a valid URL.";
+        alert(message);
         return false;
-    } else {
+    }else{
+        message =  "Its a valid URL."
+        alert(message);
         return true;
     }
+
 }
 
 
