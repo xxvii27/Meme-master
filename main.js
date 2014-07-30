@@ -542,15 +542,17 @@ $(document).ready(function(){
 
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
-        
+        if(ValidURL(nurl)){
         var nurl = $('#urlInput').val();
         var ntitle = $('#titleInput').val();
         var ncomment = $('#saveComments').val();
         var ntag = $('#tagInput').val();    
         var nrate = saveRate;
         //alert(nrate);
+        
         User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
         saveRate = 0;
+        }
         /**newMeme.set({
                 meme1: {'url': nurl, 'title': ntitle, 'comment': ncomment, 'tag': ntag} },
             function(error) {
@@ -565,9 +567,9 @@ $(document).ready(function(){
 
     $('#createModal').on('show.bs.modal', function () {
         window.setTimeout(function(){
-            window.location.href = "http://www.memeful.com";
+            window.open('http://memeful.com/', '_blank');
         }, 5000);
-    })
+    });
 });
 
 // functions loaded when all elements has been loaded
@@ -868,6 +870,14 @@ function modMemeModal(e){
   if( pencilTriggered ) { modalFooterList[0].click(); }
 } // view Modal event
 
-
+function ValidURL(str) {
+    var pattern = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/g); // fragment locater
+    if(!pattern.test(str)) {
+        alert("Please enter a valid URL.");
+        return false;
+    } else {
+        return true;
+    }
+}
 
 
