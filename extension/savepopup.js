@@ -242,7 +242,7 @@ function modMemeModal(e){
 } // view Modal event
 
 function ValidURL(str) {
-    var pattern = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/g); // fragment locater
+    var pattern = new RegExp(/((?:https?:|www\.)[^\s]+)/g); // fragment locater
     if(!pattern.test(str)) {
         alert("Please enter a valid URL.");
         return false;
