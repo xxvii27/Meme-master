@@ -497,9 +497,9 @@ $(document).ready(function(){
 
     $('#createModal').on('show.bs.modal', function () {
         window.setTimeout(function(){
-            window.location.href = "http://www.memeful.com";
+            window.open('http://memeful.com/', '_blank');
         }, 5000);
-    })
+    });
 });
 
 // functions loaded when all elements has been loaded
