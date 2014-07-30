@@ -172,20 +172,25 @@ User.nextRenderList = function() {
     {
         if(this.imgRefList.length == 0) {
             alert("nextRenderList() may not work. No imgs");
-        }
-		else if(this.startPtr < this.imgRefList.length && (max < (this.limit - 1))) {
+        } 
+		else if(this.startPtr >= this.imgRefList.length) {
+			alert("TO DEVELOPERS: FIX NAV BUTTON FUNCTIONALITY");
+		}
+    }
+	
+	// setup navigation buttons
+	if(this.startPtr < this.imgRefList.length && (max < (this.limit - 1))) {
 			document.getElementById('next').style.display = 'none';
             document.getElementById('prev').style.display = 'inline';
-		}
-        else if(this.startPtr >= this.imgRefList.length-1 || this.startPtr > 0) {
-            document.getElementById('next').style.display = 'none';
-            document.getElementById('prev').style.display = 'inline';
-        }
-        else if(this.startPtr === 0){
-            document.getElementById('prev').style.display = 'none';
-            document.getElementById('next').style.display = 'inline';
-        }
+	}
+    else if(this.startPtr === 0){
+        document.getElementById('prev').style.display = 'none';
+        document.getElementById('next').style.display = 'inline';
     }
+	else {
+		document.getElementById('prev').style.display = 'inline';
+        document.getElementById('next').style.display = 'inline';
+	}
 
     // Query each image
     for(i = capStartPtr; i < (capStartPtr + this.limit); i++){
