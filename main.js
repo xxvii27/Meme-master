@@ -454,6 +454,10 @@ $(document).ready(function(){
         //use above onclick if rate it button already clicked at least once by the user
     });
 
+    $('#urlInput').focusout(function(){
+      $('#imgPreview').attr("src",$('#urlInput').val());
+    });
+
     /** Data base setup **/
     //var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
 
