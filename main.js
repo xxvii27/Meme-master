@@ -35,7 +35,11 @@ User.setupData = function() {
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
         //alert("REMOVED" + JSON.stringify(oldData.val()));
 		// Do Nothing
-    });
+    },this);
+	
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(oldData) {
+		this.prevRenderList();
+    },this);
 
     document.getElementById('prev').style.display = 'none';
 }
@@ -386,6 +390,16 @@ User.delImg = function(url) {
     },this);
 }
 
+/*	
+	For Edit img URL. Sets by priorty
+	INSURE DATA IS LEGIT!
+	use case: edit img details to database
+	Params: aurl: (string) url
+			atitle:	(string) title
+			acat:	(string) category
+			acom:	(string) comment (TEST LENGTH TO DATABASE)
+			arate:	(number) rating
+*/
 User.editImg = function(aurl,atitle,acat,acom,arate) {
 	
 	// first, convert url, push reference
@@ -396,7 +410,7 @@ User.editImg = function(aurl,atitle,acat,acom,arate) {
 	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
 		
 		if(snap.val()){
-			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).set(
 			{
 				url: aurl
 				,title: atitle
@@ -405,7 +419,7 @@ User.editImg = function(aurl,atitle,acat,acom,arate) {
 				,rating: arate
 				,ref: snap.val().ref
 	
-			},this);
+			});
 			
 			// set priority
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
@@ -413,7 +427,7 @@ User.editImg = function(aurl,atitle,acat,acom,arate) {
 		else {
 			alert("Error Editing Img");
 		}	
-	});
+	},this);
 }
 
 /*	For editing the rating of an image
