@@ -210,6 +210,7 @@ User.nextRenderList = function() {
                     // Img List Ready HERE
                     // JAMES: Put Drawmemes method here
 					draw_memes();
+          addEvents();
                     //this.writeToDiv(); // FOR TESTING on test.html
 
                 }
@@ -464,6 +465,10 @@ $(document).ready(function(){
         //use above onclick if rate it button already clicked at least once by the user
     });
 
+    $('#urlInput').focusout(function(){
+      $('#imgPreview').attr("src",$('#urlInput').val());
+    });
+
     /** Data base setup **/
     //var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
 
@@ -495,7 +500,17 @@ $(document).ready(function(){
 window.onload = function () {
   User.setupData();
   //draw_memes();
-  
+}
+
+function addEvents() {
+  // Add click to all memes
+  var memeList = document.querySelectorAll(".t_c>a");
+  var tempStr;
+  for( var i = 0; i < memeList.length; i++ ) {
+    tempStr += ""+i+": "+memeList[i].innerHTML;
+    memeList[i].onclick = modMemeModal;
+  }
+
   // Handle thumbnail and normal viewing mode
   var dispList = document.getElementsByClassName("disp_icon");
   var captionList = document.getElementsByClassName("caption");  
@@ -536,8 +551,6 @@ window.onload = function () {
       };
     }
   }
-
-  $('img-thumb-nail').click( modMemeModal );
 
   // Add event for hover edit button
   var editList = document.querySelectorAll(".hoverEditBtn>img");
@@ -623,10 +636,6 @@ function draw_memes(){
     var memeSRCStr;
     var memeDimens = [];
     
-	
-   
-	
-          
   var memeBlock =""; // Holds what would be written in div.row
   
   for (var i= 0; i < memeArray.length; i++) {
@@ -641,7 +650,7 @@ function draw_memes(){
     "        <a href='#' onclick='confirm_delete(\"" + memeArray[i].url + "\")' title='Delete'><img src='icons/trash.png' alt=''></a>"+
     "      </div>"+
     "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
-    "        <img class ='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
+    "        <img class='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='#'>"+memeArray[i].title+"</a></h5>"+
@@ -702,8 +711,19 @@ function modMemeModal(e){
   document.getElementById("viewModalTitle").innerHTML = currMeme.title;
   document.getElementById("viewModalImage").src = currMeme.picture;
   document.getElementById("viewModalComments").innerHTML = currMeme.comments;
-  
+
+  // add sharing button, by Jason
+  var fblink = "http://www.facebook.com/sharer.php?u=";
+  $("#fbshare").attr("href", fblink+encodeURIComponent(currMeme.picture)+"&t=Meme%20Master");
+  var twtext = "http://twitter.com/share?text=" 
+  var twlink = "&url=";
+  $("#twshare").attr("href", twtext+currMeme.title+twlink+currMeme.picture+"&via=MemeMaster");  
+  var gglink = "http://plus.google.com/share?url=";
+  $("#ggshare").attr("href", gglink+currMeme.picture); 
+
+
   var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
+
 
   // In footer, show edit button only
   modalFooterList[0].removeAttribute("style");
@@ -734,6 +754,7 @@ function modMemeModal(e){
     viewModalForm[1].setAttribute("placeholder", currMeme.title);
     viewModalForm[2].setAttribute("placeholder", currMeme.comments);
     viewModalForm[3].setAttribute("placeholder", "need tag info");
+   
 
     // Add eventListener for edit modal
     document.getElementById("viewModal").onclick = function (e) {
