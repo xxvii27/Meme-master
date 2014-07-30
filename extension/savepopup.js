@@ -106,10 +106,6 @@ $(document).ready(function(){
         //use above onclick if rate it button already clicked at least once by the user
     });
 
-    $('#urlInput').focusout(function(){
-      $('#imgPreview').attr("src",$('#urlInput').val());
-    });
-
     /** Data base setup **/
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
