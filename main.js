@@ -305,6 +305,39 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
 		
 		if(!snap.val()) {
+			var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+			
+			// Push other information into detail on images
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+			{
+				url: aurl
+				,title: atitle
+				,category: acat
+				,comment: acom
+				,rating: arate
+				,ref: refID
+			}
+			,function(error) {
+				if(error){
+					alert('There was an error with DB.\n' + error);
+				} else {
+					alert('Save successful');
+				}
+			});
+    
+			// set priority
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+
+			// add 1 to total imgs
+			this.dbref.child(this.name).once('value', function(snap2) {
+				var total = snap2.val()['total_imgs'];
+				this.dbref.child(this.name).update({total_imgs : (total + 1)});
+			},this);
+		}
+		else{
+			alert("This content already exists in MemeMaster");
+		}
+		/*if(!snap) {
 			
 			var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
 			
@@ -324,20 +357,20 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 				} else {
 					alert('Save successful');
 				}
-			},this);
+			});
     
 			// set priority
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
 
 			// add 1 to total imgs
-			this.dbref.child(this.name).once('value', function(snap) {
-				var total = snap.val()['total_imgs'];
+			this.dbref.child(this.name).once('value', function(snap2) {
+				var total = snap2.val()['total_imgs'];
 				this.dbref.child(this.name).update({total_imgs : (total + 1)});
 			},this);
 		}
 		else {
 			alert("This content already exists in MemeMaster");
-		}
+		}*/
 	},this);
 }
 
@@ -562,7 +595,6 @@ $(document).ready(function(){
             var ncomment = $('#saveComments').val();
             var ntag = $('#tagInput').val();
             var nrate = saveRate;
-            //alert(nrate);
 
             User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
             saveRate = 0;
