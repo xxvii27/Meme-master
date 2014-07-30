@@ -12,9 +12,9 @@ var User = {};
 // Add User fields
 User.dbref 		= new Firebase(FBURL);
 User.startPtr 	= 0;
-User.endPtr 	= 9;
+User.endPtr 	= 11;
 User.totalImgs 	= 0;
-User.limit 		= 10;
+User.limit 		= 12;
 User.state 		= -1;	// 0 = by newest | 1 = by oldest | 2= by rating
 User.imgRefList = [];	// List of database url references
 User.curList 	= [];	// Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
@@ -192,7 +192,7 @@ User.nextRenderList = function() {
                 if(counter == max) {
                     // Move Pointers NEXT Appropriate position
                     this.startPtr += max + 1;
-                    this.endPtr = this.startPtr + 10;
+                    this.endPtr = this.startPtr + this.limit;
 
                     // Img List Ready HERE
                     // JAMES: Put Drawmemes method here
@@ -408,17 +408,6 @@ function download_meme(URL) {
     a.remove();
 }
 
-
-
-
-    
-
-
-
-
-
-
-
 var star_rating = "";
 star_rating += "<div class='rating pull-right' id='app'> "
 star_rating += "<input type='radio' id='starx5' name='rating' value='5' /><label for='starx5' title='Rocks!'>5 stars</label>"
@@ -609,29 +598,14 @@ function draw_memes(){
     var memeDimens = [];
     
 	
-    for (var i = 0; i < memeArray.length; i++)
-    {
-		memeDimens.push(dimens.indexOf(i) != -1 ? '643' : '644');
-       /* toStr = i.toString();
-        memeSRCStr = str + toStr + (gifs.indexOf(i) != -1 ? ".gif" : ".jpg");
-        memeDimens = dimens.indexOf(i) != -1 ? '643' : '644';
-        memeArray[i] = {
-            memeTitle : title[i],
-            memeComments : "Random Comment",
-            memeSRC : memeSRCStr,
-            memeHREF : "#",
-            memeRating : ""+Math.floor((Math.random() * 5)),
-            //memeRating : '0', 
-            memeDimensions : memeDimens
-        }*/
-    }
+   
 	
           
   var memeBlock =""; // Holds what would be written in div.row
   
   for (var i= 0; i < memeArray.length; i++) {
-    memeBlock += "<div class='col-sm-" + memeDimens[i].charAt(0)+" col-md-" + memeDimens[i].charAt(1)+
-    " col-lg-" + memeDimens[i].charAt(2)+"'>"+
+    memeBlock += "<div class='col-sm-" + 6+" col-md-" + 4 +
+    " col-lg-" + 3 +"'>"+
     "  <div class='thumbnail'>"+
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
