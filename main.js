@@ -38,7 +38,7 @@ User.setupData = function() {
     },this);
 	
 	// Refresh page on editing
-	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(changedData) {
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(changedData,prevChild) {
 		this.prevRenderList();
     },this);
 	
