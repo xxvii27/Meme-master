@@ -194,14 +194,21 @@ User.nextRenderList = function() {
 	if(this.startPtr < this.imgRefList.length && (max < (this.limit - 1))) {
 			document.getElementById('next').style.display = 'none';
             document.getElementById('prev').style.display = 'inline';
+            document.getElementById('nextpage').style.display = 'none';
+            document.getElementById('previous').style.display = 'inline';
 	}
     else if(this.startPtr === 0){
         document.getElementById('prev').style.display = 'none';
         document.getElementById('next').style.display = 'inline';
+        document.getElementById('previous').style.display = 'none';
+        document.getElementById('nextpage').style.display = 'inline';
+
     }
 	else {
 		document.getElementById('prev').style.display = 'inline';
         document.getElementById('next').style.display = 'inline';
+        document.getElementById('previous').style.display = 'inline';
+        document.getElementById('nextpage').style.display = 'inline';
 	}
 
     // Query each image
