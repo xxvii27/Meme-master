@@ -142,6 +142,17 @@ h5{
 /* center paging navigation */
 .paging{
     text-align: center;
+}
+
+ul.pagination.pagination-lg{
+    margin: 0;
+}
+
+.sorting{
+    text-align: right;
+}
+
+.row{
     padding-bottom: 50px;
 }
 

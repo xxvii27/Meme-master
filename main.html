@@ -195,37 +195,39 @@
 </div>
 
 <div class ="container" id ="content">
-	<!-- Sorts memes based on condition and grid viewing-->
-    <p class ="text-right"><b>Sort By:</b>
-        <select onChange="User.evalSetup(this.selectedIndex)">
-        <option value="0">Newest</option>
-        <option value="1">Oldest</option>
-        <option value="2">Avg Rating</option>
-		<option value="relevance">Relevance</option>
-        </select>
-        &nbsp;
-        &nbsp;
-        <b>View By:</b>
-        <a class="disp_icon" onmouseover="m_d_tooltip(event,'GVT')" onmouseout="hide()">
-			<span id="GVT">Grid View</span>
-			<img class ="image" src="icons/gridview.png" alt=""/>
-		</a> | 
-		<a class="disp_icon" onmouseover="m_d_tooltip(event,'TVT')" onmouseout="hide()">
-			<span id="TVT">Thumb View</span>
-			<img class ="image" src="icons/imageview.png" alt=""/>
-		</a>
-    </p>
-
-	<!-- Displays all meme content from main.js -->
-    <div class="row" id="memeContent"> </div>
-    
-	<!-- Displays page number navigation at bottom -->
+    <!-- Displays page number navigation at bottom -->
     <div class="paging">
         <ul class='pagination pagination-lg'>
             <li><a id="prev" href='#' onclick="User.prevRenderList()">&laquo;</a></li>
             <li><a id="next" href='#' onclick="User.nextRenderList()">&raquo;</a></li>
         </ul>
     </div>
+    
+    <!-- Sorts memes based on condition and grid viewing -->
+    <div class="sorting">
+        <p class ="text-right"><b>Sort By:</b>
+            <select onChange="User.evalSetup(this.selectedIndex)">
+            <option value="0">Newest</option>
+            <option value="1">Oldest</option>
+            <option value="2">Avg Rating</option>
+            <option value="relevance">Relevance</option>
+            </select>
+            &nbsp;
+            &nbsp;
+            <b>View By:</b>
+            <a class="disp_icon" onmouseover="m_d_tooltip(event,'GVT')" onmouseout="hide()">
+                <span id="GVT">Grid View</span>
+                <img class ="image" src="icons/gridview.png" alt=""/>
+            </a> | 
+            <a class="disp_icon" onmouseover="m_d_tooltip(event,'TVT')" onmouseout="hide()">
+                <span id="TVT">Thumb View</span>
+                <img class ="image" src="icons/imageview.png" alt=""/>
+            </a>
+        </p>
+    </div>
+    
+	<!-- Displays all meme content from main.js -->
+    <div class="row" id="memeContent"> </div>
 </div>
 
 <!-- Footer information about website -->
