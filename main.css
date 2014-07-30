@@ -578,3 +578,7 @@ a:hover #TVT {
 
 .ico-google {
   background-image: url("https://ssl.gstatic.com/s2/oz/images/faviconr2.ico"); }
+
+#saveComments{
+    border-radius: 0px;
+}
