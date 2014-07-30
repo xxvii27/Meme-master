@@ -693,7 +693,12 @@ function rateItEvt(evt) {
       var strStars = e.target.innerHTML.charAt(0);  // Number of stars clicked
       var currNode = e.target.parentNode.parentNode; // p node for ratings
       currNode.setAttribute("data-rating", ""+strStars );
+<<<<<<< HEAD
       // ************ Send rating to server HERE **************************************
+=======
+      // Update rating
+      User.editRating(strStars, currURL);
+>>>>>>> faf56e6806e41b76279e1a876198c2de1f4d0685
       
       var strStarsHTML = "";
       for( j = 0; j < +strStars; j++ ) {
@@ -789,10 +794,11 @@ function modMemeModal(e){
   } else {
     currRating = currRating.innerHTML;
   }
+
   
   // Info of meme that was clicked
   var currMeme = {
-  title: currThumbnail.querySelector("h5>a").innerHTML,
+  title: currThumbnail.querySelector("h5").innerHTML,
   picture: currThumbnail.querySelector(".img-thumb-nail").src,
   comments: currThumbnail.querySelector(".comments").innerHTML,
   rating: currRating};
