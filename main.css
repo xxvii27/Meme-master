@@ -107,10 +107,6 @@ ul.dropdown-menu#registration li:nth-last-child(2){
     height: 80px;
 }
 
-.caption.small{
-    height: 80px;
-}
-
 h5{
     margin: 0;
     float: left;
@@ -121,12 +117,9 @@ h5{
     position: absolute;
 }
 
-.thumbnail.rating.pull-left{
-    position: absolute;
-}
 .rating.pull-left{
     position: absolute;
-    bottom: 20px;
+    bottom: 20px !important;
     right: 25px;
 }
 
