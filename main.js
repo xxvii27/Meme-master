@@ -44,6 +44,7 @@ User.setupData = function() {
 	
 	// Refresh page when user inputs new image
 	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_added', function(newData) {
+		this.state = -1;	// state override
 		this.setupByNewest();
     },this);
 
