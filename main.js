@@ -817,10 +817,11 @@ function modMemeModal(e){
   } else {
     currRating = currRating.innerHTML;
   }
+
   
   // Info of meme that was clicked
   var currMeme = {
-  title: currThumbnail.querySelector("h5>a").innerHTML,
+  title: currThumbnail.querySelector("h5").innerHTML,
   picture: currThumbnail.querySelector(".img-thumb-nail").src,
   comments: currThumbnail.querySelector(".comments").innerHTML,
   rating: currRating};
