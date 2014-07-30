@@ -12,10 +12,11 @@ var User = {};
 // Add User fields
 User.dbref 		= new Firebase(FBURL);
 User.startPtr 	= 0;
-User.endPtr 	= 9;
+User.endPtr 	= 11;
 User.totalImgs 	= 0;
-User.limit 		= 10;
+User.limit 		= 12;
 User.state 		= -1;	// 0 = by newest | 1 = by oldest | 2= by rating
+User.prevMax	= -1;
 User.imgRefList = [];	// List of database url references
 User.curList 	= [];	// Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
 
@@ -33,6 +34,7 @@ User.setupData = function() {
     // Setup delete on delete child (delete meme)
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
         //alert("REMOVED" + JSON.stringify(oldData.val()));
+		// Do Nothing
     });
 
     document.getElementById('prev').style.display = 'none';
@@ -158,22 +160,6 @@ User.nextRenderList = function() {
 
     this.clearRenderList();
 
-    // If in DEBUG mode
-    if(DEBUG)
-    {
-        if(this.imgRefList.length == 0) {
-            alert("nextRenderList() may not work. No imgs");
-        }
-        else if(this.startPtr >= this.imgRefList.length-1 || this.startPtr > 0) {
-            document.getElementById('next').style.display = 'none';
-            document.getElementById('prev').style.display = 'inline';
-        }
-        else if(this.startPtr === 0){
-            document.getElementById('prev').style.display = 'none';
-            document.getElementById('next').style.display = 'inline';
-        }
-    }
-
     // Find maximum number of images left on the list
     for(i=this.endPtr; i > this.startPtr; i--){
         if(this.imgRefList[i]){
@@ -181,6 +167,31 @@ User.nextRenderList = function() {
             break;
         }
     }
+	
+	// If in DEBUG mode
+    if(DEBUG)
+    {
+        if(this.imgRefList.length == 0) {
+            alert("nextRenderList() may not work. No imgs");
+        } 
+		else if(this.startPtr >= this.imgRefList.length) {
+			//alert("TO DEVELOPERS: FIX NAV BUTTON FUNCTIONALITY");
+		}
+    }
+	
+	// setup navigation buttons
+	if(this.startPtr < this.imgRefList.length && (max < (this.limit - 1))) {
+			document.getElementById('next').style.display = 'none';
+            document.getElementById('prev').style.display = 'inline';
+	}
+    else if(this.startPtr === 0){
+        document.getElementById('prev').style.display = 'none';
+        document.getElementById('next').style.display = 'inline';
+    }
+	else {
+		document.getElementById('prev').style.display = 'inline';
+        document.getElementById('next').style.display = 'inline';
+	}
 
     // Query each image
     for(i = capStartPtr; i < (capStartPtr + this.limit); i++){
@@ -190,13 +201,16 @@ User.nextRenderList = function() {
 
                 this.curList.push(snapshot.val());
                 if(counter == max) {
+				
                     // Move Pointers NEXT Appropriate position
                     this.startPtr += max + 1;
-                    this.endPtr = this.startPtr + 10;
-
+                    this.endPtr = this.startPtr + (this.limit - 1);
+					this.prevMax = max;
+					
                     // Img List Ready HERE
                     // JAMES: Put Drawmemes method here
 					draw_memes();
+          addEvents();
                     //this.writeToDiv(); // FOR TESTING on test.html
 
                 }
@@ -217,8 +231,15 @@ User.nextRenderList = function() {
 User.prevRenderList = function() {
 
     // Move pointers back and call nextRenderList
-    this.startPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
-    this.endPtr = this.startPtr + 9;
+	if(this.startPtr >= this.imgRefList.length){
+		var temp = (this.startPtr - (this.prevMax + 1)) - (this.limit);
+		this.startPtr = (temp < 0) ? 0 : temp;	
+	}
+	else{
+		this.startPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+	}
+    
+    this.endPtr = this.startPtr + (this.limit - 1);
 
     this.nextRenderList();
 }
@@ -231,7 +252,7 @@ User.refreshRenderList = function() {
 
     // Move pointers back and call nextRenderList
     this.startPtr -= this.limit;
-    this.endPtr = this.startPtr + 9;
+    this.endPtr = this.startPtr + (this.limit - 1);
 
     this.nextRenderList();
 }
@@ -257,61 +278,69 @@ User.clearRefList = function(){
         this.imgRefList.pop();
     }
     this.startPtr = 0;
-    this.endPtr = 9;
+    this.endPtr = (this.limit - 1);
 }
 
 /* 	For Save img URL. Sets by priorty
- INSURE DATA IS LEGIT!
- use case: Save img details to database
- Params: aurl: (string) url
- atitle:	(string) title
- acat:	(string) category
- acom:	(string) comment (TEST LENGTH TO DATABASE)
- arate:	(number) rating
+	INSURE DATA IS LEGIT!
+	use case: Save img details to database
+	Params: aurl: (string) url
+	atitle:	(string) title
+	acat:	(string) category
+	acom:	(string) comment (TEST LENGTH TO DATABASE)
+	arate:	(number) rating
  */
 User.saveImg = function(aurl,atitle,acat,acom,arate) {
 
     // first, convert url, push reference
     var priority = (arate && (arate == 0)) ? 6 : (6-arate);
     var changeurl = replaceBadChars(aurl);
-    var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+	
+	// First check if url is already in database
+	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
+		
+		if(!snap.val()) {
+			
+			var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+			atitle = (atitle) ? atitle : NO_TITLE;
 
-    atitle = (atitle) ? atitle : NO_TITLE;
+			// Push other information into detail on images
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+			{
+				url: aurl
+				,title: atitle
+				,category: acat
+				,comment: acom
+				,rating: arate
+				,ref: refID
+			},function(error) {
+				if(error){
+					alert('There was an error with DB.\n' + error);
+				} else {
+					alert('Save successful');
+				}
+			},this);
+    
+			// set priority
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
 
-    // Push other information into detail on images
-    this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
-      {
-          url: aurl
-          ,title: atitle
-          ,category: acat
-          ,comment: acom
-          ,rating: arate
-          ,ref: refID
-      },
-      function(error) {
-          if(error){
-              alert('There was an error with DB.\n' + error);
-          } else {
-              alert('Save successful');
-          }
-      }
-    );
-    // set priority
-    this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
-
-    // add 1 to total imgs
-    this.dbref.child(this.name).once('value', function(snap) {
-        var total = snap.val()['total_imgs'];
-        this.dbref.child(this.name).update({total_imgs : (total + 1)});
-    },this);
-
+			// add 1 to total imgs
+			this.dbref.child(this.name).once('value', function(snap) {
+				var total = snap.val()['total_imgs'];
+				this.dbref.child(this.name).update({total_imgs : (total + 1)});
+			},this);
+		}
+		else {
+			alert("This content already exists in MemeMaster");
+		}
+		
+	},this);
 }
 
 /*
- Deletes an image from the database. Automatically refreshes the page
- use case: delete image button
- Params:	(string) url
-
+	Deletes an image from the database. Automatically refreshes the page
+	use case: delete image button
+	Params:	(string) url
  */
 User.delImg = function(url) {
 
@@ -336,12 +365,11 @@ User.delImg = function(url) {
                     break;
                 }
             }
-
+			
             // change total img count and from database
             this.totalImgs -= 1;
             this.dbref.child(this.name).update({total_imgs : this.totalImgs});
 			
-			alert(ref);
             // remove reference from Database
             this.dbref.child(this.name + "/" + IMG_REF + "/" + ref).remove();
 
@@ -350,11 +378,42 @@ User.delImg = function(url) {
 			
             // Re-render image
             this.refreshRenderList();
+			
         }
         else {
             alert("TO DEVELOPERS: URL DOES NOT EXIST");
         }
     },this);
+}
+
+/*	For editing the rating of an image
+	use case: rate image on the fly when image has not been rated yet
+	Params: rate: 	(number) rating
+			url:	(string) actual URL
+*/
+User.editRating = function(rate,url) {
+	
+	if(url && rate) {
+		var encodedURL = replaceBadChars(url);
+		alert(encodedURL);
+		this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
+			
+			var details = snap.val();
+			alert(details);
+			if(details){
+				this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).update({
+					
+					category : details.category
+					,comment : details.comment
+					,ref	: details.ref
+					,title	: details.title
+					,url	: details.url
+					,rating	: rate
+					
+				});
+			}
+		},this);
+	}
 }
 
 
@@ -444,6 +503,10 @@ $(document).ready(function(){
         //use above onclick if rate it button already clicked at least once by the user
     });
 
+    $('#urlInput').focusout(function(){
+      $('#imgPreview').attr("src",$('#urlInput').val());
+    });
+
     /** Data base setup **/
     //var DBmeme = new Firebase('https://intense-fire-8114.firebaseio.com/memes');
 
@@ -468,18 +531,30 @@ $(document).ready(function(){
             }
         });
         **/
-    });    
+    });
+
+    $('#createModal').on('show.bs.modal', function () {
+        window.setTimeout(function(){
+            window.location.href = "http://www.memeful.com";
+        }, 5000);
+    })
 });
 
 // functions loaded when all elements has been loaded
 window.onload = function () {
   User.setupData();
   //draw_memes();
-  var clickableMemes = document.getElementsByClassName('img-thumb-nail');
-  for( var i = 0; i < clickableMemes.length; i++ ) {    
-    clickableMemes[i].onclick = modMemeModal;
+}
+
+function addEvents() {
+  // Add click to all memes
+  var memeList = document.querySelectorAll(".t_c>a");
+  var tempStr;
+  for( var i = 0; i < memeList.length; i++ ) {
+    tempStr += ""+i+": "+memeList[i].innerHTML;
+    memeList[i].onclick = modMemeModal;
   }
-  
+
   // Handle thumbnail and normal viewing mode
   var dispList = document.getElementsByClassName("disp_icon");
   var captionList = document.getElementsByClassName("caption");  
@@ -520,7 +595,7 @@ window.onload = function () {
       };
     }
   }
-  
+
   // Add event for hover edit button
   var editList = document.querySelectorAll(".hoverEditBtn>img");
   for( var i = 0; i < editList.length; i++ ) {
@@ -605,30 +680,11 @@ function draw_memes(){
     var memeSRCStr;
     var memeDimens = [];
     
-	
-    for (var i = 0; i < memeArray.length; i++)
-    {
-		memeDimens.push(dimens.indexOf(i) != -1 ? '643' : '644');
-       /* toStr = i.toString();
-        memeSRCStr = str + toStr + (gifs.indexOf(i) != -1 ? ".gif" : ".jpg");
-        memeDimens = dimens.indexOf(i) != -1 ? '643' : '644';
-        memeArray[i] = {
-            memeTitle : title[i],
-            memeComments : "Random Comment",
-            memeSRC : memeSRCStr,
-            memeHREF : "#",
-            memeRating : ""+Math.floor((Math.random() * 5)),
-            //memeRating : '0', 
-            memeDimensions : memeDimens
-        }*/
-    }
-	
-          
   var memeBlock =""; // Holds what would be written in div.row
   
   for (var i= 0; i < memeArray.length; i++) {
-    memeBlock += "<div class='col-sm-" + memeDimens[i].charAt(0)+" col-md-" + memeDimens[i].charAt(1)+
-    " col-lg-" + memeDimens[i].charAt(2)+"'>"+
+    memeBlock += "<div class='col-sm-" + 6+" col-md-" + 4 +
+    " col-lg-" + 3 +"'>"+
     "  <div class='thumbnail'>"+
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
@@ -638,11 +694,11 @@ function draw_memes(){
     "        <a href='#' onclick='confirm_delete(\"" + memeArray[i].url + "\")' title='Delete'><img src='icons/trash.png' alt=''></a>"+
     "      </div>"+
     "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
-    "        <img class ='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
+    "        <img class='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='#'>"+memeArray[i].title+"</a></h5>"+
-    "       <div class='rating pull-right' data-rating= "+'"'+memeArray[i].rating+'"'+">";
+    "       <div class='rating pull-left' data-rating= "+'"'+memeArray[i].rating+'"'+">";
     // If no rating, show rate button (needs some flag)
     if( + memeArray[i].rating == 0) {
       memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";   
@@ -699,8 +755,19 @@ function modMemeModal(e){
   document.getElementById("viewModalTitle").innerHTML = currMeme.title;
   document.getElementById("viewModalImage").src = currMeme.picture;
   document.getElementById("viewModalComments").innerHTML = currMeme.comments;
-  
+
+  // add sharing button, by Jason
+  var fblink = "http://www.facebook.com/sharer.php?u=";
+  $("#fbshare").attr("href", fblink+encodeURIComponent(currMeme.picture)+"&t=Meme%20Master");
+  var twtext = "http://twitter.com/share?text=" 
+  var twlink = "&url=";
+  $("#twshare").attr("href", twtext+currMeme.title+twlink+currMeme.picture+"&via=MemeMaster");  
+  var gglink = "http://plus.google.com/share?url=";
+  $("#ggshare").attr("href", gglink+currMeme.picture); 
+
+
   var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
+
 
   // In footer, show edit button only
   modalFooterList[0].removeAttribute("style");
@@ -731,6 +798,7 @@ function modMemeModal(e){
     viewModalForm[1].setAttribute("placeholder", currMeme.title);
     viewModalForm[2].setAttribute("placeholder", currMeme.comments);
     viewModalForm[3].setAttribute("placeholder", "need tag info");
+   
 
     // Add eventListener for edit modal
     document.getElementById("viewModal").onclick = function (e) {

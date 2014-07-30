@@ -14,8 +14,7 @@ function savePopup(info, tab){
 }
 
 // Create one test item for each context type.
-var contexts = ["page","selection","link","editable","image","video",
-                "audio"];
+var contexts = ["page","selection","editable","video","audio"];
 for (var i = 0; i < contexts.length; i++) {
   var context = contexts[i];
   var title = "Go to Meme Master page";

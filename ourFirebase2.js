@@ -25,14 +25,14 @@ User.setupData = function() {
 	// Change Count of Total Imgs
 	this.dbref.child(this.name).once('value', function(snap) {
 		this.totalImgs = snap.val()['total_imgs'];
-        alert(this.totalImgs);
+        //alert(this.totalImgs);
 		this.setupByNewest();
 
 	},this);
 	
 	// Setup delete on delete child (delete meme)
 	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
-			alert("REMOVED" + JSON.stringify(oldData.val()));
+			//alert("REMOVED" + JSON.stringify(oldData.val()));
 	});
 }
 
