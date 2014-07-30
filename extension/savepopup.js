@@ -47,39 +47,48 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
     // first, convert url, push reference
     var priority = (arate && (arate == 0)) ? 6 : (6-arate);
     var changeurl = replaceBadChars(aurl);
-    var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+  
+  // First check if url is already in database
+  this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
+    
+    if(!snap.val()) {
+      
+      var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+      atitle = (atitle) ? atitle : NO_TITLE;
 
-    atitle = (atitle) ? atitle : NO_TITLE;
+      // Push other information into detail on images
+      this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+      {
+        url: aurl
+        ,title: atitle
+        ,category: acat
+        ,comment: acom
+        ,rating: arate
+        ,ref: refID
+      },function(error) {
+        if(error){
+          alert('There was an error with DB.\n' + error);
+        } else {
+          alert('Save successful');
+        }
+      },this);
+    
+      // set priority
+      this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
 
-    // Push other information into detail on images
-    this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
-          {
-              url: aurl
-              ,title: atitle
-              ,category: acat
-              ,comment: acom
-              ,rating: arate
-              ,ref: refID
-          },
-          function(error) {
-              if(error){
-                  alert('There was an error with DB.\n' + error);
-              } else {
-                  alert('Save successful');
-              }
-          }
-        );
-
-    // set priority
-    this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
-
-    // add 1 to total imgs
-    this.dbref.child(this.name).once('value', function(snap) {
+      // add 1 to total imgs
+      this.dbref.child(this.name).once('value', function(snap) {
         var total = snap.val()['total_imgs'];
         this.dbref.child(this.name).update({total_imgs : (total + 1)});
-    },this);
-
+      },this);
+    }
+    else {
+      alert("This content already exists in MemeMaster");
+    }
+    
+  },this);
 }
+
 
 function replaceBadChars(str){
     var temp = str.replace(/\./g,',');
