@@ -295,6 +295,7 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
     // first, convert url, push reference
     var priority = (arate && (arate == 0)) ? 6 : (6-arate);
     var changeurl = replaceBadChars(aurl);
+	atitle = (atitle) ? atitle : NO_TITLE;
 	
 	// First check if url is already in database
 	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
@@ -302,8 +303,7 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 		if(!snap.val()) {
 			
 			var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
-			atitle = (atitle) ? atitle : NO_TITLE;
-
+			
 			// Push other information into detail on images
 			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
 			{
@@ -313,7 +313,8 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 				,comment: acom
 				,rating: arate
 				,ref: refID
-			},function(error) {
+			}
+			,function(error) {
 				if(error){
 					alert('There was an error with DB.\n' + error);
 				} else {
@@ -333,7 +334,6 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
 		else {
 			alert("This content already exists in MemeMaster");
 		}
-		
 	},this);
 }
 
@@ -384,6 +384,36 @@ User.delImg = function(url) {
             alert("TO DEVELOPERS: URL DOES NOT EXIST");
         }
     },this);
+}
+
+User.editImg = function(aurl,atitle,acat,acom,arate) {
+	
+	// first, convert url, push reference
+    var priority = (arate && (arate == 0)) ? 6 : (6-arate);
+    var changeurl = replaceBadChars(aurl);
+	atitle = (atitle) ? atitle : NO_TITLE;
+	
+	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
+		
+		if(snap.val()){
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+			{
+				url: aurl
+				,title: atitle
+				,category: acat
+				,comment: acom
+				,rating: arate
+				,ref: snap.val().ref
+	
+			},this);
+			
+			// set priority
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+		}
+		else {
+			alert("Error Editing Img");
+		}	
+	});
 }
 
 /*	For editing the rating of an image
