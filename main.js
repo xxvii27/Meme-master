@@ -282,57 +282,65 @@ User.clearRefList = function(){
 }
 
 /* 	For Save img URL. Sets by priorty
- INSURE DATA IS LEGIT!
- use case: Save img details to database
- Params: aurl: (string) url
- atitle:	(string) title
- acat:	(string) category
- acom:	(string) comment (TEST LENGTH TO DATABASE)
- arate:	(number) rating
+	INSURE DATA IS LEGIT!
+	use case: Save img details to database
+	Params: aurl: (string) url
+	atitle:	(string) title
+	acat:	(string) category
+	acom:	(string) comment (TEST LENGTH TO DATABASE)
+	arate:	(number) rating
  */
 User.saveImg = function(aurl,atitle,acat,acom,arate) {
 
     // first, convert url, push reference
     var priority = (arate && (arate == 0)) ? 6 : (6-arate);
     var changeurl = replaceBadChars(aurl);
-    var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+	
+	// First check if url is already in database
+	this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
+		
+		if(!snap.val()) {
+			
+			var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
+			atitle = (atitle) ? atitle : NO_TITLE;
 
-    atitle = (atitle) ? atitle : NO_TITLE;
+			// Push other information into detail on images
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
+			{
+				url: aurl
+				,title: atitle
+				,category: acat
+				,comment: acom
+				,rating: arate
+				,ref: refID
+			},function(error) {
+				if(error){
+					alert('There was an error with DB.\n' + error);
+				} else {
+					alert('Save successful');
+				}
+			},this);
+    
+			// set priority
+			this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
 
-    // Push other information into detail on images
-    this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
-      {
-          url: aurl
-          ,title: atitle
-          ,category: acat
-          ,comment: acom
-          ,rating: arate
-          ,ref: refID
-      },
-      function(error) {
-          if(error){
-              alert('There was an error with DB.\n' + error);
-          } else {
-              alert('Save successful');
-          }
-      }
-    );
-    // set priority
-    this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
-
-    // add 1 to total imgs
-    this.dbref.child(this.name).once('value', function(snap) {
-        var total = snap.val()['total_imgs'];
-        this.dbref.child(this.name).update({total_imgs : (total + 1)});
-    },this);
-
+			// add 1 to total imgs
+			this.dbref.child(this.name).once('value', function(snap) {
+				var total = snap.val()['total_imgs'];
+				this.dbref.child(this.name).update({total_imgs : (total + 1)});
+			},this);
+		}
+		else {
+			alert("This content already exists in MemeMaster");
+		}
+		
+	},this);
 }
 
 /*
- Deletes an image from the database. Automatically refreshes the page
- use case: delete image button
- Params:	(string) url
-
+	Deletes an image from the database. Automatically refreshes the page
+	use case: delete image button
+	Params:	(string) url
  */
 User.delImg = function(url) {
 
@@ -376,6 +384,36 @@ User.delImg = function(url) {
             alert("TO DEVELOPERS: URL DOES NOT EXIST");
         }
     },this);
+}
+
+/*	For editing the rating of an image
+	use case: rate image on the fly when image has not been rated yet
+	Params: rate: 	(number) rating
+			url:	(string) actual URL
+*/
+User.editRating = function(rate,url) {
+	
+	if(url && rate) {
+		var encodedURL = replaceBadChars(url);
+		alert(encodedURL);
+		this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
+			
+			var details = snap.val();
+			alert(details);
+			if(details){
+				this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).update({
+					
+					category : details.category
+					,comment : details.comment
+					,ref	: details.ref
+					,title	: details.title
+					,url	: details.url
+					,rating	: rate
+					
+				});
+			}
+		},this);
+	}
 }
 
 
