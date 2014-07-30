@@ -105,6 +105,13 @@ ul.dropdown-menu#registration li:nth-last-child(2){
 /* caption area under big & small memes */
 .caption.big{
     height: 80px;
+    position: relative;
+}
+
+.rating.pull-left{
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 h5{
@@ -116,13 +123,6 @@ h5{
 .comments.pull-left{
     position: absolute;
 }
-
-.rating.pull-left{
-    position: absolute;
-    bottom: 20px !important;
-    right: 25px;
-}
-
 
 /* login margin fix */
 .login{
