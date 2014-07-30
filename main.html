@@ -35,7 +35,7 @@
         <div class="navbar-collapse collapse" id = "mainnav">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#about" data-toggle="modal" data-target="#myModal"><img class ="image" src="icons/upload32.png" alt=""/>&nbsp;Save &nbsp;</a></li>
-                <li><a href="#contact" data-toggle="modal" data-target="#createModal"><img class ="image" src="icons/wand32.png" alt=""/>&nbsp;Create&nbsp;</a></li>
+                <li><a href="#create" data-toggle="modal" data-target="#createModal"><img class ="image" src="icons/wand32.png" alt=""/>&nbsp;Create&nbsp;</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class ="image" src="icons/folder32.png" alt=""/>&nbsp;Categories <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
@@ -143,29 +143,16 @@
                 <h4 class="modal-title">Create a Meme</h4>
             </div>
             <div class="modal-body">
-                <h4>Upload Image:</h4>
-                <br>
-                <div class="input-group">
-                    <input type="file" class="form-control">
-                    <img id="preview" src="http://placehold.it/320x150" alt="">
-                    <input type="text" class="form-control" placeholder="Title">
-                    <input type="text" class="form-control" placeholder="Tags">
-                    <input type="text" class="form-control" placeholder="Top Text">
-                    <input type="text" class="form-control" placeholder="Bottom Text">
-                </div>
-                <br>
-                <h4>&nbsp;Rate It:</h4>
-                <div class="rating pull-left">
-                    <input type="radio" id="star5"  name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
-                    <input type="radio" id="star4"  name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
-                    <input type="radio" id="star3"  name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
-                    <input type="radio" id="star2"  name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
-                    <input type="radio" id="star1"  name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
-                </div>
+                <h4>Instructions</h4>
+                <ol>
+                    <li>You will be redirected to a third-party meme creation service after 5 seconds !!!</li>
+                    <li>Create a Meme</li>
+                    <li>Right click using the extension to add to MemeMaster</li>
+                </ol>
+                <p>If it doesn't redirect <a href="http://www.memeful.com">click here</a> !!!</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-default submit"><b>Submit</b></button>
             </div>
         </div>
     </div>
@@ -179,8 +166,8 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="viewModalTitle">Oops! Wrong title!</h4>
             </div>
-            <div class="modal-body" id="viewModalBody" style="overflow: auto">
-              <img src="" alt="" id="viewModalImage">              
+            <div class="modal-body" id="viewModalBody">
+              <img src="//:0" alt="" id="viewModalImage" class="img-responsive center-block">              
               <h3>Tags:</h3>
               <p id="viewModalTags">No Tags</p>
               <h3>Comments:</h3>

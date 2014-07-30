@@ -531,7 +531,13 @@ $(document).ready(function(){
             }
         });
         **/
-    });    
+    });
+
+    $('#createModal').on('show.bs.modal', function () {
+        window.setTimeout(function(){
+            window.location.href = "http://www.memeful.com";
+        }, 5000);
+    })
 });
 
 // functions loaded when all elements has been loaded
@@ -692,7 +698,7 @@ function draw_memes(){
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='#'>"+memeArray[i].title+"</a></h5>"+
-    "       <div class='rating pull-right' data-rating= "+'"'+memeArray[i].rating+'"'+">";
+    "       <div class='rating pull-left' data-rating= "+'"'+memeArray[i].rating+'"'+">";
     // If no rating, show rate button (needs some flag)
     if( + memeArray[i].rating == 0) {
       memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";   
