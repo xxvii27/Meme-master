@@ -16,6 +16,7 @@ User.endPtr 	= 11;
 User.totalImgs 	= 0;
 User.limit 		= 12;
 User.state 		= -1;	// 0 = by newest | 1 = by oldest | 2= by rating
+User.prevMax	= -1;
 User.imgRefList = [];	// List of database url references
 User.curList 	= [];	// Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
 
@@ -174,7 +175,7 @@ User.nextRenderList = function() {
             alert("nextRenderList() may not work. No imgs");
         } 
 		else if(this.startPtr >= this.imgRefList.length) {
-			alert("TO DEVELOPERS: FIX NAV BUTTON FUNCTIONALITY");
+			//alert("TO DEVELOPERS: FIX NAV BUTTON FUNCTIONALITY");
 		}
     }
 	
@@ -200,10 +201,12 @@ User.nextRenderList = function() {
 
                 this.curList.push(snapshot.val());
                 if(counter == max) {
+				
                     // Move Pointers NEXT Appropriate position
                     this.startPtr += max + 1;
                     this.endPtr = this.startPtr + (this.limit - 1);
-
+					this.prevMax = max;
+					
                     // Img List Ready HERE
                     // JAMES: Put Drawmemes method here
 					draw_memes();
@@ -227,7 +230,14 @@ User.nextRenderList = function() {
 User.prevRenderList = function() {
 
     // Move pointers back and call nextRenderList
-    this.startPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+	if(this.startPtr >= this.imgRefList.length){
+		var temp = (this.startPtr - (this.prevMax + 1)) - (this.limit);
+		this.startPtr = (temp < 0) ? 0 : temp;	
+	}
+	else{
+		this.startPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+	}
+    
     this.endPtr = this.startPtr + (this.limit - 1);
 
     this.nextRenderList();
