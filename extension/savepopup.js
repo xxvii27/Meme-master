@@ -124,7 +124,7 @@ $(document).ready(function(){
     /** Data base setup **/
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
-        if(ValidURL(nurl)){
+        //if(ValidURL(nurl)){
         var nurl = $('#urlInput').val();
         var ntitle = $('#titleInput').val();
         var ncomment = $('#saveComments').val();
@@ -134,7 +134,7 @@ $(document).ready(function(){
         
         User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
         saveRate = 0;
-        }
+        //}
     });    
 });
 
