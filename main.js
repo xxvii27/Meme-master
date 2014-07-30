@@ -38,12 +38,13 @@ User.setupData = function() {
     },this);
 	
 	// Refresh page on editing
-	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(changedData) {
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(changedData,prevChild) {
 		this.prevRenderList();
     },this);
 	
 	// Refresh page when user inputs new image
 	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_added', function(newData) {
+		this.state = -1;	// state override
 		this.setupByNewest();
     },this);
 
