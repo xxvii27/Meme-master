@@ -159,12 +159,24 @@ User.nextRenderList = function() {
 
     this.clearRenderList();
 
-    // If in DEBUG mode
+    // Find maximum number of images left on the list
+    for(i=this.endPtr; i > this.startPtr; i--){
+        if(this.imgRefList[i]){
+            max = (i-this.startPtr);
+            break;
+        }
+    }
+	
+	// If in DEBUG mode
     if(DEBUG)
     {
         if(this.imgRefList.length == 0) {
             alert("nextRenderList() may not work. No imgs");
         }
+		else if(this.startPtr < this.imgRefList.length && (max < (this.limit - 1))) {
+			document.getElementById('next').style.display = 'none';
+            document.getElementById('prev').style.display = 'inline';
+		}
         else if(this.startPtr >= this.imgRefList.length-1 || this.startPtr > 0) {
             document.getElementById('next').style.display = 'none';
             document.getElementById('prev').style.display = 'inline';
@@ -172,14 +184,6 @@ User.nextRenderList = function() {
         else if(this.startPtr === 0){
             document.getElementById('prev').style.display = 'none';
             document.getElementById('next').style.display = 'inline';
-        }
-    }
-
-    // Find maximum number of images left on the list
-    for(i=this.endPtr; i > this.startPtr; i--){
-        if(this.imgRefList[i]){
-            max = (i-this.startPtr);
-            break;
         }
     }
 
@@ -193,7 +197,7 @@ User.nextRenderList = function() {
                 if(counter == max) {
                     // Move Pointers NEXT Appropriate position
                     this.startPtr += max + 1;
-                    this.endPtr = this.startPtr + this.limit;
+                    this.endPtr = this.startPtr + (this.limit - 1);
 
                     // Img List Ready HERE
                     // JAMES: Put Drawmemes method here
@@ -219,7 +223,7 @@ User.prevRenderList = function() {
 
     // Move pointers back and call nextRenderList
     this.startPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
-    this.endPtr = this.startPtr + 9;
+    this.endPtr = this.startPtr + (this.limit - 1);
 
     this.nextRenderList();
 }
@@ -232,7 +236,7 @@ User.refreshRenderList = function() {
 
     // Move pointers back and call nextRenderList
     this.startPtr -= this.limit;
-    this.endPtr = this.startPtr + 9;
+    this.endPtr = this.startPtr + (this.limit - 1);
 
     this.nextRenderList();
 }
@@ -258,7 +262,7 @@ User.clearRefList = function(){
         this.imgRefList.pop();
     }
     this.startPtr = 0;
-    this.endPtr = 9;
+    this.endPtr = (this.limit - 1);
 }
 
 /* 	For Save img URL. Sets by priorty
