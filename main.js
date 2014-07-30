@@ -771,7 +771,7 @@ function draw_memes(){
     "        <img class='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
     "    </div>"+
     "    <div class='caption big'>"+
-    "      <h5><a href='#'>"+memeArray[i].title+"</a></h5>"+
+    "      <h5>"+memeArray[i].title+"</h5>"+
     "       <div class='rating pull-left' data-rating= "+'"'+memeArray[i].rating+'"'+">";
     // If no rating, show rate button (needs some flag)
     if( + memeArray[i].rating == 0) {
