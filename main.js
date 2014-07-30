@@ -701,8 +701,19 @@ function modMemeModal(e){
   document.getElementById("viewModalTitle").innerHTML = currMeme.title;
   document.getElementById("viewModalImage").src = currMeme.picture;
   document.getElementById("viewModalComments").innerHTML = currMeme.comments;
-  
+
+  // add sharing button, by Jason
+  var fblink = "http://www.facebook.com/sharer.php?u=";
+  $("#fbshare").attr("href", fblink+encodeURIComponent(currMeme.picture)+"&t=Meme%20Master");
+  var twtext = "http://twitter.com/share?text=" 
+  var twlink = "&url=";
+  $("#twshare").attr("href", twtext+currMeme.title+twlink+currMeme.picture+"&via=MemeMaster");  
+  var gglink = "http://plus.google.com/share?url=";
+  $("#ggshare").attr("href", gglink+currMeme.picture); 
+
+
   var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
+
 
   // In footer, show edit button only
   modalFooterList[0].removeAttribute("style");
@@ -733,6 +744,7 @@ function modMemeModal(e){
     viewModalForm[1].setAttribute("placeholder", currMeme.title);
     viewModalForm[2].setAttribute("placeholder", currMeme.comments);
     viewModalForm[3].setAttribute("placeholder", "need tag info");
+   
 
     // Add eventListener for edit modal
     document.getElementById("viewModal").onclick = function (e) {
