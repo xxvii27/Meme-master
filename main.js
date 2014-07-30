@@ -37,8 +37,15 @@ User.setupData = function() {
 		// Do Nothing
     },this);
 	
-	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(oldData) {
+	// Refresh page on editing
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(changedData,prevChild) {
 		this.prevRenderList();
+    },this);
+	
+	// Refresh page when user inputs new image
+	this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_added', function(newData) {
+		this.state = -1;	// state override
+		this.setupByNewest();
     },this);
 
     document.getElementById('prev').style.display = 'none';
@@ -711,7 +718,8 @@ function detectClick() {
       var currURL = currNode.parentNode.parentNode.querySelector(".t_c>a>img").src;
 
       currNode.setAttribute("data-rating", ""+strStars );
-// ************ Send rating to server HERE **************************************
+      // Update rating
+      User.editRating(strStars, currURL);
       
       var strStarsHTML = "";
       for( j = 0; j < +strStars; j++ ) {
@@ -756,9 +764,9 @@ function draw_memes(){
   var memeBlock =""; // Holds what would be written in div.row
   
   for (var i= 0; i < memeArray.length; i++) {
-    memeBlock += "<div class='col-sm-" + 6+" col-md-" + 4 +
+    memeBlock += "<div class='col-xs-12 col-sm-" + 6+" col-md-" + 4 +
     " col-lg-" + 3 +"'>"+
-    "  <div class='thumbnail'>"+
+    "  <div class='thumbnail '>"+
     "    <div class='t_c mb'>"+
     "      <div class='mask'>"+
     "        <a href='#' onclick='download_meme(" + '"' +memeArray[i].url+'"'+")' title='Download'><img src='icons/download32w.png' alt=''/></a>"+
@@ -816,10 +824,11 @@ function modMemeModal(e){
   } else {
     currRating = currRating.innerHTML;
   }
+
   
   // Info of meme that was clicked
   var currMeme = {
-  title: currThumbnail.querySelector("h5>a").innerHTML,
+  title: currThumbnail.querySelector("h5").innerHTML,
   picture: currThumbnail.querySelector(".img-thumb-nail").src,
   comments: currThumbnail.querySelector(".comments").innerHTML,
   rating: currRating};
