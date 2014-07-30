@@ -573,7 +573,7 @@ function addEvents() {
   };
   
   // Add onclick listener for all 'Rate it' buttons
-  var rateItBtns = $("#memeContent .rate").click( rateItEvt );
+  $("#memeContent .rate").click( rateItEvt );
 
   // Add event for hover edit button
   var editList = document.querySelectorAll(".hoverEditBtn>img");
@@ -610,20 +610,23 @@ function confirm_delete(url) {
 }
 
 function rateItEvt(evt) {
-  evt.stopPropagation();
-  $(evt.target).unbind("click");
-
-  // Find any other star_rating blocks and replace with rate it button and add event to that as well
-  // After click, show stars
   var currClick = evt.target;
-  var currRateButton = currClick.parentNode.innerHTML;
+  evt.stopPropagation();
+  $("#memeContent .rate").unbind("click");
+  starsToButton();
 
-  currClick.parentNode.innerHTML = star_rating;
+  // After click, show stars
+  currClick.parentNode.innerHTML = ""+star_rating;
 
-  $("body").click( function (e) {
+  detectClick();
+}
+
+function detectClick() {
+  $("body").click( function(e) {
+    e.stopPropagation();
     // unbind body
     $("body").unbind("click");
-    
+
     if(e.target.tagName == "LABEL") {
       // User clicked on number of stars
       var strStars = e.target.innerHTML.charAt(0);  // Number of stars clicked
@@ -637,21 +640,29 @@ function rateItEvt(evt) {
       for( j = 0; j < +strStars; j++ ) {
         strStarsHTML += "<label class='yellow-star'></label>";
       }
-      currNode.innerHTML = strStarsHTML;    
+      currNode.innerHTML = strStarsHTML;
+      $("#memeContent .rate").click( rateItEvt ); 
+    } else if (e.target.tagName == "BUTTON"){
+      starsToButton();
+      e.target.parentNode.innerHTML = star_rating;
+      detectClick();
     } else {
-alert("Stars not clicked, should show rate it btn again");
-      // Find the stars and traverse up to find p.rating
-      var currNode = $("p.ratings>div.rating");
-      // Show rate it button
-      currRateBtn = currNode[0].parentNode;
-      currRateBtn.innerHTML = currRateButton;
-      // rebind onclick
-      $("#memeContent .rate").unbind("click");
+      starsToButton();
       $("#memeContent .rate").click( rateItEvt );
-      
     }
-  })
+  });
 }
+
+// Turns all stars into buttons, adds rateItEvt event
+function starsToButton(){
+  // Find any other star_rating blocks and replace with rate it button and add event to that as well
+  var targetContainers = document.querySelectorAll("#memeContent .caption>.rating>.rating");
+  for( var i = 0; i < targetContainers.length; i++) {
+    targetContainers[i].parentNode.innerHTML = "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";
+  }
+
+  $("#memeContent .rate").unbind( "click" );
+  }
 
 function draw_memes(){
 	var memeArray = User.curList;
@@ -750,9 +761,7 @@ function modMemeModal(e){
   var gglink = "http://plus.google.com/share?url=";
   $("#ggshare").attr("href", gglink+currMeme.picture); 
 
-
   var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
-
 
   // In footer, show edit button only
   modalFooterList[0].removeAttribute("style");
@@ -837,5 +846,3 @@ function ValidURL(str) {
         return true;
     }
 }
-
-
