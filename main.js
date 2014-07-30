@@ -16,6 +16,7 @@ User.endPtr 	= 11;
 User.totalImgs 	= 0;
 User.limit 		= 12;
 User.state 		= -1;	// 0 = by newest | 1 = by oldest | 2= by rating
+User.prevMax	= -1;
 User.imgRefList = [];	// List of database url references
 User.curList 	= [];	// Current List of objects to render (JAMES: THIS IS THE LIST YOU WILL USE)
 
@@ -174,7 +175,7 @@ User.nextRenderList = function() {
             alert("nextRenderList() may not work. No imgs");
         } 
 		else if(this.startPtr >= this.imgRefList.length) {
-			alert("TO DEVELOPERS: FIX NAV BUTTON FUNCTIONALITY");
+			//alert("TO DEVELOPERS: FIX NAV BUTTON FUNCTIONALITY");
 		}
     }
 	
@@ -200,10 +201,12 @@ User.nextRenderList = function() {
 
                 this.curList.push(snapshot.val());
                 if(counter == max) {
+				
                     // Move Pointers NEXT Appropriate position
                     this.startPtr += max + 1;
                     this.endPtr = this.startPtr + (this.limit - 1);
-
+					this.prevMax = max;
+					
                     // Img List Ready HERE
                     // JAMES: Put Drawmemes method here
 					draw_memes();
@@ -228,7 +231,14 @@ User.nextRenderList = function() {
 User.prevRenderList = function() {
 
     // Move pointers back and call nextRenderList
-    this.startPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+	if(this.startPtr >= this.imgRefList.length){
+		var temp = (this.startPtr - (this.prevMax + 1)) - (this.limit);
+		this.startPtr = (temp < 0) ? 0 : temp;	
+	}
+	else{
+		this.startPtr = ((this.startPtr - (this.limit*2)) < 0) ? 0 : (this.startPtr - (this.limit*2));
+	}
+    
     this.endPtr = this.startPtr + (this.limit - 1);
 
     this.nextRenderList();
@@ -644,7 +654,7 @@ function draw_memes(){
     "    </div>"+
     "    <div class='caption big'>"+
     "      <h5><a href='#'>"+memeArray[i].title+"</a></h5>"+
-    "       <div class='rating pull-right' data-rating= "+'"'+memeArray[i].rating+'"'+">";
+    "       <div class='rating pull-left' data-rating= "+'"'+memeArray[i].rating+'"'+">";
     // If no rating, show rate button (needs some flag)
     if( + memeArray[i].rating == 0) {
       memeBlock += "    <button class='btn btn-default btn-xs rate'>Rate It !!</button>";   
@@ -701,8 +711,19 @@ function modMemeModal(e){
   document.getElementById("viewModalTitle").innerHTML = currMeme.title;
   document.getElementById("viewModalImage").src = currMeme.picture;
   document.getElementById("viewModalComments").innerHTML = currMeme.comments;
-  
+
+  // add sharing button, by Jason
+  var fblink = "http://www.facebook.com/sharer.php?u=";
+  $("#fbshare").attr("href", fblink+encodeURIComponent(currMeme.picture)+"&t=Meme%20Master");
+  var twtext = "http://twitter.com/share?text=" 
+  var twlink = "&url=";
+  $("#twshare").attr("href", twtext+currMeme.title+twlink+currMeme.picture+"&via=MemeMaster");  
+  var gglink = "http://plus.google.com/share?url=";
+  $("#ggshare").attr("href", gglink+currMeme.picture); 
+
+
   var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
+
 
   // In footer, show edit button only
   modalFooterList[0].removeAttribute("style");
@@ -733,6 +754,7 @@ function modMemeModal(e){
     viewModalForm[1].setAttribute("placeholder", currMeme.title);
     viewModalForm[2].setAttribute("placeholder", currMeme.comments);
     viewModalForm[3].setAttribute("placeholder", "need tag info");
+   
 
     // Add eventListener for edit modal
     document.getElementById("viewModal").onclick = function (e) {

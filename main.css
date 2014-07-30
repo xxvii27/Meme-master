@@ -121,6 +121,16 @@ h5{
     position: absolute;
 }
 
+.thumbnail.rating.pull-left{
+    position: absolute;
+}
+.rating.pull-left{
+    
+    bottom: 20px;
+    right: 25px;
+}
+
+
 /* login margin fix */
 .login{
     padding-left: 10px;
@@ -142,17 +152,6 @@ h5{
 /* center paging navigation */
 .paging{
     text-align: center;
-}
-
-ul.pagination.pagination-lg{
-    margin: 0;
-}
-
-.sorting{
-    text-align: right;
-}
-
-.row{
     padding-bottom: 50px;
 }
 
@@ -377,7 +376,7 @@ div.modal-footer {
     overflow:hidden;
     white-space:nowrap;
     cursor:pointer;
-    font-size:200%;
+    font-size:120%;
     line-height:1.2;
     color:#ddd;
     text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
@@ -543,3 +542,39 @@ a:hover #TVT {
   cursor: default !important;
   text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5) !important;
 }
+
+/** social media style **/
+.ss-share {
+  padding-left: 0;
+  list-style: none; }
+
+.ss-share-item {
+  display: inline;
+  margin-right: 1em; }
+
+.ss-share-link {
+  /* crude button styles */
+  text-decoration: none;
+  color: #444;
+  font-weight: bold;
+  padding: .5em .75em .5em 35px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 2px; }
+  .ss-share-link:hover, .ss-share-link:active, .ss-share-link:focus {
+    color: #891434; }
+
+[class*="ico-"] {
+  display: inline-block;
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: 10px center; }
+
+.ico-facebook {
+  background-image: url("http://www.facebook.com/favicon.ico"); }
+
+.ico-twitter {
+  background-image: url("http://twitter.com/favicons/favicon.ico"); }
+
+.ico-google {
+  background-image: url("https://ssl.gstatic.com/s2/oz/images/faviconr2.ico"); }
