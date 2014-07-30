@@ -8,11 +8,11 @@
     "scripts": ["extension.js"]
   },
 
-  "browser_action":{
+ /** "browser_action":{
     "default_icon" : "TrollFace.png",
     "default_popup" : "popup.html"
   },
-
+**/
   "icons": {
     "16": "TrollFace.png"
   },
