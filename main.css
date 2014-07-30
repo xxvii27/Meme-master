@@ -583,3 +583,9 @@ a:hover #TVT {
     border-radius: 0px;
     height: 50px;
 }
+
+noscript{
+    font-size: 50px;
+    margin-left: 25%;
+    font-weight: bold;
+}
