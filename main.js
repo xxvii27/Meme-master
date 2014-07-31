@@ -34,37 +34,37 @@ User.setupData = function() {
     // Setup delete on delete child (delete meme)
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
         var oldState = this.state;
-		this.state = -1;
-		switch(oldState) {
-			case 0: 
-				this.setupByNewest(true);
-				break;
-			case 1:
-				this.setupByOldest(true);
-				break;
-			case 2:
-				this.setupByRating(true);
-				break;
-		}
-		//this.refreshRenderList();
+        this.state = -1;
+        switch(oldState) {
+            case 0:
+                this.setupByNewest(true);
+                break;
+            case 1:
+                this.setupByOldest(true);
+                break;
+            case 2:
+                this.setupByRating(true);
+                break;
+        }
+        //this.refreshRenderList();
     },this);
 
     // Refresh page on editing
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(changedData,prevChild) {
         var oldState = this.state;
-		this.state = -1;
-		switch(oldState) {
-			case 0: 
-				this.setupByNewest(true);
-				break;
-			case 1:
-				this.setupByOldest(true);
-				break;
-			case 2:
-				this.setupByRating(true);
-				break;
-		}
-		//this.refreshRenderList();
+        this.state = -1;
+        switch(oldState) {
+            case 0:
+                this.setupByNewest(true);
+                break;
+            case 1:
+                this.setupByOldest(true);
+                break;
+            case 2:
+                this.setupByRating(true);
+                break;
+        }
+        //this.refreshRenderList();
     },this);
 
     // Refresh page when user inputs new image
@@ -99,16 +99,16 @@ User.setupByNewest = function(saveState) {
 
     if(this.state != 0) {
         this.state = 0;
-        
-		document.getElementById('sel').options[0].selected = true;
-		document.getElementById('sel').options[1].selected = false;
-		document.getElementById('sel').options[2].selected = false;
-		
-		// Clear Reference List
+
+        document.getElementById('sel').options[0].selected = true;
+        document.getElementById('sel').options[1].selected = false;
+        document.getElementById('sel').options[2].selected = false;
+
+        // Clear Reference List
         this.clearRefList();
-		
-		if(!saveState)
-			this.resetPointers();
+
+        if(!saveState)
+            this.resetPointers();
 
         // Get chonoList
         this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
@@ -116,11 +116,11 @@ User.setupByNewest = function(saveState) {
             // Grab keys and put into list
             var retQuery = snapshot.val();
             this.pushQueryToList(retQuery,1);
-            
-			if(!saveState)
-				this.nextRenderList();
-			else
-				this.refreshRenderList();
+
+            if(!saveState)
+                this.nextRenderList();
+            else
+                this.refreshRenderList();
 
         },this);
     }
@@ -135,28 +135,28 @@ User.setupByOldest = function(saveState) {
     if(this.state != 1) {
 
         this.state = 1;
-		
-		document.getElementById('sel').options[0].selected = false;
-		document.getElementById('sel').options[1].selected = true;
-		document.getElementById('sel').options[2].selected = false;
-		
+
+        document.getElementById('sel').options[0].selected = false;
+        document.getElementById('sel').options[1].selected = true;
+        document.getElementById('sel').options[2].selected = false;
+
         // Clear Reference List
         this.clearRefList();
 
-		if(!saveState)
-			this.resetPointers();
-		
+        if(!saveState)
+            this.resetPointers();
+
         // Get chonoList
         this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
             // Grab keys and put into list
             var retQuery = snapshot.val();
             this.pushQueryToList(retQuery,0);
-            
-			if(!saveState)
-				this.nextRenderList();
-			else
-				this.refreshRenderList();
-				
+
+            if(!saveState)
+                this.nextRenderList();
+            else
+                this.refreshRenderList();
+
         },this);
     }
 }
@@ -169,18 +169,18 @@ User.setupByRating = function(saveState) {
 
     if(this.state != 2) {
         this.state = 2;
-		
-		document.getElementById('sel').options[0].selected = false;
-		document.getElementById('sel').options[1].selected = false;
-		document.getElementById('sel').options[2].selected = true;
-		
+
+        document.getElementById('sel').options[0].selected = false;
+        document.getElementById('sel').options[1].selected = false;
+        document.getElementById('sel').options[2].selected = true;
+
         var counter = 0;
 
         // Clear Reference List
         this.clearRefList();
-		
-		if(!saveState)
-			this.resetPointers();
+
+        if(!saveState)
+            this.resetPointers();
 
         // Generate references by priority
         for(priority = 1; priority <= 6; priority++){
@@ -194,9 +194,9 @@ User.setupByRating = function(saveState) {
 
                 if(counter == 6) {
                     if(!saveState)
-						this.nextRenderList();
-					else
-						this.refreshRenderList();
+                        this.nextRenderList();
+                    else
+                        this.refreshRenderList();
                 }
             },this);
         }
@@ -280,7 +280,7 @@ User.nextRenderList = function() {
 
                 this.curList.push(snapshot.val());
                 if(counter == max) {
-					counter++;
+                    counter++;
                     // Move Pointers NEXT Appropriate position
                     this.startPtr += max + 1;
                     this.endPtr = this.startPtr + (this.limit - 1);
@@ -356,11 +356,11 @@ User.clearRefList = function(){
     while(this.imgRefList.length > 0) {
         this.imgRefList.pop();
     }
-    
+
 }
 
 User.resetPointers = function() {
-	this.startPtr = 0;
+    this.startPtr = 0;
     this.endPtr = (this.limit - 1);
 }
 
@@ -458,9 +458,9 @@ User.delImg = function(url) {
             // remove image data from Database
             this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).remove();
 
-			// alert
-			alert("Image has be removed from MemeMaster");
-			
+            // alert
+            alert("Image has be removed from MemeMaster");
+
             // Re-render image
             //this.refreshRenderList();
 
@@ -504,8 +504,8 @@ User.editImg = function(aurl,atitle,acat,acom,arate) {
 
             // set priority
             //this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
-			
-			alert("Image has been edited");
+
+            alert("Image has been edited");
         }
         else {
             alert("Error Editing Image");
@@ -520,7 +520,7 @@ User.editImg = function(aurl,atitle,acat,acom,arate) {
  */
 User.editRating = function(rate,url) {
 
-	var priority = (rate && (rate == 0)) ? 6 : (6-rate);
+    var priority = (rate && (rate == 0)) ? 6 : (6-rate);
 
     if(url && rate) {
         var encodedURL = replaceBadChars(url);
@@ -540,11 +540,11 @@ User.editRating = function(rate,url) {
                     ,rating	: rate
 
                 });
-				
-				// set priority
-				this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
-				
-				alert("Image has been rated");
+
+                // set priority
+                this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+
+                alert("Image has been rated");
             }
         },this);
     }
@@ -845,7 +845,7 @@ function draw_memes(){
             "    </div>"+
             "  </div>"+
             "</div>";
-                }
+    }
 
     document.getElementById('memeContent').innerHTML = memeBlock;
 }
@@ -919,7 +919,7 @@ function modMemeModal(e){
         modalFooterList[2].removeAttribute("style"); // Submit
 
         // keep current img, build form format and place into modal body
-        var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
+        var viewModalForm = document.querySelector("#viewModal .modal-body").innerHTML;
         viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
         document.querySelector("#viewModalBody").innerHTML = viewModalForm;
 
@@ -936,59 +936,59 @@ function modMemeModal(e){
         var ntitle = currMeme.title;
         var ncomment = currMeme.comments;
         var ntag = currMeme.tags;
-        var nrate = currRatingVal; 
-        
+        var nrate = currRatingVal;
+
         // Add eventListener for edit modal
         document.getElementById("viewModal").onclick = function (e) {
-          e.stopPropagation();
-          var currClick = e.target;          
+            e.stopPropagation();
+            var currClick = e.target;
 
-          // change temp rating
-          if( currClick.nodeName == "LABEL" ) {
-            nrate = ""+currClick.innerHTML.charAt(0);
-          }      
-
-          if( $(currClick).hasClass("cancel") || $(currClick).hasClass("submit") ||
-              $(currClick).hasClass("close")  || $(currClick).hasClass("fade") ) {
-            // Either cancel, submit or close was clicked. Unbind click for modal
-            e.onclick = null;
-            
-            if($(currClick).hasClass("submit") ) {
-
-              if(viewModalForm[1].value.length >= 1) { ntitle = viewModalForm[1].value; }
-              if(viewModalForm[2].value.length >= 1) { ncomment = viewModalForm[2].value; }
-              if(viewModalForm[3].value.length >= 1) { ntag = viewModalForm[3].value; } 
-        
-              User.editImg(nurl,ntitle,ntag,ncomment,nrate); // send info to server
-
-              // Print stars (for now, just doing while loops)
-              var redrawStars = "";
-              for( var j = 0; j < +nrate; j++ ) {
-                redrawStars +="<label class='yellow-star'></label>";
-              }
-
-              document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
-
-              //Update modal info
-              document.getElementById("viewModalTitle").innerHTML = ntitle;
-              document.getElementById("viewModalComments").innerHTML = ncomment;
-              document.getElementById("viewModalTags").innerHTML = ntag;
-              if( ""+nrate == "0" ) { 
-                document.getElementById("viewModalRating").innerHTML = "Not yet rated"; 
-              }else{
-                document.getElementById("viewModalRating").innertHTML = redrawStars;
-              }
-
-            } else {
-              // Put original modal body back in
-              document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+            // change temp rating
+            if( currClick.nodeName == "LABEL" ) {
+                nrate = ""+currClick.innerHTML.charAt(0);
             }
-              // Only show cancel and submit buttons
-              modalFooterList[0].removeAttribute("style");
-              modalFooterList[1].style.display = "none";
-              modalFooterList[2].style.display = "none";
-          }
-      };
+
+            if( $(currClick).hasClass("cancel") || $(currClick).hasClass("submit") ||
+                $(currClick).hasClass("close")  || $(currClick).hasClass("fade") ) {
+                // Either cancel, submit or close was clicked. Unbind click for modal
+                e.onclick = null;
+
+                if($(currClick).hasClass("submit") ) {
+
+                    if(viewModalForm[1].value.length >= 1) { ntitle = viewModalForm[1].value; }
+                    if(viewModalForm[2].value.length >= 1) { ncomment = viewModalForm[2].value; }
+                    if(viewModalForm[3].value.length >= 1) { ntag = viewModalForm[3].value; }
+
+                    User.editImg(nurl,ntitle,ntag,ncomment,nrate); // send info to server
+
+                    // Print stars (for now, just doing while loops)
+                    var redrawStars = "";
+                    for( var j = 0; j < +nrate; j++ ) {
+                        redrawStars +="<label class='yellow-star'></label>";
+                    }
+
+                    document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+
+                    //Update modal info
+                    document.getElementById("viewModalTitle").innerHTML = ntitle;
+                    document.getElementById("viewModalComments").innerHTML = ncomment;
+                    document.getElementById("viewModalTags").innerHTML = ntag;
+                    if( ""+nrate == "0" ) {
+                        document.getElementById("viewModalRating").innerHTML = "Not yet rated";
+                    }else{
+                        document.getElementById("viewModalRating").innerHTML = redrawStars;
+                    }
+
+                } else {
+                    // Put original modal body back in
+                    document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+                }
+                // Only show cancel and submit buttons
+                modalFooterList[0].removeAttribute("style");
+                modalFooterList[1].style.display = "none";
+                modalFooterList[2].style.display = "none";
+            }
+        };
     };
 
     function resetModalBody(evt) {
