@@ -811,7 +811,7 @@ function draw_memes(){
 function modMemeModal(e){
     // grandparent container of triggered image
     var currThumbnail = e.target.parentNode.parentNode.parentNode;
-    var currRating;  // Holds the rating container of triggered modal
+    var currRatingHTML;  // Holds the rating container of triggered modal
     var pencilTriggered = false;
 
     // Set rateItEvt in memeModal (if there is one)
@@ -824,21 +824,21 @@ function modMemeModal(e){
     }
 
     // Get the current meme's rating display
-    currRating = currThumbnail.querySelector(".rating");
+    currRatingHTML = currThumbnail.querySelector(".rating");
+    var currRatingVal = currRatingHTML.getAttribute("data-rating");
 
-    if( ""+currRating.getAttribute("data-rating") == "0" ) {
-        currRating = "Not yet rated";
+    if( ""+currRatingVal == "0" ) {
+        currRatingHTML = "Not yet rated";
     } else {
-        currRating = currRating.innerHTML;
+        currRatingHTML = currRatingHTML.innerHTML;
     }
-
 
     // Info of meme that was clicked
     var currMeme = {
         title: currThumbnail.querySelector("h5").innerHTML,
         picture: currThumbnail.querySelector(".img-thumb-nail").src,
         comments: currThumbnail.querySelector(".comments").innerHTML,
-        rating: currRating};
+        rating: currRatingHTML};
 
     document.getElementById("viewModalRating").innerHTML = currMeme.rating;
     document.getElementById("viewModalTitle").innerHTML = currMeme.title;
@@ -857,9 +857,9 @@ function modMemeModal(e){
     var modalFooterList = document.querySelectorAll("#viewModalFooter>.vmf");
 
     // In footer, show edit button only
-    modalFooterList[0].removeAttribute("style");
-    modalFooterList[1].style.display = "none";
-    modalFooterList[2].style.display = "none";
+    modalFooterList[0].removeAttribute("style"); // Edit
+    modalFooterList[1].style.display = "none"; // Cancel
+    modalFooterList[2].style.display = "none"; // Submit
 
     // Keep copy of current modal body
     var currModalBody = ""+document.getElementById("viewModalBody").innerHTML;
@@ -869,9 +869,9 @@ function modMemeModal(e){
         evt.stopPropagation();
 
         // Only show cancel and submit buttons
-        modalFooterList[0].style.display = "none";
-        modalFooterList[1].removeAttribute("style");
-        modalFooterList[2].removeAttribute("style");
+        modalFooterList[0].style.display = "none";  // Edit
+        modalFooterList[1].removeAttribute("style"); // Cancel
+        modalFooterList[2].removeAttribute("style"); // Submit
 
         // keep current img, build form format and place into modal body
         var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
@@ -886,27 +886,49 @@ function modMemeModal(e){
         viewModalForm[2].setAttribute("placeholder", currMeme.comments);
         viewModalForm[3].setAttribute("placeholder", "need tag info");
 
-
+        var nurl = currMeme.picture;
+        viewModalForm[0].setAttribute("disabled", true);
+        var ntitle = currMeme.title;
+        var ncomment = currMeme.comments;
+        var ntag = "need tag info";
+        var nrate = currRatingVal; //alert(""+currRatingHTML.getAttribute("data-rating") );
+        
         // Add eventListener for edit modal
         document.getElementById("viewModal").onclick = function (e) {
-            e.stopPropagation();
+          e.stopPropagation();
+          var currClick = e.target;          
 
-            var currClick = e.target;
+          // change temp rating
+          if( currClick.nodeName == "LABEL" ) {
+            nrate = ""+currClick.innerHTML.charAt(0);
+          }      
 
-            if( $(currClick).hasClass("cancel") ||
-                $(currClick).hasClass("submit") ||
-                $(currClick).hasClass("close") ) {
-                // Either cancel, submit or close was clicked. Unbind click for modal
-                e.onclick = null;
+          if( $(currClick).hasClass("cancel") ||
+              $(currClick).hasClass("submit") ||
+              $(currClick).hasClass("close") ||
+              $(currClick).hasClass("fade") ) {
+            // Either cancel, submit or close was clicked. Unbind click for modal
+            e.onclick = null;
+            
+            if($(currClick).hasClass("submit") ) {
 
-                // Put original modal body back in
-                document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
-                // Only show cancel and submit buttons
-                modalFooterList[0].removeAttribute("style");
-                modalFooterList[1].style.display = "none";
-                modalFooterList[2].style.display = "none";
+              if(viewModalForm[1].value.length >= 1) { ntitle = viewModalForm[1].value; }
+              if(viewModalForm[2].value.length >= 1) { ncomment = viewModalForm[2].value; }
+              if(viewModalForm[3].value.length >= 1) { ntag = viewModalForm[3].value; } 
+        
+              User.editImg(nurl,ntitle,ntag,ncomment,nrate); // send info to server
+              // Force the modal to close
+              document.querySelector("#viewModal .cancel").click();
             }
-        };
+
+            // Put original modal body back in
+            document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+            // Only show cancel and submit buttons
+            modalFooterList[0].removeAttribute("style");
+            modalFooterList[1].style.display = "none";
+            modalFooterList[2].style.display = "none";
+          }
+      };
     };
 
     function resetModalBody(evt) {
