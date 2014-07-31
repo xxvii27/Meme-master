@@ -61,7 +61,7 @@ ul.nav.navbar-nav > li:hover {
 
 #main-heading{
     font-weight: bold;
-    background-color:  forestgreen;
+    background-color: #8CC739;
     margin-right: 20px;
     padding-left: 25px;
     padding-right: 25px;
@@ -104,11 +104,14 @@ ul.dropdown-menu#registration li:nth-last-child(2){
 
 /* caption area under big & small memes */
 .caption.big{
-    height: 80px;
+    height: 100px;
+    position: relative;
 }
 
-.caption.small{
-    height: 80px;
+.rating.pull-left{
+    position: absolute;
+    bottom: 0;
+    right: 5px;
 }
 
 h5{
@@ -119,17 +122,11 @@ h5{
 
 .comments.pull-left{
     position: absolute;
+    margin-top: 20px;
+    word-wrap: break-word;
+    width: 235px;
+    font-size: 12px;
 }
-
-.thumbnail.rating.pull-left{
-    position: absolute;
-}
-.rating.pull-left{
-    position: absolute;
-    bottom: 20px;
-    right: 25px;
-}
-
 
 /* login margin fix */
 .login{
@@ -168,9 +165,7 @@ h5{
     font-weight: bold;
 }
 
-.row{
-    padding-bottom: 100px;
-}
+
 /* for use in terms&conditions.html */
 .table-responsive{
     margin: 100px auto;
@@ -194,11 +189,11 @@ h1{
     font-size: 16px;
 }
 
-.comments{
-    margin-top: 20px;
-}
-
 /* footer */
+
+footer{
+    padding-top: 70px;    
+}
 
 footer .navbar.navbar-default{
     border-radius: 0 !important;
@@ -272,7 +267,6 @@ footer .navbar {
     #search > form {
         margin-left: 320px;
     }
-
 }
 
 @media (max-width: 1200px){
@@ -581,5 +575,11 @@ a:hover #TVT {
 
 #saveComments{
     border-radius: 0px;
-    height: 50px;
+/*   height: 50px; */
+}
+
+noscript{
+    font-size: 50px;
+    margin-left: 25%;
+    font-weight: bold;
 }
