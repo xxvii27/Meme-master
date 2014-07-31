@@ -927,7 +927,7 @@ function modMemeModal(e){
         viewModalForm = document.querySelectorAll("#viewModalBody .form-control");
         // Insert placeholders
         viewModalForm[0].setAttribute("placeholder", currMeme.picture);
-        viewModalForm[1].setAttribute("placeholder", currMeme.title);
+        viewModalForm[1].setAttribute("value", currMeme.title);
         viewModalForm[2].setAttribute("placeholder", currMeme.comments);
         viewModalForm[3].setAttribute("placeholder", currMeme.tags);
 
