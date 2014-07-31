@@ -151,15 +151,18 @@ $(document).ready(function(){
     /** Data base setup **/
     $('#saveSubmit').click(function(){   
         //alert('Submit Clicked');
-        
-        var nurl = $('#urlInput').val();
-        var ntitle = $('#titleInput').val();
-        var ncomment = $('#saveComments').val();
-        var ntag = $('#tagInput').val();    
-        var nrate = saveRate;
-        //alert(nrate);
-        User.saveImg(nurl,ntitle,ntag,ncomment,nrate).done(window.close());
-    });    
+      
+      var nurl = $('#urlInput').val();
+      var ntitle = $('#titleInput').val();
+      var ncomment = $('#saveComments').val();
+      var ntag = $('#tagInput').val();    
+      var nrate = saveRate;
+      //alert(nrate);
+      User.saveImg(nurl,ntitle,ntag,ncomment,nrate).done(window.close());
+    });
+    $('.cancel').click(function(){   
+      window.close();
+    });     
 });
 
 
