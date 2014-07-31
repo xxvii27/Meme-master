@@ -810,7 +810,6 @@ function draw_memes(){
     var toStr;
     var memeSRCStr;
     var memeDimens = [];
-
     var memeBlock =""; // Holds what would be written in div.row
 
     for (var i= 0; i < memeArray.length; i++) {
@@ -842,10 +841,11 @@ function draw_memes(){
         }
         memeBlock += "      </div>"+
             "      <div class='comments pull-left'>"+memeArray[i].comment+"</div>"+
+            "      <div style='display: none' class='memetags'>"+memeArray[i].category+"</div>"+
             "    </div>"+
             "  </div>"+
             "</div>";
-    }
+                }
 
     document.getElementById('memeContent').innerHTML = memeBlock;
 }
@@ -881,12 +881,14 @@ function modMemeModal(e){
         title: currThumbnail.querySelector("h5").innerHTML,
         picture: currThumbnail.querySelector(".img-thumb-nail").src,
         comments: currThumbnail.querySelector(".comments").innerHTML,
+        tags: currThumbnail.querySelector(".memetags").innerHTML,
         rating: currRatingHTML};
 
     document.getElementById("viewModalRating").innerHTML = currMeme.rating;
     document.getElementById("viewModalTitle").innerHTML = currMeme.title;
     document.getElementById("viewModalImage").src = currMeme.picture;
     document.getElementById("viewModalComments").innerHTML = currMeme.comments;
+    document.getElementById("viewModalTags").innerHTML = currMeme.tags;
 
     // add sharing button, by Jason
     var fblink = "http://www.facebook.com/sharer.php?u=";
@@ -927,14 +929,14 @@ function modMemeModal(e){
         viewModalForm[0].setAttribute("placeholder", currMeme.picture);
         viewModalForm[1].setAttribute("placeholder", currMeme.title);
         viewModalForm[2].setAttribute("placeholder", currMeme.comments);
-        viewModalForm[3].setAttribute("placeholder", "need tag info");
+        viewModalForm[3].setAttribute("placeholder", currMeme.tags);
 
         var nurl = currMeme.picture;
         viewModalForm[0].setAttribute("disabled", true);
         var ntitle = currMeme.title;
         var ncomment = currMeme.comments;
-        var ntag = "need tag info";
-        var nrate = currRatingVal; //alert(""+currRatingHTML.getAttribute("data-rating") );
+        var ntag = currMeme.tags;
+        var nrate = currRatingVal; 
         
         // Add eventListener for edit modal
         document.getElementById("viewModal").onclick = function (e) {
@@ -958,16 +960,33 @@ function modMemeModal(e){
               if(viewModalForm[3].value.length >= 1) { ntag = viewModalForm[3].value; } 
         
               User.editImg(nurl,ntitle,ntag,ncomment,nrate); // send info to server
-              // Force the modal to close
-              document.querySelector("#viewModal .cancel").click();
-            }
 
-            // Put original modal body back in
-            document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
-            // Only show cancel and submit buttons
-            modalFooterList[0].removeAttribute("style");
-            modalFooterList[1].style.display = "none";
-            modalFooterList[2].style.display = "none";
+              // Print stars (for now, just doing while loops)
+              var redrawStars = "";
+              for( var j = 0; j < +nrate; j++ ) {
+                redrawStars +="<label class='yellow-star'></label>";
+              }
+
+              document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+
+              //Update modal info
+              document.getElementById("viewModalTitle").innerHTML = ntitle;
+              document.getElementById("viewModalComments").innerHTML = ncomment;
+              document.getElementById("viewModalTags").innerHTML = ntag;
+              if( ""+nrate == "0" ) { 
+                document.getElementById("viewModalRating").innerHTML = "Not yet rated"; 
+              }else{
+                document.getElementById("viewModalRating").innertHTML = redrawStars;
+              }
+
+            } else {
+              // Put original modal body back in
+              document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+            }
+              // Only show cancel and submit buttons
+              modalFooterList[0].removeAttribute("style");
+              modalFooterList[1].style.display = "none";
+              modalFooterList[2].style.display = "none";
           }
       };
     };
