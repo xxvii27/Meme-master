@@ -1016,7 +1016,6 @@ function ValidURL(str) {
         return false;
     }else{
         message =  "Its a valid URL."
-        alert(message);
         return true;
     }
 
