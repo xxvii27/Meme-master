@@ -919,7 +919,7 @@ function modMemeModal(e){
         modalFooterList[2].removeAttribute("style"); // Submit
 
         // keep current img, build form format and place into modal body
-        var viewModalForm = document.querySelector("#viewModal .modal-body").innerHTML;
+        var viewModalForm = document.querySelector("#myModal .modal-body").innerHTML;
         viewModalForm = document.getElementById("viewModalImage").outerHTML + viewModalForm;
         document.querySelector("#viewModalBody").innerHTML = viewModalForm;
 
@@ -1016,7 +1016,7 @@ function ValidURL(str) {
         return false;
     }else{
         message =  "Its a valid URL."
-        alert(message);
+        //alert(message);
         return true;
     }
 

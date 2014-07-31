@@ -21,6 +21,9 @@ body {
     font-family: "SourceSansPro";
 }
 
+.input-group{
+    width: 100%;
+}
 
 #content{
     margin-top: 100px;
@@ -29,8 +32,7 @@ body {
 #saveComments{
     height: 100px;
     border-radius: 0px;
-    /*   height: 50px; */
-
+/*   height: 50px; */
 }
 
 #preview{
@@ -73,9 +75,7 @@ ul.nav.navbar-nav > li:hover {
 
 /* center image in modal upon clicking */
 #viewModalImage{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+   
 }
 
 /* images for nav bar & view by */
