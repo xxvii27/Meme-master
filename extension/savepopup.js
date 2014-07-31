@@ -68,6 +68,7 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
       ,function(error) {
         if(error){
           alert('There was an error with DB.\n' + error);
+          return;
         } else {
           alert('Save successful');
         }
@@ -81,6 +82,7 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
         var total = snap2.val()['total_imgs'];
         this.dbref.child(this.name).update({total_imgs : (total + 1)});
       },this);
+      window.close();
     }
     else{
       alert("This content already exists in MemeMaster");
@@ -158,7 +160,7 @@ $(document).ready(function(){
       var ntag = $('#tagInput').val();    
       var nrate = saveRate;
       //alert(nrate);
-      User.saveImg(nurl,ntitle,ntag,ncomment,nrate).done(window.close());
+      User.saveImg(nurl,ntitle,ntag,ncomment,nrate);
     });
     $('.cancel').click(function(){   
       window.close();
