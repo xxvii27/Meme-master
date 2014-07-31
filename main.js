@@ -73,7 +73,12 @@ User.setupByNewest = function() {
 
     if(this.state != 0) {
         this.state = 0;
-        // Clear Reference List
+        
+		document.getElementById('sel').options[0].selected = true;
+		document.getElementById('sel').options[1].selected = false;
+		document.getElementById('sel').options[2].selected = false;
+		
+		// Clear Reference List
         this.clearRefList();
 
         // Get chonoList
@@ -97,6 +102,11 @@ User.setupByOldest = function() {
     if(this.state != 1) {
 
         this.state = 1;
+		
+		document.getElementById('sel').options[0].selected = false;
+		document.getElementById('sel').options[1].selected = true;
+		document.getElementById('sel').options[2].selected = false;
+		
         // Clear Reference List
         this.clearRefList();
 
@@ -118,6 +128,11 @@ User.setupByRating = function() {
 
     if(this.state != 2) {
         this.state = 2;
+		
+		document.getElementById('sel').options[0].selected = false;
+		document.getElementById('sel').options[1].selected = false;
+		document.getElementById('sel').options[2].selected = true;
+		
         var counter = 0;
 
         // Clear Reference List
