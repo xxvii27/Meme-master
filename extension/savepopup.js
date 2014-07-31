@@ -71,6 +71,7 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
           return;
         } else {
           alert('Save successful');
+          window.close();
         }
       });
     
@@ -82,7 +83,7 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
         var total = snap2.val()['total_imgs'];
         this.dbref.child(this.name).update({total_imgs : (total + 1)});
       },this);
-      window.close();
+      
     }
     else{
       alert("This content already exists in MemeMaster");
