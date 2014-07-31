@@ -903,10 +903,8 @@ function modMemeModal(e){
             nrate = ""+currClick.innerHTML.charAt(0);
           }      
 
-          if( $(currClick).hasClass("cancel") ||
-              $(currClick).hasClass("submit") ||
-              $(currClick).hasClass("close") ||
-              $(currClick).hasClass("fade") ) {
+          if( $(currClick).hasClass("cancel") || $(currClick).hasClass("submit") ||
+              $(currClick).hasClass("close")  || $(currClick).hasClass("fade") ) {
             // Either cancel, submit or close was clicked. Unbind click for modal
             e.onclick = null;
             
