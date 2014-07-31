@@ -33,12 +33,38 @@ User.setupData = function() {
 
     // Setup delete on delete child (delete meme)
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
-        this.refreshRenderList();
+        var oldState = this.state;
+		this.state = -1;
+		switch(oldState) {
+			case 0: 
+				this.setupByNewest(true);
+				break;
+			case 1:
+				this.setupByOldest(true);
+				break;
+			case 2:
+				this.setupByRating(true);
+				break;
+		}
+		//this.refreshRenderList();
     },this);
 
     // Refresh page on editing
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(changedData,prevChild) {
-        this.refreshRenderList();
+        var oldState = this.state;
+		this.state = -1;
+		switch(oldState) {
+			case 0: 
+				this.setupByNewest(true);
+				break;
+			case 1:
+				this.setupByOldest(true);
+				break;
+			case 2:
+				this.setupByRating(true);
+				break;
+		}
+		//this.refreshRenderList();
     },this);
 
     // Refresh page when user inputs new image
@@ -69,12 +95,20 @@ User.evalSetup = function (state) {
  Sorts keys in database by chronological order. Then sets the current list for UI to render
  use case: dropdown option to sory by 'newest'
  */
-User.setupByNewest = function() {
+User.setupByNewest = function(saveState) {
 
     if(this.state != 0) {
         this.state = 0;
-        // Clear Reference List
+        
+		document.getElementById('sel').options[0].selected = true;
+		document.getElementById('sel').options[1].selected = false;
+		document.getElementById('sel').options[2].selected = false;
+		
+		// Clear Reference List
         this.clearRefList();
+		
+		if(!saveState)
+			this.resetPointers();
 
         // Get chonoList
         this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
@@ -82,7 +116,11 @@ User.setupByNewest = function() {
             // Grab keys and put into list
             var retQuery = snapshot.val();
             this.pushQueryToList(retQuery,1);
-            this.nextRenderList();
+            
+			if(!saveState)
+				this.nextRenderList();
+			else
+				this.refreshRenderList();
 
         },this);
     }
@@ -92,20 +130,33 @@ User.setupByNewest = function() {
  Sorts keys in database by chronological order. Then sets the current list for UI to render
  use case: dropdown option to sory by 'oldest'
  */
-User.setupByOldest = function() {
+User.setupByOldest = function(saveState) {
 
     if(this.state != 1) {
 
         this.state = 1;
+		
+		document.getElementById('sel').options[0].selected = false;
+		document.getElementById('sel').options[1].selected = true;
+		document.getElementById('sel').options[2].selected = false;
+		
         // Clear Reference List
         this.clearRefList();
 
+		if(!saveState)
+			this.resetPointers();
+		
         // Get chonoList
         this.dbref.child(this.name + "/" + IMG_REF).startAt().once('value',function (snapshot) {
             // Grab keys and put into list
             var retQuery = snapshot.val();
             this.pushQueryToList(retQuery,0);
-            this.nextRenderList();
+            
+			if(!saveState)
+				this.nextRenderList();
+			else
+				this.refreshRenderList();
+				
         },this);
     }
 }
@@ -114,14 +165,22 @@ User.setupByOldest = function() {
  Sorts keys in database by Rating. Then sets the current list for UI to render
  use case: dropdown option to sory by 'rating'
  */
-User.setupByRating = function() {
+User.setupByRating = function(saveState) {
 
     if(this.state != 2) {
         this.state = 2;
+		
+		document.getElementById('sel').options[0].selected = false;
+		document.getElementById('sel').options[1].selected = false;
+		document.getElementById('sel').options[2].selected = true;
+		
         var counter = 0;
 
         // Clear Reference List
         this.clearRefList();
+		
+		if(!saveState)
+			this.resetPointers();
 
         // Generate references by priority
         for(priority = 1; priority <= 6; priority++){
@@ -134,7 +193,10 @@ User.setupByRating = function() {
                 }
 
                 if(counter == 6) {
-                    this.nextRenderList();
+                    if(!saveState)
+						this.nextRenderList();
+					else
+						this.refreshRenderList();
                 }
             },this);
         }
@@ -218,7 +280,7 @@ User.nextRenderList = function() {
 
                 this.curList.push(snapshot.val());
                 if(counter == max) {
-
+					counter++;
                     // Move Pointers NEXT Appropriate position
                     this.startPtr += max + 1;
                     this.endPtr = this.startPtr + (this.limit - 1);
@@ -294,7 +356,11 @@ User.clearRefList = function(){
     while(this.imgRefList.length > 0) {
         this.imgRefList.pop();
     }
-    this.startPtr = 0;
+    
+}
+
+User.resetPointers = function() {
+	this.startPtr = 0;
     this.endPtr = (this.limit - 1);
 }
 
@@ -350,40 +416,6 @@ User.saveImg = function(aurl,atitle,acat,acom,arate) {
         else{
             alert("This content already exists in MemeMaster");
         }
-        /*if(!snap) {
-
-         var refID = this.dbref.child(this.name + "/" + IMG_REF).push({URL:changeurl}).name();
-
-         // Push other information into detail on images
-         this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).update(
-         {
-         url: aurl
-         ,title: atitle
-         ,category: acat
-         ,comment: acom
-         ,rating: arate
-         ,ref: refID
-         }
-         ,function(error) {
-         if(error){
-         alert('There was an error with DB.\n' + error);
-         } else {
-         alert('Save successful');
-         }
-         });
-
-         // set priority
-         this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
-
-         // add 1 to total imgs
-         this.dbref.child(this.name).once('value', function(snap2) {
-         var total = snap2.val()['total_imgs'];
-         this.dbref.child(this.name).update({total_imgs : (total + 1)});
-         },this);
-         }
-         else {
-         alert("This content already exists in MemeMaster");
-         }*/
     },this);
 }
 
@@ -459,7 +491,7 @@ User.editImg = function(aurl,atitle,acat,acom,arate) {
     this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).once('value',function (snap) {
 
         if(snap.val()){
-            this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).set(
+            this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setWithPriority(
                 {
                     url: aurl
                     ,title: atitle
@@ -468,13 +500,15 @@ User.editImg = function(aurl,atitle,acat,acom,arate) {
                     ,rating: arate
                     ,ref: snap.val().ref
 
-                });
+                },priority);
 
             // set priority
-            this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+            //this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+			
+			alert("Image has been edited");
         }
         else {
-            alert("Error Editing Img");
+            alert("Error Editing Image");
         }
     },this);
 }
@@ -490,7 +524,7 @@ User.editRating = function(rate,url) {
 
     if(url && rate) {
         var encodedURL = replaceBadChars(url);
-        alert(encodedURL);
+        //alert(encodedURL);
         this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
 
             var details = snap.val();
@@ -509,6 +543,8 @@ User.editRating = function(rate,url) {
 				
 				// set priority
 				this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
+				
+				alert("Image has been rated");
             }
         },this);
     }
@@ -774,8 +810,6 @@ function draw_memes(){
     var toStr;
     var memeSRCStr;
     var memeDimens = [];
-
-
     var memeBlock =""; // Holds what would be written in div.row
 
     for (var i= 0; i < memeArray.length; i++) {
@@ -807,10 +841,11 @@ function draw_memes(){
         }
         memeBlock += "      </div>"+
             "      <div class='comments pull-left'>"+memeArray[i].comment+"</div>"+
+            "      <div style='display: none' class='memetags'>"+memeArray[i].category+"</div>"+
             "    </div>"+
             "  </div>"+
             "</div>";
-    }
+                }
 
     document.getElementById('memeContent').innerHTML = memeBlock;
 }
@@ -846,12 +881,14 @@ function modMemeModal(e){
         title: currThumbnail.querySelector("h5").innerHTML,
         picture: currThumbnail.querySelector(".img-thumb-nail").src,
         comments: currThumbnail.querySelector(".comments").innerHTML,
+        tags: currThumbnail.querySelector(".memetags").innerHTML,
         rating: currRatingHTML};
 
     document.getElementById("viewModalRating").innerHTML = currMeme.rating;
     document.getElementById("viewModalTitle").innerHTML = currMeme.title;
     document.getElementById("viewModalImage").src = currMeme.picture;
     document.getElementById("viewModalComments").innerHTML = currMeme.comments;
+    document.getElementById("viewModalTags").innerHTML = currMeme.tags;
 
     // add sharing button, by Jason
     var fblink = "http://www.facebook.com/sharer.php?u=";
@@ -892,14 +929,14 @@ function modMemeModal(e){
         viewModalForm[0].setAttribute("placeholder", currMeme.picture);
         viewModalForm[1].setAttribute("placeholder", currMeme.title);
         viewModalForm[2].setAttribute("placeholder", currMeme.comments);
-        viewModalForm[3].setAttribute("placeholder", "need tag info");
+        viewModalForm[3].setAttribute("placeholder", currMeme.tags);
 
         var nurl = currMeme.picture;
         viewModalForm[0].setAttribute("disabled", true);
         var ntitle = currMeme.title;
         var ncomment = currMeme.comments;
-        var ntag = "need tag info";
-        var nrate = currRatingVal; //alert(""+currRatingHTML.getAttribute("data-rating") );
+        var ntag = currMeme.tags;
+        var nrate = currRatingVal; 
         
         // Add eventListener for edit modal
         document.getElementById("viewModal").onclick = function (e) {
@@ -923,16 +960,33 @@ function modMemeModal(e){
               if(viewModalForm[3].value.length >= 1) { ntag = viewModalForm[3].value; } 
         
               User.editImg(nurl,ntitle,ntag,ncomment,nrate); // send info to server
-              // Force the modal to close
-              document.querySelector("#viewModal .cancel").click();
-            }
 
-            // Put original modal body back in
-            document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
-            // Only show cancel and submit buttons
-            modalFooterList[0].removeAttribute("style");
-            modalFooterList[1].style.display = "none";
-            modalFooterList[2].style.display = "none";
+              // Print stars (for now, just doing while loops)
+              var redrawStars = "";
+              for( var j = 0; j < +nrate; j++ ) {
+                redrawStars +="<label class='yellow-star'></label>";
+              }
+
+              document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+
+              //Update modal info
+              document.getElementById("viewModalTitle").innerHTML = ntitle;
+              document.getElementById("viewModalComments").innerHTML = ncomment;
+              document.getElementById("viewModalTags").innerHTML = ntag;
+              if( ""+nrate == "0" ) { 
+                document.getElementById("viewModalRating").innerHTML = "Not yet rated"; 
+              }else{
+                document.getElementById("viewModalRating").innertHTML = redrawStars;
+              }
+
+            } else {
+              // Put original modal body back in
+              document.querySelector("#viewModalBody").innerHTML = ""+currModalBody;
+            }
+              // Only show cancel and submit buttons
+              modalFooterList[0].removeAttribute("style");
+              modalFooterList[1].style.display = "none";
+              modalFooterList[2].style.display = "none";
           }
       };
     };
