@@ -33,13 +33,12 @@ User.setupData = function() {
 
     // Setup delete on delete child (delete meme)
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_removed', function(oldData) {
-        //alert("REMOVED" + JSON.stringify(oldData.val()));
-        // Do Nothing
+        this.refreshRenderList();
     },this);
 
     // Refresh page on editing
     this.dbref.child(this.name + "/" + IMG_DETAILS).on('child_changed', function(changedData,prevChild) {
-        this.prevRenderList();
+        this.refreshRenderList();
     },this);
 
     // Refresh page when user inputs new image
@@ -74,7 +73,12 @@ User.setupByNewest = function() {
 
     if(this.state != 0) {
         this.state = 0;
-        // Clear Reference List
+        
+		document.getElementById('sel').options[0].selected = true;
+		document.getElementById('sel').options[1].selected = false;
+		document.getElementById('sel').options[2].selected = false;
+		
+		// Clear Reference List
         this.clearRefList();
 
         // Get chonoList
@@ -98,6 +102,11 @@ User.setupByOldest = function() {
     if(this.state != 1) {
 
         this.state = 1;
+		
+		document.getElementById('sel').options[0].selected = false;
+		document.getElementById('sel').options[1].selected = true;
+		document.getElementById('sel').options[2].selected = false;
+		
         // Clear Reference List
         this.clearRefList();
 
@@ -119,6 +128,11 @@ User.setupByRating = function() {
 
     if(this.state != 2) {
         this.state = 2;
+		
+		document.getElementById('sel').options[0].selected = false;
+		document.getElementById('sel').options[1].selected = false;
+		document.getElementById('sel').options[2].selected = true;
+		
         var counter = 0;
 
         // Clear Reference List
@@ -427,8 +441,11 @@ User.delImg = function(url) {
             // remove image data from Database
             this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).remove();
 
+			// alert
+			alert("Image has be removed from MemeMaster");
+			
             // Re-render image
-            this.refreshRenderList();
+            //this.refreshRenderList();
 
         }
         else {
@@ -484,13 +501,15 @@ User.editImg = function(aurl,atitle,acat,acom,arate) {
  */
 User.editRating = function(rate,url) {
 
+	var priority = (rate && (rate == 0)) ? 6 : (6-rate);
+
     if(url && rate) {
         var encodedURL = replaceBadChars(url);
         alert(encodedURL);
         this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).once('value',function(snap) {
 
             var details = snap.val();
-            alert(details);
+            //alert(details);
             if(details){
                 this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + encodedURL).update({
 
@@ -502,6 +521,9 @@ User.editRating = function(rate,url) {
                     ,rating	: rate
 
                 });
+				
+				// set priority
+				this.dbref.child(this.name + "/" + IMG_DETAILS + "/" + changeurl).setPriority(priority);
             }
         },this);
     }

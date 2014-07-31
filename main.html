@@ -109,7 +109,7 @@
 
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Url: http://" id="urlInput">
-                    <input type="text" class="form-control" placeholder="Title" id="titleInput">
+                    <input type="text" class="form-control" placeholder="Title" id="titleInput" maxlength="31">
                     <input rows="1" cols="10" maxlength="80" id="saveComments" class="form-control" placeholder="Comments....."></input>
                     <input type="text" class="form-control" placeholder="Tags" id="tagInput">
                 </div>
@@ -204,11 +204,10 @@
 
     <!-- Sorts memes based on condition and grid viewing-->
     <p class ="text-right"><b>Sort By:</b>
-        <select onChange="User.evalSetup(this.selectedIndex)">
+        <select id="sel" onChange="User.evalSetup(this.selectedIndex)">
         <option value="0">Newest</option>
         <option value="1">Oldest</option>
-        <option value="2">Avg Rating</option>
-		<option value="relevance">Relevance</option>
+        <option value="2">Rating</option>
         </select>
         &nbsp;
         &nbsp;
