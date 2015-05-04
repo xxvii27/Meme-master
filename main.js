@@ -824,7 +824,7 @@ function draw_memes(){
             "        <a href='#' onclick='confirm_delete(\"" + memeArray[i].url + "\")' title='Delete'><img src='icons/trash.png' alt=''></a>"+
             "      </div>"+
             "      <a href='#' data-toggle='modal' data-target='#viewModal'>"+
-            "        <img class='img-thumb-nail' src='"+memeArray[i].url+"' alt=''></a>"+
+            "        <img class='img-thumb-nail' src='"+memeArray[i].url+"' alt='Link Broken'></a>"+
             "    </div>"+
             "    <div class='caption big'>"+
             "      <h5>"+memeArray[i].title+"</h5>"+
